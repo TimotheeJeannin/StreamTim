@@ -20,5 +20,14 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('button').click(function () {
+            var exec = require('child_process').exec;
+            exec("peerflix '" + $('input').val() + "' --vlc", function () {
+            });
+        });
+    });
+</script>
 </body>
 </html>
