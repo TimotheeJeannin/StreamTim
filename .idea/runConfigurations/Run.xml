@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run" type="NodeWebKit" factoryName="Node-webkit" exePath="$PROJECT_DIR$/cache/0.10.4/linux64/nw" inputPath="$PROJECT_DIR$">
+    <option name="name" value="Run" />
+    <RunnerSettings RunnerId="debuggableProgram" />
+    <ConfigurationWrapper RunnerId="debuggableProgram" />
+    <method />
+  </configuration>
+</component>
