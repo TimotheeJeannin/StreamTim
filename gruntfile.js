@@ -5,7 +5,12 @@ module.exports = function (grunt) {
                 platforms: ['win', 'osx', 'linux32', 'linux64'],
                 buildDir: 'build'
             },
-            src: ['./**/*']
+            src: [
+                './index.html',
+                './package.json',
+                './node_modules/**/*',
+                '!./node_modules/grunt*/**/*'
+            ]
         }
     });
     grunt.loadNpmTasks('grunt-node-webkit-builder');
