@@ -13,8 +13,8 @@ $(document).ready(function () {
                 engine.server.on('listening', function () {
                     $('#streamingAddress')
                         .addClass('alert')
-                        .addClass('alert-success')
-                        .html(' Streaming at: http://' + address() + ':' + engine.server.address().port + '/');
+                        .addClass('alert-info')
+                        .html(' Streaming at: <b>http://' + address() + ':' + engine.server.address().port + '/</b>');
                 });
             });
         };

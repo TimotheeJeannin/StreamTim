@@ -4,9 +4,9 @@ html, body, .container {
 }
 
 div.row h1 span {
-    color: #4ba9db;
+    color: #66afe9;
 }
 
-input, button {
+input, button, div.alert {
     -webkit-app-region: no-drag;
 }
