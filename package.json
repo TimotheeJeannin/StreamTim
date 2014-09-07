@@ -1,19 +1,19 @@
 {
-  "name": "stream-tim",
-  "version": "0.0.1",
-  "main": "index.html",
-  "dependencies": {
-    "ansi-stripper": "0.0.1",
-    "network-address": "0.0.4",
-    "peerflix": "^0.14.0",
-    "windows-no-runnable": "0.0.6"
-  },
-  "window": {
-    "frame": false,
-    "toolbar": false
-  },
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-node-webkit-builder": "^0.2.2"
-  }
+    "name": "stream-tim",
+    "version": "0.0.1",
+    "main": "app/index.html",
+    "dependencies": {
+        "ansi-stripper": "0.0.1",
+        "network-address": "0.0.4",
+        "peerflix": "^0.14.0",
+        "windows-no-runnable": "0.0.6"
+    },
+    "window": {
+        "frame": false,
+        "toolbar": false
+    },
+    "devDependencies": {
+        "grunt": "^0.4.5",
+        "grunt-node-webkit-builder": "^0.2.2"
+    }
 }

@@ -6,7 +6,7 @@ module.exports = function (grunt) {
                 buildDir: 'build'
             },
             src: [
-                './index.html',
+                './app/**/*',
                 './package.json',
                 './bower_components/**/*',
                 './node_modules/**/*',
