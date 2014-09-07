@@ -19,9 +19,13 @@
                 </span>
             </div>
             <div class="col-md-12">
-                <div id="content"></div>
+                <div id="listOfFiles"></div>
+                <button id="streamButton" class="btn btn-lg btn-default" style="display: none">Stream</button>
             </div>
-            <button id="streamButton" class="btn btn-lg btn-default" style="display: none">Stream</button>
+            <div class="col-md-12">
+                <div id="streamingAddress">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -35,7 +39,7 @@
                     $('#streamButton').show();
                 }
                 engine.files.forEach(function (file, index) {
-                    $('#content').append('<input name="files" type="radio" value="index"/> ' + file.name + '<br/>');
+                    $('#listOfFiles').append('<input name="files" type="radio" value="index"/> ' + file.name + '<br/>');
                 });
             };
             if (engine.torrent) onready();
@@ -46,7 +50,10 @@
             var address = require('network-address');
             var engine = peerflix($('input').val(), {index: $("input[type='radio']:checked").val()});
             engine.server.on('listening', function () {
-                console.log('http://'+address()+':'+engine.server.address().port+'/');
+                $('#streamingAddress')
+                        .addClass('alert')
+                        .addClass('alert-success')
+                        .html(' Streaming at: http://' + address() + ':' + engine.server.address().port + '/');
             });
         });
     });
