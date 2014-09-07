@@ -1,13 +1,13 @@
 $(document).ready(function () {
-    $('input').change(function () {
+    $('div#torrentInput input').change(function () {
         var peerflix = require('peerflix');
-        var engine = peerflix($('input').val(), {list: true});
+        var engine = peerflix($('div#torrentInput input').val(), {list: true});
         var onready = function () {
             if (engine.files && engine.files.length > 0) {
                 $('#streamButton').show();
             }
             engine.files.forEach(function (file, index) {
-                $('#listOfFiles').append('<input name="files" type="radio" value="index"/> ' + file.name + '<br/>');
+                $('div#listOfFiles').append('<input name="files" type="radio" value="index"/> ' + file.name + '<br/>');
             });
         };
         if (engine.torrent) onready();
