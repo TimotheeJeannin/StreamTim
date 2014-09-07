@@ -8,6 +8,7 @@ module.exports = function (grunt) {
             src: [
                 './index.html',
                 './package.json',
+                './bower_components/**/*',
                 './node_modules/**/*',
                 '!./node_modules/grunt*/**/*'
             ]
