@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('div#torrentInput input').on('input', function () {
+        $('div#torrentInput').hide();
         jQuery('div#listOfFiles').html('');
         try {
             $('div#loadingAnimation').show();
@@ -11,12 +12,14 @@ $(document).ready(function () {
                     $('div#listOfFiles').append('<button value="index" class="btn btn-default"> ' + file.name + '</button><br/>');
                 });
                 $('div#listOfFiles button').click(function () {
+                    $('div#listOfFiles').hide();
+                    $('div#loadingAnimation').show();
                     var peerflix = require('peerflix');
                     var address = require('network-address');
                     var fileName = $(this).html();
                     var engine = peerflix($('div#torrentInput input').val(), {index: $(this).val()});
                     engine.server.on('listening', function () {
-                        $('div#listOfFiles').hide();
+                        $('div#loadingAnimation').hide();
                         $('#streamingAddress')
                             .addClass('alert')
                             .addClass('alert-info')
