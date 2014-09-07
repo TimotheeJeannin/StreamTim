@@ -3,8 +3,10 @@ html, body, .container {
     height: 100%;
 }
 
+div.row h1 span {
+    color: #4ba9db;
+}
 
-
-#torrentInput {
-    margin-top: 100px;
+input, button {
+    -webkit-app-region: no-drag;
 }

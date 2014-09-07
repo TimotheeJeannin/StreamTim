@@ -3,20 +3,17 @@ $(document).ready(function () {
         var peerflix = require('peerflix');
         var engine = peerflix($('div#torrentInput input').val(), {list: true});
         var onready = function () {
-            if (engine.files && engine.files.length > 0) {
-                $('#streamButton').show();
-            }
             engine.files.forEach(function (file, index) {
-                $('div#listOfFiles').append('<input name="files" type="radio" value="index"/> ' + file.name + '<br/>');
+                $('div#listOfFiles').append('<button value="index" class="btn btn-default"> ' + file.name + '</button><br/>');
             });
         };
         if (engine.torrent) onready();
         else engine.on('ready', onready);
     });
-    $('button#streamButton').click(function () {
+    $('div#listOfFiles button').click(function () {
         var peerflix = require('peerflix');
         var address = require('network-address');
-        var engine = peerflix($('input').val(), {index: $("input[type='radio']:checked").val()});
+        var engine = peerflix($('div#torrentInput input').val(), {index: $(this).val()});
         engine.server.on('listening', function () {
             $('#streamingAddress')
                 .addClass('alert')
