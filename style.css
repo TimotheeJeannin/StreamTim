@@ -7,6 +7,11 @@ div.row h1 span {
     color: #66afe9;
 }
 
+#loadingAnimation {
+    margin-top: 50px;
+    text-align: center;
+}
+
 input, button, div.alert {
     -webkit-app-region: no-drag;
 }

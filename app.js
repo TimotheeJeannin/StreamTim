@@ -2,9 +2,11 @@ $(document).ready(function () {
     $('div#torrentInput input').on('input', function () {
         jQuery('div#listOfFiles').html('');
         try {
+            $('div#loadingAnimation').show();
             var peerflix = require('peerflix');
             var engine = peerflix($('div#torrentInput input').val(), {list: true});
             var onready = function () {
+                $('div#loadingAnimation').hide();
                 engine.files.forEach(function (file, index) {
                     $('div#listOfFiles').append('<button value="index" class="btn btn-default"> ' + file.name + '</button><br/>');
                 });
@@ -23,7 +25,8 @@ $(document).ready(function () {
             if (engine.torrent) onready();
             else engine.on('ready', onready);
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
+            $('div#loadingAnimation').hide();
         }
     });
 });
