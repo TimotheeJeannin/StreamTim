@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="app.js"></script>
 </head>
 <body>
 <div class="container">
@@ -12,8 +13,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="input-group">
-                <input type="text" class="form-control"
-                       value="magnet:?xt=urn:btih:6DFDBB5BC366EBD1CC53F701E06F6FB8C801F79B&dn=the+rover+2014+720p+brrip+x264+yify&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337"/>
+                <input type="text" class="form-control"/>
                 <span class="input-group-btn">
                      <button id="listButton" class="btn btn-default" type="button">List files</button>
                 </span>
@@ -29,34 +29,5 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $('button#listButton').click(function () {
-            var peerflix = require('peerflix');
-            var engine = peerflix($('input').val(), {list: true});
-            var onready = function () {
-                if (engine.files && engine.files.length > 0) {
-                    $('#streamButton').show();
-                }
-                engine.files.forEach(function (file, index) {
-                    $('#listOfFiles').append('<input name="files" type="radio" value="index"/> ' + file.name + '<br/>');
-                });
-            };
-            if (engine.torrent) onready();
-            else engine.on('ready', onready);
-        });
-        $('button#streamButton').click(function () {
-            var peerflix = require('peerflix');
-            var address = require('network-address');
-            var engine = peerflix($('input').val(), {index: $("input[type='radio']:checked").val()});
-            engine.server.on('listening', function () {
-                $('#streamingAddress')
-                        .addClass('alert')
-                        .addClass('alert-success')
-                        .html(' Streaming at: http://' + address() + ':' + engine.server.address().port + '/');
-            });
-        });
-    });
-</script>
 </body>
 </html>
