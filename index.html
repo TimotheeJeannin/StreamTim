@@ -15,28 +15,39 @@
                 <input type="text" class="form-control"
                        value="magnet:?xt=urn:btih:6DFDBB5BC366EBD1CC53F701E06F6FB8C801F79B&dn=the+rover+2014+720p+brrip+x264+yify&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337"/>
                 <span class="input-group-btn">
-                     <button class="btn btn-default" type="button">Go!</button>
+                     <button id="listButton" class="btn btn-default" type="button">List files</button>
                 </span>
             </div>
             <div class="col-md-12">
                 <div id="content"></div>
             </div>
+            <button id="streamButton" class="btn btn-lg btn-default" style="display: none">Stream</button>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
-        $('button').click(function () {
+        $('button#listButton').click(function () {
             var peerflix = require('peerflix');
             var engine = peerflix($('input').val(), {list: true});
             var onready = function () {
-
+                if (engine.files && engine.files.length > 0) {
+                    $('#streamButton').show();
+                }
                 engine.files.forEach(function (file, index) {
                     $('#content').append('<input name="files" type="radio" value="index"/> ' + file.name + '<br/>');
                 });
             };
             if (engine.torrent) onready();
             else engine.on('ready', onready);
+        });
+        $('button#streamButton').click(function () {
+            var peerflix = require('peerflix');
+            var address = require('network-address');
+            var engine = peerflix($('input').val(), {index: $("input[type='radio']:checked").val()});
+            engine.server.on('listening', function () {
+                console.log('http://'+address()+':'+engine.server.address().port+'/');
+            });
         });
     });
 </script>

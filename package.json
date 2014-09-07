@@ -8,6 +8,7 @@
         "grunt": "^0.4.5",
         "grunt-node-webkit-builder": "^0.2.2",
         "jquery": "^2.1.1",
+        "network-address": "0.0.4",
         "peerflix": "^0.14.0"
     }
 }
