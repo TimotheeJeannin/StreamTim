@@ -12,7 +12,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="input-group">
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control"
+                       value="magnet:?xt=urn:btih:6DFDBB5BC366EBD1CC53F701E06F6FB8C801F79B&dn=the+rover+2014+720p+brrip+x264+yify&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337"/>
                 <span class="input-group-btn">
                      <button class="btn btn-default" type="button">Go!</button>
                 </span>
@@ -26,11 +27,16 @@
 <script>
     $(document).ready(function () {
         $('button').click(function () {
-            var exec = require('child_process').exec;
-            var ansiStrip = require('ansi-stripper');
-            exec("peerflix '" + $('input').val() + "' --list", function (error, stdout) {
-                $('#content').html(ansiStrip(stdout));
-            });
+            var peerflix = require('peerflix');
+            var engine = peerflix($('input').val(), {list: true});
+            var onready = function () {
+
+                engine.files.forEach(function (file, index) {
+                    $('#content').append('<input name="files" type="radio" value="index"/> ' + file.name + '<br/>');
+                });
+            };
+            if (engine.torrent) onready();
+            else engine.on('ready', onready);
         });
     });
 </script>
