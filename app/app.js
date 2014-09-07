@@ -1,4 +1,9 @@
 $(document).ready(function () {
+
+    $('#close').click(function () {
+        window.close();
+    });
+
     $('div#torrentInput input').on('input', function () {
         $('div#torrentInput').hide();
         jQuery('div#listOfFiles').html('');

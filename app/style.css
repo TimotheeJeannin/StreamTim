@@ -3,6 +3,10 @@ html, body, .container {
     height: 100%;
 }
 
+#close {
+    cursor: pointer;
+}
+
 div.row h1 span {
     color: #66afe9;
 }
@@ -12,6 +16,6 @@ div.row h1 span {
     text-align: center;
 }
 
-input, button, div.alert {
+input, button, div.alert, div#close {
     -webkit-app-region: no-drag;
 }
