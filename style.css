@@ -1,3 +1,8 @@
-html {
-    -webkit-app-region: drag
+html, body, .container {
+    -webkit-app-region: drag;
+    height: 100%;
+}
+
+#torrentInput {
+    margin-top: 100px;
 }

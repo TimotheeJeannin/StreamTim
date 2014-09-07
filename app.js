@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('button#listButton').click(function () {
+    $('input').change(function () {
         var peerflix = require('peerflix');
         var engine = peerflix($('input').val(), {list: true});
         var onready = function () {
