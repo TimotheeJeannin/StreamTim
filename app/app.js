@@ -1,51 +1,3 @@
-$(document).ready(function () {
-
-    $('#close').click(function () {
-        window.close();
-    });
-
-    $('div#torrentInput input').on('input', function () {
-        $('div#torrentInput').hide();
-        jQuery('div#listOfFiles').html('');
-        try {
-            $('div#loadingAnimation').show();
-            var peerflix = require('peerflix');
-            var engine = peerflix($('div#torrentInput input').val(), {list: true});
-            var onready = function () {
-                $('div#loadingAnimation').hide();
-                engine.files.forEach(function (file, index) {
-                    $('div#listOfFiles').append('<button value="index" class="btn btn-default"> ' + file.name + '</button><br/>');
-                });
-                $('div#listOfFiles button').click(function () {
-                    $('div#listOfFiles').hide();
-                    $('div#loadingAnimation').show();
-                    var peerflix = require('peerflix');
-                    var address = require('network-address');
-                    var fileName = $(this).html();
-                    var engine = peerflix($('div#torrentInput input').val(), {index: $(this).val()});
-                    engine.server.on('listening', function () {
-                        $('div#loadingAnimation').hide();
-                        $('#streamingAddress')
-                            .addClass('alert')
-                            .addClass('alert-info')
-                            .html(' Streaming <b>' + fileName + '</b> at <b>http://' + address() + ':' + engine.server.address().port + '/</b>');
-                        $('#launchStreamInVLC')
-                            .show()
-                            .click(function () {
-                                runVLC($('#streamingAddress b:nth-child(2)').html());
-                            });
-                    });
-                });
-            };
-            if (engine.torrent) onready();
-            else engine.on('ready', onready);
-        } catch (error) {
-            console.log(error.message);
-            $('div#loadingAnimation').hide();
-        }
-    });
-});
-
 function runVLC(streamingAddress) {
     var VLC_ARGS = '-q --play-and-exit';
     var proc = require('child_process');
@@ -88,3 +40,17 @@ function runVLC(streamingAddress) {
         });
     }
 }
+
+$(document).ready(function () {
+
+    var gui = require('nw.gui');
+    var peerflix = require('peerflix');
+    var address = require('network-address');
+    var engine = peerflix(gui.App.argv[0]);
+
+    engine.server.on('listening', function () {
+        var streamingAddress = 'http://' + address() + ':' + engine.server.address().port + '/';
+        $('#streamingAddress').html(streamingAddress);
+        runVLC(streamingAddress);
+    });
+});
