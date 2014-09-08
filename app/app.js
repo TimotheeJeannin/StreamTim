@@ -1,37 +1,26 @@
 function runVLC(streamingAddress) {
+
     var proc = require('child_process');
     var path = require('path');
-    var VLC_ARGS = '-q --play-and-exit';
+
     if (process.platform === 'win32') {
         var registry = require('windows-no-runnable').registry;
         var key;
-        if (process.arch === 'x64') {
-            try {
-                key = registry('HKLM/Software/Wow6432Node/VideoLAN/VLC');
-            } catch (e) {
-                try {
-                    key = registry('HKLM/Software/VideoLAN/VLC');
-                } catch (err) {
-                }
-            }
-        } else {
+        try {
+            key = registry('HKLM/Software/Wow6432Node/VideoLAN/VLC');
+        } catch (e) {
             try {
                 key = registry('HKLM/Software/VideoLAN/VLC');
             } catch (err) {
-                try {
-                    key = registry('HKLM/Software/Wow6432Node/VideoLAN/VLC');
-                } catch (e) {
-                }
             }
         }
 
         if (key) {
             var vlcPath = key['InstallDir'].value + path.sep + 'vlc';
-            VLC_ARGS = VLC_ARGS.split(' ');
-            VLC_ARGS.unshift(streamingAddress);
-            proc.execFile(vlcPath, VLC_ARGS);
+            proc.execFile(vlcPath, [streamingAddress, '-q', '--play-and-exit']);
         }
     } else {
+        var VLC_ARGS = '-q --play-and-exit';
         var root = '/Applications/VLC.app/Contents/MacOS/VLC';
         var home = (process.env.HOME || '') + root;
         var vlc = proc.exec('vlc ' + streamingAddress + ' ' + VLC_ARGS + ' || ' + root + ' ' + streamingAddress + ' ' + VLC_ARGS + ' || ' + home + ' ' + streamingAddress + ' ' + VLC_ARGS, function (error, stdout, stderror) {
@@ -47,7 +36,9 @@ $(document).ready(function () {
     var gui = require('nw.gui');
     var peerflix = require('peerflix');
     var address = require('network-address');
-    var engine = peerflix(gui.App.argv[0]);
+
+    var magnetLink = gui.App.argv[0];
+    var engine = peerflix(magnetLink);
 
     engine.server.on('listening', function () {
         var streamingAddress = 'http://' + address() + ':' + engine.server.address().port + '/';
