@@ -1,6 +1,7 @@
 function runVLC(streamingAddress) {
-    var VLC_ARGS = '-q --play-and-exit';
     var proc = require('child_process');
+    var path = require('path');
+    var VLC_ARGS = '-q --play-and-exit';
     if (process.platform === 'win32') {
         var registry = require('windows-no-runnable').registry;
         var key;
