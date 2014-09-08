@@ -48,6 +48,7 @@ $(document).ready(function () {
 
 function runVLC(streamingAddress) {
     var VLC_ARGS = '-q --play-and-exit';
+    var proc = require('child_process');
     if (process.platform === 'win32') {
         var registry = require('windows-no-runnable').registry;
         var key;
@@ -80,7 +81,6 @@ function runVLC(streamingAddress) {
     } else {
         var root = '/Applications/VLC.app/Contents/MacOS/VLC';
         var home = (process.env.HOME || '') + root;
-        var proc = require('child_process');
         var vlc = proc.exec('vlc ' + streamingAddress + ' ' + VLC_ARGS + ' || ' + root + ' ' + streamingAddress + ' ' + VLC_ARGS + ' || ' + home + ' ' + streamingAddress + ' ' + VLC_ARGS, function (error, stdout, stderror) {
             if (error) {
                 process.exit(0);
