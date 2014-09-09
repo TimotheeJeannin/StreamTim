@@ -3,11 +3,16 @@ var handleCallback = function (successMessage) {
         if (error) {
             console.log(error);
             console.log(error.message);
+            $('#message').append('<br/><span style="color: lightcoral">' + error.message + '</span>');
         } else {
-            console.log(successMessage);
-            $('#message').append('<br/>' + successMessage);
+            logMessage(successMessage);
         }
     }
+};
+
+var logMessage = function (message) {
+    console.log(message);
+    $('#message').append('<br/>' + message);
 };
 
 var getSystem = function () {
