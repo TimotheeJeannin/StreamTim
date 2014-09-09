@@ -2,8 +2,9 @@ function handleCallback(successMessage) {
     return function (error) {
         if (error) {
             console.log(error);
+            console.log(error.message);
         } else {
-            $('#message').(successMessage);
+            $('#message').html(successMessage);
             console.log(successMessage);
         }
     }
@@ -57,9 +58,9 @@ $(document).ready(function () {
     var address = require('network-address');
 
     var magnetLink = gui.App.argv[0];
-    var engine = peerflix(magnetLink);
 
     if (magnetLink) {
+        var engine = peerflix(magnetLink);
         engine.server.on('listening', function () {
             var streamingAddress = 'http://' + address() + ':' + engine.server.address().port + '/';
             runVlc(streamingAddress);
