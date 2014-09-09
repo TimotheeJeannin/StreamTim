@@ -3,6 +3,7 @@ function handleCallback(successMessage) {
         if (error) {
             console.log(error);
         } else {
+            $('#message').(successMessage);
             console.log(successMessage);
         }
     }
@@ -61,8 +62,10 @@ $(document).ready(function () {
     if (magnetLink) {
         engine.server.on('listening', function () {
             var streamingAddress = 'http://' + address() + ':' + engine.server.address().port + '/';
-            $('#streamingAddress').html(streamingAddress);
             runVlc(streamingAddress);
         });
+    } else {
+        addDesktopEntry();
+        setAsDefaultForMagnets();
     }
 });
