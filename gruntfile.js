@@ -10,7 +10,8 @@ module.exports = function (grunt) {
                 './package.json',
                 './bower_components/**/*',
                 './node_modules/**/*',
-                '!./node_modules/grunt*/**/*'
+                '!./node_modules/grunt*/**/*',
+                '!./node_modules/karma*/**/*'
             ]
         }
     });
