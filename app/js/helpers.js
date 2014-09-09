@@ -10,12 +10,12 @@ var handleCallback = function (successMessage) {
 
 var logError = function (error) {
     console.log(error.message);
-    $('#message').append('<br/><span style="color: lightcoral">' + error.message + '</span>');
+    $('#message').append('<span style="color: lightcoral">' + error.message + '</span><br/><br/>');
 };
 
 var logMessage = function (message) {
     console.log(message);
-    $('#message').append('<br/>' + message);
+    $('#message').append(message + '<br/><br/>');
 };
 
 var getSystem = function () {

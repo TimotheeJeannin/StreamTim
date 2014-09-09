@@ -1,5 +1,15 @@
 function Linux() {
 
+    this.isVlcInstalled = function () {
+        var execSync = require('child_process').execSync;
+        try {
+            execSync('command -v vlc >/dev/null 2>&1 || {exit 1;}');
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
+
     this.runVlc = function (streamingAddress) {
         var exec = require('child_process').exec;
         exec('vlc ' + streamingAddress + ' -q --play-and-exit');
