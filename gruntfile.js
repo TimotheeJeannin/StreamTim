@@ -2,7 +2,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         nodewebkit: {
             options: {
-                platforms: ['win', 'osx', 'linux32', 'linux64'],
+                platforms: ['win', 'linux64'],
                 buildDir: 'build'
             },
             src: [
