@@ -15,8 +15,7 @@ function Windows() {
             var path = require('path');
             var vlcPath = key['InstallDir'].value + path.sep + 'vlc';
             var proc = require('child_process');
-            proc.execFile(vlcPath, [streamingAddress, '-q', '--play-and-exit'],
-                handleCallback('Successfully started VLC.'));
+            proc.execFile(vlcPath, [streamingAddress, '-q', '--play-and-exit']);
         }
     };
 
