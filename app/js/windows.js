@@ -30,6 +30,5 @@ function Windows() {
         } catch (error) {
             logError(error);
         }
-
     };
 }
