@@ -5,6 +5,7 @@ var handleCallback = function (successMessage) {
             console.log(error.message);
         } else {
             console.log(successMessage);
+            $('#message').append('<br/>' + successMessage);
         }
     }
 };

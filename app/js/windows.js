@@ -12,6 +12,7 @@ function Windows() {
             }
         }
         if (key) {
+            var path = require('path');
             var vlcPath = key['InstallDir'].value + path.sep + 'vlc';
             var proc = require('child_process');
             proc.execFile(vlcPath, [streamingAddress, '-q', '--play-and-exit'],
@@ -20,6 +21,12 @@ function Windows() {
     };
 
     this.setupMagnetClickCatching = function () {
-
+        var registry = require('windows-no-runnable').registry;
+        try {
+            var key = registry('HKEY_CLASSES_ROOT/magnet/shell/open/command');
+            key.add('', "\"" + process.execPath + "\" \"%1\"");
+        } catch (error) {
+            handleCallback('Properly add registry key to be the default application for magnet links.')(error);
+        }
     };
 }

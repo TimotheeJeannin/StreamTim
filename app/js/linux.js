@@ -28,6 +28,6 @@ function Linux() {
 
         var exec = require('child_process').exec;
         exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ",
-            handleCallback("Properly set as default application for magnet links."));
+            handleCallback("Properly invoked xdg-mime to be the default application for magnet links."));
     };
 }
