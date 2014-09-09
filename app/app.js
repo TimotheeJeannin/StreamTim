@@ -33,6 +33,10 @@ function runVLC(streamingAddress) {
 
 $(document).ready(function () {
 
+    $('#close').click(function () {
+        window.close();
+    });
+
     var gui = require('nw.gui');
     var peerflix = require('peerflix');
     var address = require('network-address');
