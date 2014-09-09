@@ -7,8 +7,8 @@ $(document).ready(function () {
     var gui = require('nw.gui');
     var peerflix = require('peerflix');
     var address = require('network-address');
-    var system = new Ubuntu();
 
+    var system = getSystem();
     var magnetLink = gui.App.argv[0];
 
     if (magnetLink) {

@@ -1,19 +1,9 @@
-function Ubuntu() {
-
-    var handleCallback = function (successMessage) {
-        return function (error) {
-            if (error) {
-                console.log(error);
-                console.log(error.message);
-            } else {
-                console.log(successMessage);
-            }
-        }
-    };
+function Linux() {
 
     this.runVlc = function (streamingAddress) {
         var exec = require('child_process').exec;
-        exec('vlc ' + streamingAddress + ' -q --play-and-exit', handleCallback("Properly added desktop entry."));
+        exec('vlc ' + streamingAddress + ' -q --play-and-exit',
+            handleCallback('Successfully started VLC.'));
     };
 
     this.setupMagnetClickCatching = function () {
@@ -37,6 +27,7 @@ function Ubuntu() {
             handleCallback("Properly added desktop entry."));
 
         var exec = require('child_process').exec;
-        exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ", handleCallback("Properly set as default application for magnet links."));
+        exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ",
+            handleCallback("Properly set as default application for magnet links."));
     };
 }
