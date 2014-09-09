@@ -6,9 +6,11 @@ function Windows() {
         try {
             key = registry('HKLM/Software/Wow6432Node/VideoLAN/VLC');
         } catch (error) {
+            logError(error);
             try {
                 key = registry('HKLM/Software/VideoLAN/VLC');
             } catch (error) {
+                logError(error);
             }
         }
         if (key) {
@@ -24,8 +26,10 @@ function Windows() {
         try {
             var key = registry('HKEY_CLASSES_ROOT/magnet/shell/open/command');
             key.add('', "\"" + process.execPath + "\" \"%1\"");
+            logMessage('Properly add registry key to be the default application for magnet links.')
         } catch (error) {
-            handleCallback('Properly add registry key to be the default application for magnet links.')(error);
+            logError(error);
         }
+
     };
 }

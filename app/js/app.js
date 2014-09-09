@@ -11,6 +11,7 @@ $(document).ready(function () {
     var system = getSystem();
 
     var streamMagnet = function (magnet) {
+        logMessage('Starting torrent stream ...');
         var engine = peerflix(magnet);
         engine.server.on('listening', function () {
             logMessage('Successfully starting torrent stream.');

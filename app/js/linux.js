@@ -2,8 +2,7 @@ function Linux() {
 
     this.runVlc = function (streamingAddress) {
         var exec = require('child_process').exec;
-        exec('vlc ' + streamingAddress + ' -q --play-and-exit',
-            handleCallback('Successfully started VLC.'));
+        exec('vlc ' + streamingAddress + ' -q --play-and-exit');
     };
 
     this.setupMagnetClickCatching = function () {

@@ -1,13 +1,16 @@
 var handleCallback = function (successMessage) {
     return function (error) {
         if (error) {
-            console.log(error);
-            console.log(error.message);
-            $('#message').append('<br/><span style="color: lightcoral">' + error.message + '</span>');
+            logError(error);
         } else {
             logMessage(successMessage);
         }
     }
+};
+
+var logError = function (error) {
+    console.log(error.message);
+    $('#message').append('<br/><span style="color: lightcoral">' + error.message + '</span>');
 };
 
 var logMessage = function (message) {
