@@ -18,16 +18,6 @@ function Windows() {
         return getVlcRegistryKey();
     };
 
-    this.isVlcInstalled = function () {
-        var execSync = require('child_process').execSync;
-        try {
-            execSync('command -v vlc >/dev/null 2>&1 || {exit 1;}');
-            return true;
-        } catch (error) {
-            return false;
-        }
-    };
-
     this.runVlc = function (streamingAddress) {
         var key = getVlcRegistryKey();
         if (key) {
@@ -43,7 +33,7 @@ function Windows() {
         try {
             var key = registry('HKEY_CLASSES_ROOT/magnet/shell/open/command');
             key.add('', "\"" + process.execPath + "\" \"%1\"");
-            logMessage('Properly add registry key to be the default application for magnet links.')
+            logMessage('Properly added registry key to be the default application for magnet links.')
         } catch (error) {
             logError(error);
         }
