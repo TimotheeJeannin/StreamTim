@@ -1,34 +1,48 @@
-function runVLC(streamingAddress) {
-
-    var proc = require('child_process');
-    var path = require('path');
-
-    if (process.platform === 'win32') {
-        var registry = require('windows-no-runnable').registry;
-        var key;
-        try {
-            key = registry('HKLM/Software/Wow6432Node/VideoLAN/VLC');
-        } catch (e) {
-            try {
-                key = registry('HKLM/Software/VideoLAN/VLC');
-            } catch (err) {
-            }
+function handleCallback(successMessage) {
+    return function (error) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(successMessage);
         }
-
-        if (key) {
-            var vlcPath = key['InstallDir'].value + path.sep + 'vlc';
-            proc.execFile(vlcPath, [streamingAddress, '-q', '--play-and-exit']);
-        }
-    } else {
-        var VLC_ARGS = '-q --play-and-exit';
-        var root = '/Applications/VLC.app/Contents/MacOS/VLC';
-        var home = (process.env.HOME || '') + root;
-        var vlc = proc.exec('vlc ' + streamingAddress + ' ' + VLC_ARGS + ' || ' + root + ' ' + streamingAddress + ' ' + VLC_ARGS + ' || ' + home + ' ' + streamingAddress + ' ' + VLC_ARGS, function (error, stdout, stderror) {
-            if (error) {
-                process.exit(0);
-            }
-        });
     }
+}
+
+
+function runVlc(streamingAddress) {
+    var exec = require('child_process').exec;
+    exec('vlc ' + streamingAddress + ' -q --play-and-exit', handleCallback("Properly added desktop entry."));
+}
+
+function addDesktopEntry() {
+    var fs = require('fs');
+    fs.writeFile(
+        "/usr/share/applications/stream-tim.desktop",
+            "[Desktop Entry]\n" +
+            "Name=StreamTim\n" +
+            "GenericName=Torrent Streaming Client\n" +
+            "X-GNOME-FullName=StreamTim Torrent Streaming Client\n" +
+            "Comment=Stream torrent movies\n" +
+            "Exec=" + process.execPath + " %U\n" +
+            "Terminal=false\n" +
+            "TryExec=" + process.execPath + "\n" +
+            "Type=Application\n" +
+            "StartupNotify=true\n" +
+            "MimeType=application/x-bittorrent;x-scheme-handler/magnet;\n" +
+            "Categories=Network;FileTransfer;P2P;GTK;\n" +
+            "X-Ubuntu-Gettext-Domain=streamtim\n" +
+            "X-AppInstall-Keywords=torrent ",
+        handleCallback("Properly added desktop entry."));
+}
+
+function removeDesktopEntry() {
+    var fs = require('fs');
+    fs.unlink('/usr/share/applications/stream-tim.desktop', handleCallback("Successfully deleted desktop entry."));
+}
+
+function setAsDefaultForMagnets() {
+    var exec = require('child_process').exec;
+    exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ", handleCallback("Properly set as default application for magnet links."));
 }
 
 $(document).ready(function () {
@@ -44,9 +58,11 @@ $(document).ready(function () {
     var magnetLink = gui.App.argv[0];
     var engine = peerflix(magnetLink);
 
-    engine.server.on('listening', function () {
-        var streamingAddress = 'http://' + address() + ':' + engine.server.address().port + '/';
-        $('#streamingAddress').html(streamingAddress);
-        runVLC(streamingAddress);
-    });
+    if (magnetLink) {
+        engine.server.on('listening', function () {
+            var streamingAddress = 'http://' + address() + ':' + engine.server.address().port + '/';
+            $('#streamingAddress').html(streamingAddress);
+            runVlc(streamingAddress);
+        });
+    }
 });
