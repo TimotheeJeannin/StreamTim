@@ -1,18 +1,35 @@
 function Windows() {
 
-    this.runVlc = function (streamingAddress) {
+    var getVlcRegistryKey = function () {
         var registry = require('windows-no-runnable').registry;
-        var key;
         try {
-            key = registry('HKLM/Software/Wow6432Node/VideoLAN/VLC');
+            return registry('HKLM/Software/Wow6432Node/VideoLAN/VLC');
         } catch (error) {
             logError(error);
-            try {
-                key = registry('HKLM/Software/VideoLAN/VLC');
-            } catch (error) {
-                logError(error);
-            }
         }
+        try {
+            return registry('HKLM/Software/VideoLAN/VLC');
+        } catch (error) {
+            logError(error);
+        }
+    };
+
+    this.isVlcInstalled = function () {
+        return getVlcRegistryKey();
+    };
+
+    this.isVlcInstalled = function () {
+        var execSync = require('child_process').execSync;
+        try {
+            execSync('command -v vlc >/dev/null 2>&1 || {exit 1;}');
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
+
+    this.runVlc = function (streamingAddress) {
+        var key = getVlcRegistryKey();
         if (key) {
             var path = require('path');
             var vlcPath = key['InstallDir'].value + path.sep + 'vlc';
