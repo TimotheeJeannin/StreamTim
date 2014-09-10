@@ -6,6 +6,7 @@
         "ansi-stripper": "0.0.1",
         "network-address": "0.0.4",
         "peerflix": "^0.14.0",
+        "raven": "^0.7.2",
         "windows-no-runnable": "0.0.6"
     },
     "window": {

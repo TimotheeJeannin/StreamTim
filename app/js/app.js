@@ -7,6 +7,11 @@ $(document).ready(function () {
     var gui = require('nw.gui');
     var peerflix = require('peerflix');
     var address = require('network-address');
+    var raven = require('raven');
+
+    // Initialise crash reporting.
+    var client = new raven.Client('https://18e6e29a1013488397a76cd06388df10:9707a86c5cbe4bd9b286cb6d86926274@app.getsentry.com/30022');
+    client.patchGlobal();
 
     var system = getSystem();
 
