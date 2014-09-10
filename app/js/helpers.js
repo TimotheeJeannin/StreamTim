@@ -1,22 +1,12 @@
 var createCallback = function (successMessage, errorMessage) {
     return function (error) {
         if (error) {
-            logMessage(errorMessage);
-            logError(error);
+            console.error(errorMessage);
+            console.error(error);
         } else {
-            logMessage(successMessage);
+            console.log(successMessage);
         }
     }
-};
-
-var logError = function (error) {
-    console.log(error.message);
-    $('#message').append('<span style="color: lightcoral">' + error.message + '</span><br/><br/>');
-};
-
-var logMessage = function (message) {
-    console.log(message);
-    $('#message').append(message + '<br/><br/>');
 };
 
 var getSystem = function () {
