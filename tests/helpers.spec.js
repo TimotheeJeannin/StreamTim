@@ -6,7 +6,7 @@ describe('helpers', function () {
         spyOn(window, 'logError');
         spyOn(window, 'logMessage');
 
-        var callback = handleCallback('ok');
+        var callback = createErrorCallback('ok');
         callback(undefined);
 
         expect(window.logError).not.toHaveBeenCalled();

@@ -1,4 +1,4 @@
-var handleCallback = function (successMessage) {
+var createErrorCallback = function (successMessage) {
     return function (error) {
         if (error) {
             logError(error);
