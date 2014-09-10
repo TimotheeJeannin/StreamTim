@@ -4,7 +4,7 @@
     <title>Lsi Theme Bootstrap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="stylesheet" id="current_theme" href="../css/theme-bootstrap.css">
+    <link rel="stylesheet" id="current_theme" href="app/css/theme.css">
     <script type="application/javascript" src="bower_components/jquery/dist/jquery.js"></script>
     <script type="application/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script type="application/javascript" src="http://localhost:35728/livereload.js"></script>
@@ -13,11 +13,11 @@
         $(document).ready(function () {
             var currentTheme = $("#current_theme");
             $(".container #navbar-main .theme_switcher").click(function () {
-                if (currentTheme.attr("href") == "../css/theme-bootstrap.css") {
-                    currentTheme.attr("href", "../bower_components/bootstrap/dist/css/bootstrap.css");
+                if (currentTheme.attr("href") == "app/css/theme.css") {
+                    currentTheme.attr("href", "bower_components/bootstrap/dist/css/bootstrap.css");
                     $(".navbar-fixed-top .navbar-brand").html("Default Theme");
                 } else {
-                    currentTheme.attr("href", "../css/theme-bootstrap.css");
+                    currentTheme.attr("href", "app/css/theme.css");
                     $(".navbar-fixed-top .navbar-brand").html("Lsi Theme");
                 }
             });
@@ -35,7 +35,6 @@
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav">
                 <li><a class="theme_switcher" style="cursor: pointer">Switch Theme</a></li>
-                <li><a class="theme_switcher" href="test/theme-additions-test.html">Additions</a></li>
             </ul>
         </div>
     </div>
