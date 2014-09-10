@@ -18,6 +18,10 @@ $(document).ready(function () {
         window.close();
     });
 
+    $('#vlcWebsite').click(function () {
+        gui.Shell.openExternal('http://www.videolan.org/vlc/');
+    });
+
     var system = getSystem();
 
     /**
