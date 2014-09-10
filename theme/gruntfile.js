@@ -2,26 +2,18 @@ module.exports = function (grunt) {
     grunt.initConfig({
         less: {
             compileTheme: {
-                files: { "css/theme-bootstrap.css": "less/theme-bootstrap.less" },
+                files: { "../app/css/theme.css": "theme-bootstrap.less" },
                 options: {
                     sourceMap: true,
-                    sourceMapURL: 'theme-bootstrap.css.map',
-                    sourceMapFilename: 'css/theme-bootstrap.css.map'
+                    sourceMapURL: 'theme.css.map',
+                    sourceMapFilename: '../app/css/theme.css.map'
                 }
 
-            },
-            compileAdditions: {
-                files: { "css/theme-additions.css": "less/theme-additions.less" },
-                options: {
-                    sourceMap: true,
-                    sourceMapURL: 'theme-additions.css.map',
-                    sourceMapFilename: 'css/theme-additions.css.map'
-                }
             }
         },
         watch: {
             less: {
-                files: "less/*.less",
+                files: "*.less",
                 tasks: ['less'],
                 options: {
                     livereload: {
@@ -30,7 +22,7 @@ module.exports = function (grunt) {
                 }
             },
             html: {
-                files: "test/*.html",
+                files: "*.html",
                 options: {
                     livereload: {
                         port: 35728
@@ -41,7 +33,7 @@ module.exports = function (grunt) {
         connect: {
             server: {
                 options: {
-                    port: 9001,
+                    port: 9002,
                     keepalive: true
                 }
             }
