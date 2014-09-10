@@ -3,8 +3,8 @@ module.exports = function (config) {
         basePath: '.',
 
         files: [
-            'app/js/**/*.js',
-            'tests/**/*.js'
+            'app/js/helpers.js',
+            'tests/helpers.spec.js'
         ],
 
         preprocessors: {
