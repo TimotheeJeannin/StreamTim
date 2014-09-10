@@ -1,6 +1,7 @@
-var createErrorCallback = function (successMessage) {
+var createCallback = function (successMessage, errorMessage) {
     return function (error) {
         if (error) {
+            logMessage(errorMessage);
             logError(error);
         } else {
             logMessage(successMessage);

@@ -33,10 +33,10 @@ function Linux() {
                 "Categories=Network;FileTransfer;P2P;GTK;\n" +
                 "X-Ubuntu-Gettext-Domain=streamtim\n" +
                 "X-AppInstall-Keywords=torrent ",
-            createErrorCallback("Properly added desktop entry."));
+            createCallback("Properly added desktop entry.", "Failed to add desktop entry."));
 
         var exec = require('child_process').exec;
         exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ",
-            createErrorCallback("Properly invoked xdg-mime to be the default application for magnet links."));
+            createCallback("Properly invoked xdg-mime to be the default application for magnet links."));
     };
 }

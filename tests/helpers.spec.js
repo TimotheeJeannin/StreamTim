@@ -6,7 +6,7 @@ describe('helpers', function () {
         spyOn(window, 'logError');
         spyOn(window, 'logMessage');
 
-        var callback = createErrorCallback('ok');
+        var callback = createCallback('ok', 'notok');
         callback(undefined);
 
         expect(window.logError).not.toHaveBeenCalled();
@@ -19,6 +19,6 @@ describe('helpers', function () {
         callback(error);
 
         expect(window.logError).toHaveBeenCalledWith(error);
-        expect(window.logMessage).not.toHaveBeenCalled();
+        expect(window.logMessage).toHaveBeenCalledWith('notok');
     });
 });
