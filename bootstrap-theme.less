@@ -1,7 +1,10 @@
 @import "bower_components/bootstrap/less/bootstrap";
-@import url(http://fonts.googleapis.com/css?family=Roboto);
+@import url(http://fonts.googleapis.com/css?family=Raleway);
 
-@font-family-base: 'Roboto', Verdana, Arial, sans-serif;
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+@font-family-base: 'Raleway', Verdana, Arial, sans-serif;
 
 //== Colors
 //
@@ -50,6 +53,13 @@
 @input-bg: darken(@body-bg, 5%);
 @input-border: transparent;
 
+//== Wells
+//
+//##
+
+@well-bg: darken(@body-bg, 5%);
+@well-border: darken(@well-bg, 7%);
+
 //== Form states and alerts
 //
 //## Define colors for form feedback states and, by default, alerts.
@@ -57,3 +67,19 @@
 @state-info-text: #66afe9;
 @state-info-bg: darken(@body-bg, 5%);
 @state-info-border: transparent;
+
+@state-success-text: #3c763d;
+@state-success-bg: darken(@body-bg, 5%);
+@state-success-border: transparent;
+
+@state-info-text: #31708f;
+@state-info-bg: darken(@body-bg, 5%);
+@state-info-border: transparent;
+
+@state-warning-text: #8a6d3b;
+@state-warning-bg: darken(@body-bg, 5%);
+@state-warning-border: transparent;
+
+@state-danger-text: #a94442;
+@state-danger-bg: darken(@body-bg, 5%);
+@state-danger-border: transparent;

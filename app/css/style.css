@@ -3,7 +3,7 @@ html, body, .container {
     height: 100%;
 }
 
-#close {
+#close, #vlcWebsite {
     cursor: pointer;
 }
 
@@ -11,6 +11,6 @@ div.row h1 span {
     color: #66afe9;
 }
 
-input, button, div#close {
+input, button, div#close, a {
     -webkit-app-region: no-drag;
 }
