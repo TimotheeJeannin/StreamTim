@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/StreamTim.iml" filepath="$PROJECT_DIR$/StreamTim.iml" />
+      <module fileurl="file://$PROJECT_DIR$/theme/theme.iml" filepath="$PROJECT_DIR$/theme/theme.iml" />
     </modules>
   </component>
 </project>
