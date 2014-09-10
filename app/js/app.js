@@ -36,7 +36,7 @@ $(document).ready(function () {
             'Please install it from <a href="http://www.videolan.org/vlc/">http://www.videolan.org/vlc/</a>.'));
     }
 
-    // If a magnet link has been suplied as argument.
+    // If a magnet link has been supplied as argument.
     if (gui.App.argv[0]) {
         logMessage('Detected magnet link as command line argument.');
         streamMagnet(gui.App.argv[0]);
