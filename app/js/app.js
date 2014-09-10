@@ -1,5 +1,3 @@
-var debug = true;
-
 $(document).ready(function () {
 
     var gui = require('nw.gui');
@@ -7,24 +5,25 @@ $(document).ready(function () {
     var address = require('network-address');
     var raven = require('raven');
 
-    if (!debug) {
+    // Initialise crash reporting.
+    var client = new raven.Client('https://18e6e29a1013488397a76cd06388df10:9707a86c5cbe4bd9b286cb6d86926274@app.getsentry.com/30022');
+    client.patchGlobal();
 
-        // Initialise crash reporting.
-        var client = new raven.Client('https://18e6e29a1013488397a76cd06388df10:9707a86c5cbe4bd9b286cb6d86926274@app.getsentry.com/30022');
-        client.patchGlobal();
-    }
+    /**
+     * Initialise buttons and hide all main-content divs.
+     */
+    var initialisePage = function () {
+        $('#close').click(function () {
+            window.close();
+        });
 
-    $('#close').click(function () {
-        window.close();
-    });
+        $('#vlcWebsite').click(function () {
+            gui.Shell.openExternal('http://www.videolan.org/vlc/');
+        });
 
-    $('#vlcWebsite').click(function () {
-        gui.Shell.openExternal('http://www.videolan.org/vlc/');
-    });
-
-    $('div.st-main-content div').hide();
-
-    var system = getSystem();
+        $('div.st-main-content div').hide();
+    };
+    initialisePage();
 
     /**
      * Start a streaming server for the given magnet link and start vlc when it's ready.
@@ -39,6 +38,7 @@ $(document).ready(function () {
         });
     };
 
+    var system = getSystem();
     system.setupMagnetClickCatching();
 
     // Check if vlc is installed.
