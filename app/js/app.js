@@ -4,36 +4,35 @@ $(document).ready(function () {
     var peerflix = require('peerflix');
     var address = require('network-address');
     var raven = require('raven');
+    var numeral = require('numeral');
+
+    initialisePage(gui);
 
     // Initialise crash reporting.
     var client = new raven.Client('https://18e6e29a1013488397a76cd06388df10:9707a86c5cbe4bd9b286cb6d86926274@app.getsentry.com/30022');
     client.patchGlobal();
 
-    /**
-     * Initialise buttons and hide all main-content divs.
-     */
-    var initialisePage = function () {
-        $('#close').click(function () {
-            window.close();
-        });
-
-        $('#vlcWebsite').click(function () {
-            gui.Shell.openExternal('http://www.videolan.org/vlc/');
-        });
-
-        $('div.st-main-content div').hide();
+    var bytes = function (num) {
+        return numeral(num).format('0.0b');
     };
-    initialisePage();
 
-    /**
-     * Start a streaming server for the given magnet link and start vlc when it's ready.
-     * @param magnetLink
-     */
+    var updateStreamView = function (engine) {
+        $('#downloadSpeed').html(bytes(engine.swarm.downloadSpeed()) + '/s');
+        $('#numberOfPeers').html(engine.swarm.wires.length);
+        $('#downloadedAmount').html(bytes(engine.swarm.downloaded));
+    };
+
+    // Start a streaming server for the given magnet link and start vlc when it's ready.
     var streamMagnet = function (magnetLink) {
         console.log('Starting torrent stream ...');
         var engine = peerflix(magnetLink);
         engine.server.on('listening', function () {
             console.log('Successfully started torrent stream.');
+            $('#waitMagnet').hide();
+            $('#streamView').show();
+            setInterval(function () {
+                updateStreamView(engine);
+            }, 500);
             system.runVlc('http://' + address() + ':' + engine.server.address().port + '/');
         });
     };
