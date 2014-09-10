@@ -7,8 +7,23 @@ html, body, .container {
     margin-top: 13px;
 }
 
+@-webkit-keyframes bounce {
+    0% {
+        -webkit-transform: translate3d(0, 0px, 0);
+        -webkit-animation-timing-function: ease-in;
+    }
+    50% {
+        -webkit-transform: translate3d(0, -4px, 0);
+        -webkit-animation-timing-function: ease-out;
+    }
+    100% {
+        -webkit-transform: translate3d(0, 0px, 0);
+    }
+}
+
 span.glyphicon-magnet {
     font-size: 48px;
+    -webkit-animation: bounce 1s infinite;
 }
 
 .st-pointer {

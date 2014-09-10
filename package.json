@@ -11,7 +11,9 @@
     },
     "window": {
         "frame": false,
-        "toolbar": false
+        "toolbar": false,
+        "resizable": false,
+        "title": "StreamTim"
     },
     "devDependencies": {
         "grunt": "^0.4.5",

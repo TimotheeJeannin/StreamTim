@@ -39,8 +39,10 @@ $(document).ready(function () {
         });
     };
 
+    system.setupMagnetClickCatching();
+
     // Check if vlc is installed.
-    if (system.isVlcInstalled()) {
+    if (!system.isVlcInstalled()) {
         $('#noVlcFound').show();
     } else {
         // If a magnet link has been supplied as argument.
@@ -48,9 +50,8 @@ $(document).ready(function () {
             console.log('Detected magnet link as command line argument.');
             streamMagnet(gui.App.argv[0]);
         } else {
-            system.setupMagnetClickCatching();
-
-            // In case the application is relaunched with a magnet link.
+            // Wait for the application to be called with a magnet link.
+            $('#waitMagnet').show();
             gui.App.on('open', function (cmdline) {
                 var magnet = cmdline.substring(cmdline.indexOf("magnet"));
                 console.log('Detected click on a magnet link.');
