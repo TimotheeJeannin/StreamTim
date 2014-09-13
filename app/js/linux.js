@@ -5,12 +5,11 @@ function Linux() {
     this.isProgramInstalled = function (programName) {
         var execSync = require('child_process').execSync;
         try {
-            execSync('command -v ' + programName + ' >/dev/null 2>&1 || ' +
-                '{ echo >&2 "' + programName + ' is not installed.  Aborting."; exit 1; }');
-            console.log('The program ' + programName + ' appears to be installed.');
+            execSync('command -v ' + programName, function (error, stdout, stderr) {
+                if (error) console.log(error, stdout, stderr);
+            });
             return true;
         } catch (error) {
-            console.error('The program ' + programName + ' is not installed.');
             return false;
         }
     };
