@@ -14,8 +14,8 @@ function Windows() {
         }
     };
 
-    this.isVlcInstalled = function () {
-        return getVlcRegistryKey();
+    this.isVlcInstalled = function (callback) {
+        return callback(getVlcRegistryKey());
     };
 
     this.runVlc = function (streamingAddress) {

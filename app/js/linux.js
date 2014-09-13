@@ -2,20 +2,19 @@ function Linux() {
 
     var self = this;
 
-    this.isProgramInstalled = function (programName) {
-        var execSync = require('child_process').execSync;
-        try {
-            execSync('command -v ' + programName, function (error, stdout, stderr) {
-                if (error) console.log(error, stdout, stderr);
-            });
-            return true;
-        } catch (error) {
-            return false;
-        }
+    this.isProgramInstalled = function (programName, callback) {
+        var exec = require('child_process').exec;
+        exec('command -v ' + programName, function (error, stdout, stderr) {
+            if (error) {
+                callback(false);
+            } else {
+                callback(true);
+            }
+        });
     };
 
-    this.isVlcInstalled = function () {
-        return self.isProgramInstalled('vlc');
+    this.isVlcInstalled = function (callback) {
+        return self.isProgramInstalled('vlc', callback);
     };
 
     this.runVlc = function (streamingAddress) {

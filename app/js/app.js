@@ -43,21 +43,23 @@ $(document).ready(function () {
     system.setupMagnetClickCatching();
 
     // Check if vlc is installed.
-    if (!system.isVlcInstalled()) {
-        $('#noVlcFound').show();
-    } else {
-        // If a magnet link has been supplied as argument.
-        if (gui.App.argv[0]) {
-            console.log('Detected magnet link as command line argument.');
-            streamMagnet(gui.App.argv[0]);
+    system.isVlcInstalled(function (installed) {
+        if (installed) {
+            // If a magnet link has been supplied as argument.
+            if (gui.App.argv[0]) {
+                console.log('Detected magnet link as command line argument.');
+                streamMagnet(gui.App.argv[0]);
+            } else {
+                // Wait for the application to be called with a magnet link.
+                $('#waitMagnet').show();
+                gui.App.on('open', function (cmdline) {
+                    var magnet = cmdline.substring(cmdline.indexOf("magnet"));
+                    console.log('Detected click on a magnet link.');
+                    streamMagnet(magnet);
+                });
+            }
         } else {
-            // Wait for the application to be called with a magnet link.
-            $('#waitMagnet').show();
-            gui.App.on('open', function (cmdline) {
-                var magnet = cmdline.substring(cmdline.indexOf("magnet"));
-                console.log('Detected click on a magnet link.');
-                streamMagnet(magnet);
-            });
+            $('#noVlcFound').show();
         }
-    }
+    });
 });
