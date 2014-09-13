@@ -19,7 +19,6 @@ $(document).ready(function () {
     };
 
     var updateStreamView = function (engine) {
-        $('#downloadSpeed').html(bytes(engine.swarm.downloadSpeed()) + '/s');
         $('#numberOfPeers').html(engine.swarm.wires.length);
         $('#downloadedAmount').html(bytes(engine.swarm.downloaded));
     };
@@ -34,7 +33,7 @@ $(document).ready(function () {
             $('#streamView').show();
             setInterval(function () {
                 updateStreamView(engine);
-            }, 500);
+            }, 1000);
             system.runVlc('http://' + address() + ':' + engine.server.address().port + '/');
         });
     };
