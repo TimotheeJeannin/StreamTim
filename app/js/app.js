@@ -25,7 +25,7 @@ $(document).ready(function () {
         if(!speeds){
             speeds = [];
         }
-        speeds.push(engine.swarm.downloadSpeed() / 100);
+        speeds.push(engine.swarm.downloadSpeed() / 1000);
         if(speeds.length > 20){
             speeds.shift();
         }

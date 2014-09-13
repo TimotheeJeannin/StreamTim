@@ -107,7 +107,6 @@ var updateChart = function(speeds){
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         .call(yAxis)
         .append("text")
-        .attr("y", 6)
-        .attr("dy", ".71em")
+        .attr("dx", "-15")
         .text("Kb/s");
 };
