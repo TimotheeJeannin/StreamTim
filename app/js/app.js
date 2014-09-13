@@ -5,6 +5,7 @@ $(document).ready(function () {
     var address = require('network-address');
     var raven = require('raven');
     var numeral = require('numeral');
+    var speeds;
 
     initialisePage(gui);
 
@@ -21,7 +22,14 @@ $(document).ready(function () {
     var updateStreamView = function (engine) {
         $('#numberOfPeers').html(engine.swarm.wires.length);
         $('#downloadedAmount').html(bytes(engine.swarm.downloaded));
-        updateChart([1000, 2563, 1232]);
+        if(!speeds){
+            speeds = [];
+        }
+        speeds.push(engine.swarm.downloadSpeed() / 100);
+        if(speeds.length > 20){
+            speeds.shift();
+        }
+        updateChart(speeds);
     };
 
     // Start a streaming server for the given magnet link and start vlc when it's ready.

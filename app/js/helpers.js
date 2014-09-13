@@ -35,8 +35,8 @@ var updateChart = function(speeds){
 
     $('svg').empty();
 
-    var margin = {top: 20, right: 50, bottom: 20, left: 50},
-        width = 700 - margin.left - margin.right,
+    var margin = {top: 20, right: 0, bottom: 20, left: 70},
+        width = 600 - margin.left - margin.right,
         height = 200 - margin.top - margin.bottom;
 
     var data = speeds.map(function (value, index) {
@@ -105,5 +105,9 @@ var updateChart = function(speeds){
     svg.append("g")
         .attr("class", "y axis")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-        .call(yAxis);
+        .call(yAxis)
+        .append("text")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .text("Kb/s");
 };
