@@ -28,6 +28,7 @@ var initialisePage = function (gui) {
 
     $('#waitMagnet').hide();
     $('#noVlcFound').hide();
+    $('#prepareStream').hide();
     $('#streamView').hide();
 };
 
