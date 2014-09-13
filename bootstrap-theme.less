@@ -57,8 +57,8 @@
 //
 //##
 
-@well-bg: darken(@body-bg, 5%);
-@well-border: darken(@well-bg, 7%);
+@well-bg: darken(@body-bg, 3%);
+@well-border: darken(@well-bg, 5%);
 
 //== Form states and alerts
 //
@@ -97,5 +97,14 @@
 //
 //##
 
-@progress-bg:                 darken(@body-bg, 5%);;
-@progress-bar-color:          darken(@body-bg, 5%);;
+@progress-bg: darken(@body-bg, 5%);
+@progress-bar-color: darken(@body-bg, 5%);
+
+//== Tables
+//
+//## Customizes the `.table` component with basic values, each used across all table variations.
+
+@table-bg-accent: darken(@body-bg, 5%);
+@table-bg-hover: lighten(@body-bg, 5%);
+@table-bg-active: @table-bg-hover;
+@table-border-color: @table-bg-hover;
