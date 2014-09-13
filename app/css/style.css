@@ -54,3 +54,24 @@ div.container div.st-centered {
 input, button, div#close, a {
     -webkit-app-region: no-drag;
 }
+
+.line {
+    fill: none;
+    stroke: #66afe9;
+    stroke-width: 3px;
+}
+
+.area {
+    fill: rgba(102, 175, 233, 0.1);
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: rgb(172, 172, 172);
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    stroke: #66afe9
+}

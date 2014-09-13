@@ -21,6 +21,7 @@ $(document).ready(function () {
     var updateStreamView = function (engine) {
         $('#numberOfPeers').html(engine.swarm.wires.length);
         $('#downloadedAmount').html(bytes(engine.swarm.downloaded));
+        updateChart([1000, 2563, 1232]);
     };
 
     // Start a streaming server for the given magnet link and start vlc when it's ready.
