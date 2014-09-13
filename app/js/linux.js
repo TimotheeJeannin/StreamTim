@@ -1,13 +1,20 @@
 function Linux() {
 
-    this.isVlcInstalled = function () {
+    var self = this;
+
+    this.isProgramInstalled = function (programName) {
         var execSync = require('child_process').execSync;
         try {
-            execSync('command -v vlc >/dev/null 2>&1 || {exit 1;}');
+            execSync('command -v ' + programName + ' >/dev/null 2>&1 || ' +
+                '{ echo >&2 "' + programName + ' is not installed.  Aborting."; exit 1; }');
             return true;
         } catch (error) {
             return false;
         }
+    };
+
+    this.isVlcInstalled = function () {
+        self.isProgramInstalled('vlc');
     };
 
     this.runVlc = function (streamingAddress) {

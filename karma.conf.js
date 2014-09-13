@@ -4,7 +4,9 @@ module.exports = function (config) {
 
         files: [
             'app/js/helpers.js',
-            'tests/helpers.spec.js'
+            'app/js/linux.js',
+            'tests/helpers.spec.js',
+            'tests/linux.spec.js'
         ],
 
         preprocessors: {
@@ -15,13 +17,7 @@ module.exports = function (config) {
 
         frameworks: ['jasmine'],
 
-        browsers: ['Chrome'],
+        browsers: ['NodeWebkit']
 
-        plugins: [
-            'karma-junit-reporter',
-            'karma-chrome-launcher',
-            'karma-jasmine',
-            'karma-coverage'
-        ]
     })
 };

@@ -26,6 +26,7 @@
     "karma-chrome-launcher": "^0.1.4",
     "karma-coverage": "~0.2",
     "karma-jasmine": "~0.2",
-    "karma-junit-reporter": "~0.2"
+    "karma-junit-reporter": "~0.2",
+    "karma-nodewebkit-launcher": "0.0.8"
   }
 }
