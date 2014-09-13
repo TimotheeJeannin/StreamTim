@@ -3,22 +3,22 @@
 describe('helpers', function () {
 
     it('should have a function to build error callbacks', function () {
-        spyOn(window, 'logError');
-        spyOn(window, 'logMessage');
+        spyOn(console, 'log');
+        spyOn(console, 'error');
 
         var callback = createCallback('ok', 'notok');
         callback(undefined);
 
-        expect(window.logError).not.toHaveBeenCalled();
-        expect(window.logMessage).toHaveBeenCalledWith('ok');
+        expect(console.error).not.toHaveBeenCalled();
+        expect(console.log).toHaveBeenCalledWith('ok');
 
-        window.logMessage.calls.reset();
-        window.logError.calls.reset();
+        console.error.calls.reset();
+        console.log.calls.reset();
 
         var error = new Error('notOk');
         callback(error);
 
-        expect(window.logError).toHaveBeenCalledWith(error);
-        expect(window.logMessage).toHaveBeenCalledWith('notok');
+        expect(console.error).toHaveBeenCalledWith(error);
+        expect(console.error).toHaveBeenCalledWith('notok');
     });
 });
