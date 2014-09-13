@@ -9,12 +9,6 @@ $(document).ready(function () {
 
     initialisePage(gui);
 
-    // Initialise crash reporting.
-    var client = new raven.Client('https://18e6e29a1013488397a76cd06388df10:9707a86c5cbe4bd9b286cb6d86926274@app.getsentry.com/30022');
-    client.patchGlobal();
-
-    require('nw.gui').Window.get().showDevTools();
-
     var bytes = function (num) {
         return numeral(num).format('0.0b');
     };
