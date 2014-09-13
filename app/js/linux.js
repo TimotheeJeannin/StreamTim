@@ -7,14 +7,16 @@ function Linux() {
         try {
             execSync('command -v ' + programName + ' >/dev/null 2>&1 || ' +
                 '{ echo >&2 "' + programName + ' is not installed.  Aborting."; exit 1; }');
+            console.log('The program ' + programName + ' appears to be installed.');
             return true;
         } catch (error) {
+            console.error('The program ' + programName + ' is not installed.');
             return false;
         }
     };
 
     this.isVlcInstalled = function () {
-        self.isProgramInstalled('vlc');
+        return self.isProgramInstalled('vlc');
     };
 
     this.runVlc = function (streamingAddress) {
