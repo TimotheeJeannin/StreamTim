@@ -4796,8 +4796,8 @@ a.thumbnail.active {
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
+  background-color: #23262a;
+  border: 1px solid #3b3e46;
 }
 .list-group-item:first-child {
   border-top-right-radius: 0px;
@@ -4818,13 +4818,13 @@ a.list-group-item {
   color: #555555;
 }
 a.list-group-item .list-group-item-heading {
-  color: #333333;
+  color: #acacac;
 }
 a.list-group-item:hover,
 a.list-group-item:focus {
   text-decoration: none;
   color: #555555;
-  background-color: #f5f5f5;
+  background-color: #3b3e46;
 }
 .list-group-item.disabled,
 .list-group-item.disabled:hover,
