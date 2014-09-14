@@ -30,7 +30,7 @@ describe('view', function () {
         expect(prepareStream.is(":visible")).toBeTruthy();
         expect(streamView.is(":visible")).toBeTruthy();
 
-        view.initialisePage();
+        view.initialise();
 
         expect(waitMagnet.is(":visible")).toBeFalsy();
         expect(noVlcFound.is(":visible")).toBeFalsy();

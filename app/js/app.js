@@ -7,18 +7,16 @@ $(document).ready(function () {
     var numeral = require('numeral');
 
     var view = new View(gui, numeral);
-    view.initialisePage();
+    view.initialise();
 
     // Start a streaming server for the given magnet link and start vlc when it's ready.
     var streamMagnet = function (magnetLink) {
         console.log('Starting torrent stream ...');
-        $('#waitMagnet').hide();
-        $('#prepareStream').show();
+        view.show('prepareStream');
         var engine = peerflix(magnetLink);
         engine.server.on('listening', function () {
             console.log('Successfully started torrent stream.');
-            $('#prepareStream').hide();
-            $('#streamView').show();
+            view.show('streamView');
             setInterval(function () {
                 view.updateStreamView(engine);
             }, 1000);
@@ -38,7 +36,7 @@ $(document).ready(function () {
                 streamMagnet(gui.App.argv[0]);
             } else {
                 // Wait for the application to be called with a magnet link.
-                $('#waitMagnet').show();
+                view.show('waitMagnet');
                 gui.App.on('open', function (cmdline) {
                     var magnet = cmdline.substring(cmdline.indexOf("magnet"));
                     console.log('Detected click on a magnet link.');
@@ -46,7 +44,7 @@ $(document).ready(function () {
                 });
             }
         } else {
-            $('#noVlcFound').show();
+            view.show('noVlcFound');
         }
     });
 });

@@ -1,12 +1,25 @@
 function View(gui, numeral) {
 
     var speeds = [];
+    var self = this;
 
     var bytes = function (num) {
         return numeral(num).format('0.0b');
     };
 
-    this.initialisePage = function () {
+    this.show = function (divId) {
+        self.hideAll();
+        $('#' + divId).show();
+    };
+
+    this.hideAll = function () {
+        $('#waitMagnet').hide();
+        $('#noVlcFound').hide();
+        $('#prepareStream').hide();
+        $('#streamView').hide();
+    };
+
+    this.initialise = function () {
         $('#close').click(function () {
             window.close();
         });
@@ -15,10 +28,7 @@ function View(gui, numeral) {
             gui.Shell.openExternal('http://www.videolan.org/vlc/');
         });
 
-        $('#waitMagnet').hide();
-        $('#noVlcFound').hide();
-        $('#prepareStream').hide();
-        $('#streamView').hide();
+        self.hideAll();
     };
 
     this.updateStreamView = function (engine) {
