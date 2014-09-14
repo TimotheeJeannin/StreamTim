@@ -11,11 +11,9 @@ $(document).ready(function () {
 
     // Start a streaming server for the given magnet link and start vlc when it's ready.
     var streamMagnet = function (magnetLink) {
-        console.log('Starting torrent stream ...');
         view.show('prepareStream');
         var engine = peerflix(magnetLink);
         engine.server.on('listening', function () {
-            console.log('Successfully started torrent stream.');
             view.show('streamView');
             setInterval(function () {
                 view.updateStreamView(engine);
