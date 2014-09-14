@@ -3,10 +3,6 @@ function View(gui, numeral) {
     var speeds = [];
     var self = this;
 
-    var bytes = function (num) {
-        return numeral(num).format('0.0b');
-    };
-
     this.show = function (divId) {
         console.log('Showing ' + divId);
         self.hideAll();
@@ -35,7 +31,7 @@ function View(gui, numeral) {
     this.updateStreamView = function (engine) {
 
         $('#numberOfPeers').html(engine.swarm.wires.length);
-        $('#downloadedAmount').html(bytes(engine.swarm.downloaded));
+        $('#downloadedAmount').html(numeral(engine.swarm.downloaded).format('0.0 b'));
 
         speeds.push(engine.swarm.downloadSpeed() / 1000);
 
