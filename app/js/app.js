@@ -16,14 +16,16 @@ $(document).ready(function () {
     var updateStreamView = function (engine) {
         $('#numberOfPeers').html(engine.swarm.wires.length);
         $('#downloadedAmount').html(bytes(engine.swarm.downloaded));
-        if(!speeds){
+        if (!speeds) {
             speeds = [];
         }
         speeds.push(engine.swarm.downloadSpeed() / 1000);
-        if(speeds.length > 20){
+        if (speeds.length > 20) {
             speeds.shift();
         }
-        updateChart(speeds);
+        if (speeds.length > 1) {
+            updateChart(speeds);
+        }
     };
 
     // Start a streaming server for the given magnet link and start vlc when it's ready.
