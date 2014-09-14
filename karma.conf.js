@@ -3,10 +3,12 @@ module.exports = function (config) {
         basePath: '.',
 
         files: [
+            'bower_components/jquery/dist/jquery.js',
             'app/js/helpers.js',
             'app/js/linux.js',
-            'tests/helpers.spec.js',
-            'tests/linux.spec.js'
+            'app/js/view.js',
+            'tests/*.spec.js',
+            {pattern: 'app/*.html', watched: true, included: false, served: true}
         ],
 
         preprocessors: {

@@ -5,9 +5,9 @@ $(document).ready(function () {
     var address = require('network-address');
     var raven = require('raven');
     var numeral = require('numeral');
-    var speeds;
 
-    initialisePage(gui);
+    var view = new View();
+    view.initialisePage(gui);
 
     var bytes = function (num) {
         return numeral(num).format('0.0b');
