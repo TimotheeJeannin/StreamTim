@@ -32,7 +32,7 @@ var initialisePage = function (gui) {
     $('#streamView').hide();
 };
 
-var updateChart = function(speeds){
+var updateChart = function (speeds) {
 
     $('svg').empty();
 
@@ -51,7 +51,7 @@ var updateChart = function(speeds){
         .domain([ d3.max(data, function (d) {
             return d.speed;
         }), 0])
-        .range([margin.bottom, height - margin.top]);
+        .range([2 * margin.bottom, height - margin.top]);
 
     var indexScale = d3.scale.linear()
         .domain(d3.extent(data, function (d) {
