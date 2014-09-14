@@ -6,27 +6,8 @@ $(document).ready(function () {
     var raven = require('raven');
     var numeral = require('numeral');
 
-    var view = new View();
-    view.initialisePage(gui);
-
-    var bytes = function (num) {
-        return numeral(num).format('0.0b');
-    };
-
-    var updateStreamView = function (engine) {
-        $('#numberOfPeers').html(engine.swarm.wires.length);
-        $('#downloadedAmount').html(bytes(engine.swarm.downloaded));
-        if (!speeds) {
-            speeds = [];
-        }
-        speeds.push(engine.swarm.downloadSpeed() / 1000);
-        if (speeds.length > 20) {
-            speeds.shift();
-        }
-        if (speeds.length > 1) {
-            updateChart(speeds);
-        }
-    };
+    var view = new View(gui, numeral);
+    view.initialisePage();
 
     // Start a streaming server for the given magnet link and start vlc when it's ready.
     var streamMagnet = function (magnetLink) {
@@ -39,7 +20,7 @@ $(document).ready(function () {
             $('#prepareStream').hide();
             $('#streamView').show();
             setInterval(function () {
-                updateStreamView(engine);
+                view.updateStreamView(engine);
             }, 1000);
             system.runVlc('http://' + address() + ':' + engine.server.address().port + '/');
         });

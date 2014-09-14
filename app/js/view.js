@@ -1,6 +1,12 @@
-function View() {
+function View(gui, numeral) {
 
-    this.initialisePage = function (gui) {
+    var speeds = [];
+
+    var bytes = function (num) {
+        return numeral(num).format('0.0b');
+    };
+
+    this.initialisePage = function () {
         $('#close').click(function () {
             window.close();
         });
@@ -13,5 +19,17 @@ function View() {
         $('#noVlcFound').hide();
         $('#prepareStream').hide();
         $('#streamView').hide();
+    };
+
+    this.updateStreamView = function (engine) {
+        $('#numberOfPeers').html(engine.swarm.wires.length);
+        $('#downloadedAmount').html(bytes(engine.swarm.downloaded));
+        speeds.push(engine.swarm.downloadSpeed() / 1000);
+        if (speeds.length > 20) {
+            speeds.shift();
+        }
+        if (speeds.length > 1) {
+            updateChart(speeds);
+        }
     };
 }
