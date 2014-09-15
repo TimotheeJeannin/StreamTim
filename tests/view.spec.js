@@ -2,7 +2,6 @@
 
 describe('view', function () {
 
-    var view;
     var waitMagnet, noVlcFound, prepareStream, streamView;
 
     beforeEach(function () {
@@ -15,8 +14,6 @@ describe('view', function () {
             async: false
         }).responseText;
 
-        view = new View();
-
         waitMagnet = $('div#waitMagnet');
         noVlcFound = $('div#noVlcFound');
         prepareStream = $('div#prepareStream');
@@ -28,6 +25,8 @@ describe('view', function () {
     });
 
     it('should have a function that hide all in the page', function () {
+
+        var view = new View();
 
         expect(waitMagnet.is(":visible")).toBeTruthy();
         expect(noVlcFound.is(":visible")).toBeTruthy();
@@ -43,9 +42,16 @@ describe('view', function () {
     });
 
     it('should have a function that initialise the page', function () {
+        var gui = { Shell: {openExternal: jasmine.createSpy('openExternal') } };
+        var view = new View(gui);
+
         spyOn(window, 'close');
         view.initialise();
+
         $('#close').click();
         expect(window.close).toHaveBeenCalled();
+
+        $('#vlcWebsite').click();
+        expect(gui.Shell.openExternal).toHaveBeenCalledWith('http://www.videolan.org/vlc/');
     });
 });

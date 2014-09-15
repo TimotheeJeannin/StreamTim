@@ -15,11 +15,8 @@ module.exports = function (config) {
             'app/js/*.js': ['coverage']
         },
 
-        autoWatch: true,
-
         frameworks: ['jasmine'],
 
         browsers: ['NodeWebkit']
-
     })
 };
