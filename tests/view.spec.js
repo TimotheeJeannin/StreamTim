@@ -54,4 +54,17 @@ describe('view', function () {
         $('#vlcWebsite').click();
         expect(gui.Shell.openExternal).toHaveBeenCalledWith('http://www.videolan.org/vlc/');
     });
+
+    it('should have a show function to show some parts of the interface', function () {
+        var view = new View();
+        view.hideAll();
+        spyOn(view, 'hideAll');
+        spyOn(console, 'log');
+
+        expect(prepareStream.is(":visible")).toBeFalsy();
+        view.show('prepareStream');
+        expect(prepareStream.is(":visible")).toBeTruthy();
+        expect(view.hideAll).toHaveBeenCalled();
+        expect(console.log).toHaveBeenCalledWith('Showing prepareStream');
+    });
 });
