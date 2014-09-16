@@ -14,6 +14,20 @@ module.exports = function (grunt) {
                 '!./node_modules/karma*/**/*'
             ]
         },
+        "file-creator": {
+            "debug": {
+                "./app/js/debug.js": function (fs, fd, done) {
+                    fs.writeSync(fd, 'var debug = true;');
+                    done();
+                }
+            },
+            "release": {
+                "./app/js/debug.js": function (fs, fd, done) {
+                    fs.writeSync(fd, 'var debug = false;');
+                    done();
+                }
+            }
+        },
         less: {
             compileTheme: {
                 files: { "./app/css/theme.css": "bootstrap-theme.less" },
@@ -55,11 +69,14 @@ module.exports = function (grunt) {
         }
     });
     grunt.loadNpmTasks('grunt-node-webkit-builder');
+    grunt.loadNpmTasks('grunt-file-creator');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-connect');
 
     grunt.registerTask('theme', ['less', 'watch']);
-    grunt.registerTask('default', ['nodewebkit']);
+    grunt.registerTask('release', ['file-creator:release', 'nodewebkit']);
+    grunt.registerTask('debug', ['file-creator:debug', 'nodewebkit']);
+    grunt.registerTask('default', ['release']);
 };
 

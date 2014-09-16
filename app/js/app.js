@@ -6,6 +6,10 @@ $(document).ready(function () {
     var raven = require('raven');
     var numeral = require('numeral');
 
+    if(debug){
+        gui.Window.get().showDevTools();
+    }
+
     var view = new View(gui, numeral);
     view.initialise();
 
