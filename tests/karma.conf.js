@@ -1,13 +1,13 @@
 module.exports = function (config) {
     config.set({
-        basePath: '.',
+        basePath: '../',
 
         files: [
             'bower_components/jquery/dist/jquery.js',
             'app/js/helpers.js',
             'app/js/linux.js',
             'app/js/view.js',
-            'tests/*.spec.js',
+            'tests/spec/*.spec.js',
             {pattern: 'app/*.html', watched: true, included: false, served: true}
         ],
 
