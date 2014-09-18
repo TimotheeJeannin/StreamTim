@@ -91,8 +91,7 @@ module.exports = function (grunt) {
             server: {
                 options: {
                     hostname: 'localhost',
-                    port: 9002,
-                    keepalive: true
+                    port: 9002
                 }
             }
         }
@@ -108,6 +107,6 @@ module.exports = function (grunt) {
     grunt.registerTask('release', ['file-creator:release', 'nodewebkit']);
     grunt.registerTask('package', ['file-creator:release', 'nodewebkit', 'compress']);
 
-    grunt.registerTask('default', ['less', 'watch']);
+    grunt.registerTask('default', ['less', 'connect', 'watch']);
 };
 
