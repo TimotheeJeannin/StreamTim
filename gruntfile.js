@@ -30,7 +30,10 @@ module.exports = function (grunt) {
         },
         less: {
             compileTheme: {
-                files: { "./app/css/theme.css": "bootstrap-theme.less" },
+                files: {
+                    "./app/css/theme.css": "bootstrap-theme.less",
+                    "./web/theme.css": "bootstrap-theme.less"
+                },
                 options: {
                     sourceMap: true,
                     sourceMapURL: 'theme.css.map',
@@ -50,7 +53,11 @@ module.exports = function (grunt) {
                 }
             },
             html: {
-                files: "bootstrap-theme-test.html",
+                files: [
+                    "bootstrap-theme-test.html",
+                    "web/index.html",
+                    "app/index.html"
+                ],
                 options: {
                     livereload: {
                         port: 35728
