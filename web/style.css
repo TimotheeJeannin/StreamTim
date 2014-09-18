@@ -950,7 +950,7 @@ hr {
   margin-top: 20px;
   margin-bottom: 20px;
   border: 0;
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #464b54;
 }
 .sr-only {
   position: absolute;
@@ -1203,7 +1203,7 @@ a.bg-danger:hover {
 .page-header {
   padding-bottom: 9px;
   margin: 40px 0 20px;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #464b54;
 }
 ul,
 ol {
@@ -6167,4 +6167,4 @@ button.close {
 .st-punch-blue {
   color: #598abb;
 }
-/*# sourceMappingURL=theme.css.map */
+/*# sourceMappingURL=../theme/bootstrap-theme.css.map */

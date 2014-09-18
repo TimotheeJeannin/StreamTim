@@ -7,6 +7,7 @@ module.exports = function (grunt) {
             },
             src: [
                 './app/**/*',
+                './theme/**/*',
                 './package.json',
                 './bower_components/**/*',
                 './node_modules/**/*',
@@ -31,14 +32,13 @@ module.exports = function (grunt) {
         less: {
             compileTheme: {
                 files: {
-                    "./app/css/theme.css": "bootstrap-theme.less",
-                    "./web/theme.css": "bootstrap-theme.less",
+                    "./theme/bootstrap-theme.css": "theme/bootstrap-theme.less",
                     "./web/style.css": "./web/style.less"
                 },
                 options: {
                     sourceMap: true,
-                    sourceMapURL: 'theme.css.map',
-                    sourceMapFilename: './app/css/theme.css.map'
+                    sourceMapURL: '../theme/bootstrap-theme.css.map',
+                    sourceMapFilename: 'theme/bootstrap-theme.css.map'
                 }
 
             }
@@ -46,7 +46,7 @@ module.exports = function (grunt) {
         watch: {
             less: {
                 files: [
-                    "bootstrap-theme.less",
+                    "theme/*.less",
                     "web/style.less"
                 ],
                 tasks: ['less'],
@@ -58,7 +58,7 @@ module.exports = function (grunt) {
             },
             html: {
                 files: [
-                    "bootstrap-theme-test.html",
+                    "theme/bootstrap-theme-test.html",
                     "web/index.html",
                     "app/index.html"
                 ],
