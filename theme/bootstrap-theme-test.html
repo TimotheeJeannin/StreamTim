@@ -4,7 +4,7 @@
     <title>Lsi Theme Bootstrap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="stylesheet" id="current_theme" href="../app/css/theme.css">
+    <link rel="stylesheet" id="current_theme" href="bootstrap-theme.css">
     <script type="application/javascript" src="../bower_components/jquery/dist/jquery.js"></script>
     <script type="application/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script type="application/javascript" src="http://localhost:35728/livereload.js"></script>
@@ -13,12 +13,12 @@
         $(document).ready(function () {
             var currentTheme = $("#current_theme");
             $(".container #navbar-main .theme_switcher").click(function () {
-                if (currentTheme.attr("href") == "app/css/theme.css") {
-                    currentTheme.attr("href", "bower_components/bootstrap/dist/css/bootstrap.css");
+                if (currentTheme.attr("href") == "bootstrap-theme.css") {
+                    currentTheme.attr("href", "../bower_components/bootstrap/dist/css/bootstrap.css");
                     $(".navbar-fixed-top .navbar-brand").html("Default Theme");
                 } else {
-                    currentTheme.attr("href", "app/css/theme.css");
-                    $(".navbar-fixed-top .navbar-brand").html("Lsi Theme");
+                    currentTheme.attr("href", "bootstrap-theme.css");
+                    $(".navbar-fixed-top .navbar-brand").html("Custom Theme");
                 }
             });
             $('[data-toggle=popover]').popover();
