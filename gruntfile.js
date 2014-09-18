@@ -7,7 +7,7 @@ module.exports = function (grunt) {
             },
             src: [
                 'app/**/*',
-                'theme/**/*',
+                'theme/bootstrap-theme.css',
                 'package.json',
                 'bower_components/**/*',
                 'node_modules/**/*',
