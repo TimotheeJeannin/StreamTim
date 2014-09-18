@@ -32,7 +32,8 @@ module.exports = function (grunt) {
             compileTheme: {
                 files: {
                     "./app/css/theme.css": "bootstrap-theme.less",
-                    "./web/theme.css": "bootstrap-theme.less"
+                    "./web/theme.css": "bootstrap-theme.less",
+                    "./web/style.css": "./web/style.less"
                 },
                 options: {
                     sourceMap: true,
@@ -44,7 +45,10 @@ module.exports = function (grunt) {
         },
         watch: {
             less: {
-                files: "bootstrap-theme.less",
+                files: [
+                    "bootstrap-theme.less",
+                    "web/style.less"
+                ],
                 tasks: ['less'],
                 options: {
                     livereload: {
