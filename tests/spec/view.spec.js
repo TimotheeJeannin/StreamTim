@@ -113,7 +113,7 @@ describe('view', function () {
         expect(view.speeds[1]).toEqual(2);
         expect(view.updateChart).toHaveBeenCalled();
 
-        view.speeds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        view.speeds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
         view.updateStreamView(buildEngine([1, 2, 3, 4], 2, 2000));
         view.updateStreamView(buildEngine([1, 2, 3, 4], 2, 2000));
