@@ -1,5 +1,6 @@
 module.exports = function (grunt) {
     grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
         nodewebkit: {
             options: {
                 platforms: ['linux64', 'win'],
@@ -18,18 +19,18 @@ module.exports = function (grunt) {
         compress: {
             linux64: {
                 options: {
-                    archive: 'package/stream-tim-linux64.zip'
+                    archive: 'package/<%=pkg.name%>-linux64-<%=pkg.version%>.zip'
                 },
                 files: [
-                    {expand: true, cwd: 'build/stream-tim/linux64', src: ['*'], dest: 'stream-tim'}
+                    {expand: true, cwd: 'build/<%=pkg.name%>/linux64', src: ['*'], dest: '<%=pkg.name%>'}
                 ]
             },
             windows: {
                 options: {
-                    archive: 'package/stream-tim-windows.zip'
+                    archive: 'package/<%=pkg.name%>-windows-<%=pkg.version%>.zip'
                 },
                 files: [
-                    {expand: true, cwd: 'build/stream-tim/win', src: ['*'], dest: 'stream-tim'}
+                    {expand: true, cwd: 'build/<%=pkg.name%>/win', src: ['*'], dest: '<%=pkg.name%>'}
                 ]
             }
         },
