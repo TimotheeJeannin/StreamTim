@@ -4,6 +4,7 @@ module.exports = function (config) {
 
         files: [
             'bower_components/jquery/dist/jquery.js',
+            'bower_components/d3/d3.js',
             'app/js/helpers.js',
             'app/js/linux.js',
             'app/js/view.js',

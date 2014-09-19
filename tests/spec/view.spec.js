@@ -67,4 +67,58 @@ describe('view', function () {
         expect(view.hideAll).toHaveBeenCalled();
         expect(console.log).toHaveBeenCalledWith('Showing prepareStream');
     });
+
+    it('should have a function to update the stream view', function () {
+
+        var numeral = function (num) {
+            return {
+                format: function () {
+                    return num;
+                }
+            };
+        };
+        var view = new View({}, numeral);
+
+        var numberOfPeers = $('#numberOfPeers');
+        var downloadedAmount = $('#downloadedAmount');
+
+        expect(numberOfPeers.html()).toEqual('');
+        expect(downloadedAmount.html()).toEqual('');
+
+        var buildEngine = function (wires, downloaded, downloadSpeed) {
+            return {
+                swarm: {
+                    wires: wires,
+                    downloaded: downloaded,
+                    downloadSpeed: function () {
+                        return downloadSpeed
+                    }
+                }}
+        };
+
+        spyOn(view, 'updateChart');
+
+        view.updateStreamView(buildEngine([1, 2, 3], 1, 1000));
+
+        expect(numberOfPeers.html()).toEqual('3');
+        expect(downloadedAmount.html()).toEqual('1');
+        expect(view.speeds[0]).toEqual(1);
+        expect(view.updateChart).not.toHaveBeenCalled();
+
+        view.updateStreamView(buildEngine([1, 2, 3, 4], 2, 2000));
+
+        expect(numberOfPeers.html()).toEqual('4');
+        expect(downloadedAmount.html()).toEqual('2');
+        expect(view.speeds[0]).toEqual(1);
+        expect(view.speeds[1]).toEqual(2);
+        expect(view.updateChart).toHaveBeenCalled();
+
+        view.speeds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+        view.updateStreamView(buildEngine([1, 2, 3, 4], 2, 2000));
+        view.updateStreamView(buildEngine([1, 2, 3, 4], 2, 2000));
+        view.updateStreamView(buildEngine([1, 2, 3, 4], 2, 2000));
+
+        expect(view.speeds.length).toEqual(20);
+    });
 });

@@ -1,7 +1,7 @@
 function View(gui, numeral) {
 
-    var speeds = [];
     var self = this;
+    this.speeds = [];
 
     this.show = function (divId) {
         console.log('Showing ' + divId);
@@ -33,10 +33,10 @@ function View(gui, numeral) {
         $('#numberOfPeers').html(engine.swarm.wires.length);
         $('#downloadedAmount').html(numeral(engine.swarm.downloaded).format('0.0 b'));
 
-        speeds.push(engine.swarm.downloadSpeed() / 1000);
+        this.speeds.push(engine.swarm.downloadSpeed() / 1000);
 
-        if (speeds.length > 20) speeds.shift();
-        if (speeds.length > 1) self.updateChart();
+        if (this.speeds.length > 20) this.speeds.shift();
+        if (this.speeds.length > 1) self.updateChart();
     };
 
     this.updateChart = function () {
@@ -47,7 +47,7 @@ function View(gui, numeral) {
             width = 600 - margin.left - margin.right,
             height = 200 - margin.top - margin.bottom;
 
-        var data = speeds.map(function (value, index) {
+        var data = this.speeds.map(function (value, index) {
             return {
                 index: index,
                 speed: value
