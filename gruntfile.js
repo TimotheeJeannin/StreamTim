@@ -8,9 +8,7 @@ module.exports = function (grunt) {
             },
             src: [
                 'app/**/*',
-                'theme/bootstrap-theme.css',
                 'package.json',
-                'bower_components/**/*',
                 'node_modules/**/*',
                 '!node_modules/grunt*/**/*',
                 '!node_modules/karma*/**/*'
@@ -52,6 +50,8 @@ module.exports = function (grunt) {
             compileTheme: {
                 files: {
                     "theme/bootstrap-theme.css": "theme/bootstrap-theme.less",
+                    "app/css/bootstrap-theme.css": "theme/bootstrap-theme.less",
+                    "web/bootstrap-theme.css": "theme/bootstrap-theme.less",
                     "web/style.css": "web/style.less"
                 },
                 options: {
