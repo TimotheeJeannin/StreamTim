@@ -1,6 +1,4 @@
-function Windows() {
-
-    var winreg = require('winreg');
+function Windows(winreg, childProcess) {
 
     var getVlcPath = function () {
         var vlcPath = undefined;
@@ -36,8 +34,7 @@ function Windows() {
     };
 
     this.runVlc = function (streamingAddress) {
-        var proc = require('child_process');
-        proc.execFile(getVlcPath(), [streamingAddress, '-q', '--play-and-exit']);
+        childProcess.execFile(getVlcPath(), [streamingAddress, '-q', '--play-and-exit']);
     };
 
     this.setupMagnetClickCatching = function () {

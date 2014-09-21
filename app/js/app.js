@@ -29,7 +29,7 @@ $(document).ready(function () {
     if (process.platform === 'linux') {
         os = new Linux();
     } else if (process.platform === 'win32') {
-        os = new Windows();
+        os = new Windows(require('winreg'), require('child_process'));
     }
 
     // Make sure the application is called when a magnet link is clicked.
