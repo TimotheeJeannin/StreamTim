@@ -4,13 +4,17 @@ describe('windows', function () {
 
     it('should have a function to check if vlc is installed', function () {
         var windows = new Windows();
-        spyOn(windows, 'getVlcPath').and.returnValue(undefined);
+        windows.getVlcPath = function (callback) {
+            callback(undefined);
+        };
         var callback = jasmine.createSpy('callback');
         windows.isVlcInstalled(callback);
         expect(callback).toHaveBeenCalledWith(false);
 
         windows = new Windows();
-        spyOn(windows, 'getVlcPath').and.returnValue('C:/Program/Vlc');
+        windows.getVlcPath = function (callback) {
+            callback('C:\\Program Files (x86)\\VideoLAN\\VLC');
+        };
         callback = jasmine.createSpy('callback');
         windows.isVlcInstalled(callback);
         expect(callback).toHaveBeenCalledWith(true);
@@ -60,6 +64,8 @@ describe('windows', function () {
         };
         mockWinreg.REG_SZ = 'REG_SZ';
         var windows = new Windows(mockWinreg);
-        expect(windows.getVlcPath()).toEqual('C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc');
+        var callback = jasmine.createSpy('callback');
+        windows.getVlcPath(callback);
+        expect(callback).toHaveBeenCalledWith('C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc');
     })
 });
