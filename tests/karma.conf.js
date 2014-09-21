@@ -3,8 +3,8 @@ module.exports = function (config) {
         basePath: '../',
 
         files: [
-            'bower_components/jquery/dist/jquery.js',
-            'bower_components/d3/d3.js',
+            'app/lib/jquery/dist/jquery.js',
+            'app/lib/d3/d3.js',
             'app/js/helpers.js',
             'app/js/linux.js',
             'app/js/mac.js',
