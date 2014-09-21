@@ -95,14 +95,10 @@ module.exports = function (grunt) {
                     port: 9002
                 }
             }
-        },
-        'gh-pages': {
-            src: ['web/**/*', 'theme/**/*']
         }
     });
     grunt.loadNpmTasks('grunt-node-webkit-builder');
     grunt.loadNpmTasks('grunt-file-creator');
-    grunt.loadNpmTasks('grunt-gh-pages');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');

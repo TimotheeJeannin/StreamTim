@@ -21,7 +21,6 @@
         "grunt-contrib-less": "~0.11",
         "grunt-contrib-watch": "~0.6",
         "grunt-file-creator": "^0.1.2",
-        "grunt-gh-pages": "^0.9.1",
         "grunt-node-webkit-builder": "^0.2.2",
         "karma": "~0.12",
         "karma-coverage": "~0.2",
