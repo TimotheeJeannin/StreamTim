@@ -7,6 +7,7 @@ module.exports = function (config) {
             'bower_components/d3/d3.js',
             'app/js/helpers.js',
             'app/js/linux.js',
+            'app/js/windows.js',
             'app/js/view.js',
             'tests/spec/*.spec.js',
             {pattern: 'app/*.html', watched: true, included: false, served: true}

@@ -1,6 +1,6 @@
 function Windows(winreg, childProcess) {
 
-    var getVlcPath = function () {
+    this.getVlcPath = function () {
         var vlcPath = undefined;
         $.each(['\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC',
             '\\SOFTWARE\\VideoLAN\\VLC'], function (index, regKeyPath) {
@@ -30,11 +30,11 @@ function Windows(winreg, childProcess) {
     };
 
     this.isVlcInstalled = function (callback) {
-        return callback(!(typeof getVlcPath() === 'undefined'));
+        return callback(!(typeof this.getVlcPath() === 'undefined'));
     };
 
     this.runVlc = function (streamingAddress) {
-        childProcess.execFile(getVlcPath(), [streamingAddress, '-q', '--play-and-exit']);
+        childProcess.execFile(this.getVlcPath(), [streamingAddress, '-q', '--play-and-exit']);
     };
 
     this.setupMagnetClickCatching = function () {
