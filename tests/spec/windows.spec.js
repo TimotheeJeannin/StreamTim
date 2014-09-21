@@ -37,7 +37,6 @@ describe('windows', function () {
         var windows = new Windows(mockWinreg);
         windows.setupMagnetClickCatching();
         expect(mockRegKey.set).toHaveBeenCalled();
-        console.log(mockRegKey.set.calls.argsFor(0));
         expect(mockRegKey.set.calls.argsFor(0)[0]).toEqual('');
         expect(mockRegKey.set.calls.argsFor(0)[1]).toEqual('REG_SZ');
         expect(mockRegKey.set.calls.argsFor(0)[2]).toEqual("\"" + process.execPath + "\" \"%1\"");
