@@ -20,6 +20,7 @@ function Windows(winreg, childProcess) {
                             if (/.*VLC/.test(items[key].value)) {
                                 vlcPath = items[key].value + '\\vlc';
                                 console.log('Found vlc path: ' + vlcPath);
+                                break;
                             }
                         }
                     }

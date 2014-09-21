@@ -38,4 +38,28 @@ describe('windows', function () {
         expect(mockRegKey.set.calls.argsFor(0)[1]).toEqual('REG_SZ');
         expect(mockRegKey.set.calls.argsFor(0)[2]).toEqual("\"" + process.execPath + "\" \"%1\"");
     });
+
+    it('should have a method that finds the path of Vlc', function () {
+        var mockRegKey = {
+            values: function (callback) {
+                callback(undefined, {
+                        'installDir': {
+                            name: 'installDir',
+                            type: 'REG_SZ',
+                            value: 'C:\\Program Files (x86)\\VideoLAN\\VLC'},
+                        'version': {
+                            name: 'version',
+                            type: 'REG_SZ',
+                            value: '5.6.8'}
+                    }
+                )
+            }
+        };
+        var mockWinreg = function () {
+            return mockRegKey
+        };
+        mockWinreg.REG_SZ = 'REG_SZ';
+        var windows = new Windows(mockWinreg);
+        expect(windows.getVlcPath()).toEqual('C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc');
+    })
 });
