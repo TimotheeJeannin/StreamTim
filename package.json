@@ -3,12 +3,10 @@
     "version": "0.0.1",
     "main": "app/index.html",
     "dependencies": {
-        "ansi-stripper": "0.0.1",
         "network-address": "0.0.4",
         "numeral": "^1.5.3",
         "peerflix": "^0.14.0",
-        "raven": "^0.7.2",
-        "windows-no-runnable": "0.0.6"
+        "winreg": "0.0.12"
     },
     "window": {
         "frame": false,

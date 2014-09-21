@@ -3,7 +3,6 @@ $(document).ready(function () {
     var gui = require('nw.gui');
     var peerflix = require('peerflix');
     var address = require('network-address');
-    var raven = require('raven');
     var numeral = require('numeral');
 
     if(debug){
