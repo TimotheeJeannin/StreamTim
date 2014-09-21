@@ -1,35 +1,47 @@
 function Windows(winreg, childProcess) {
 
-    this.getVlcPath = function (callback) {
-        $.each(['\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC',
-            '\\SOFTWARE\\VideoLAN\\VLC'], function (index, regKeyPath) {
-            var regKey = new winreg({
-                hive: winreg.HKLM,
-                key: regKeyPath
-            });
-            console.log('Checking values for registry path: ' + regKeyPath);
-            regKey.values(function (error, items) {
-                if (error) {
-                    console.error(error);
-                } else {
-                    for (var key in items) {
-                        if (items.hasOwnProperty(key)) {
-                            console.log('Checking registry values: ' +
-                                items[key].name + '\t' + items[key].type + '\t' + items[key].value);
-                            if (/.*VLC/.test(items[key].value)) {
-                                var vlcPath = items[key].value + '\\vlc';
-                                console.log('Found vlc path: ' + vlcPath);
-                                callback(vlcPath);
-                            }
+    var self = this;
+
+    this.searchRegistryForVlc = function (regKeyPath, callback) {
+        var regKey = new winreg({
+            hive: winreg.HKLM,
+            key: regKeyPath
+        });
+        console.log('Checking values for registry path: ' + regKeyPath);
+        regKey.values(function (error, items) {
+            if (error) {
+                console.error(error);
+                callback(undefined);
+            } else {
+                for (var key in items) {
+                    if (items.hasOwnProperty(key)) {
+                        console.log('Checking registry values: ' +
+                            items[key].name + '\t' + items[key].type + '\t' + items[key].value);
+                        if (/.*VLC/.test(items[key].value)) {
+                            var vlcPath = items[key].value + '\\vlc';
+                            console.log('Found vlc path: ' + vlcPath);
+                            callback(vlcPath);
+                            return;
                         }
                     }
                 }
-            });
+                callback(undefined);
+            }
+        });
+    };
+
+    this.getVlcPath = function (callback) {
+        self.searchRegistryForVlc('\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC', function (vlcPath) {
+            if (vlcPath) {
+                callback(vlcPath);
+            } else {
+                self.searchRegistryForVlc('\\SOFTWARE\\VideoLAN\\VLC', callback)
+            }
         });
     };
 
     this.isVlcInstalled = function (callback) {
-        this.getVlcPath(function (vlcPath) {
+        self.getVlcPath(function (vlcPath) {
             callback(!(typeof  vlcPath === 'undefined'));
         });
     };
