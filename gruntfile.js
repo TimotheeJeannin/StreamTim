@@ -1,7 +1,8 @@
 module.exports = function (grunt) {
+    var fs = require('fs');
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        aws: grunt.file.readJSON('aws.json'),
+        aws: fs.existsSync("aws.json") ? grunt.file.readJSON('aws.json') : {},
         nodewebkit: {
             options: {
                 platforms: ['linux64', 'win'],
