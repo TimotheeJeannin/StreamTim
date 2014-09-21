@@ -1,10 +1,9 @@
-function Linux() {
+function Linux(fs, childProcess) {
 
     var self = this;
 
     this.isProgramInstalled = function (programName, callback) {
-        var exec = require('child_process').exec;
-        exec('command -v ' + programName, function (error, stdout, stderr) {
+        childProcess.exec('command -v ' + programName, function (error, stdout, stderr) {
             if (error) {
                 callback(false);
             } else {
@@ -18,12 +17,10 @@ function Linux() {
     };
 
     this.runVlc = function (streamingAddress) {
-        var exec = require('child_process').exec;
-        exec('vlc ' + streamingAddress + ' -q --play-and-exit');
+        childProcess.exec('vlc ' + streamingAddress + ' -q --play-and-exit');
     };
 
     this.setupMagnetClickCatching = function () {
-        var fs = require('fs');
         fs.writeFile(
             "/usr/share/applications/stream-tim.desktop",
                 "[Desktop Entry]\n" +
@@ -42,8 +39,7 @@ function Linux() {
                 "X-AppInstall-Keywords=torrent ",
             createCallback("Properly added desktop entry.", "Failed to add desktop entry."));
 
-        var exec = require('child_process').exec;
-        exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ",
+        childProcess.exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ",
             createCallback("Properly invoked xdg-mime to be the default application for magnet links."));
     };
 }

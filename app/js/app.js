@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     var os = null;
     if (process.platform === 'linux') {
-        os = new Linux();
+        os = new Linux(require('fs'), require('child_process'));
     } else if (process.platform === 'win32') {
         os = new Windows(require('winreg'), require('child_process'));
     }
