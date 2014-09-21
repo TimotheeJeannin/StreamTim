@@ -30,6 +30,8 @@ $(document).ready(function () {
         os = new Linux(require('fs'), require('child_process'));
     } else if (process.platform === 'win32') {
         os = new Windows(require('winreg'), require('child_process'));
+    } else if (process.platform === 'darwin') {
+        os = new Mac(require('fs'), require('child_process'));
     }
 
     // Make sure the application is called when a magnet link is clicked.
