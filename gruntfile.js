@@ -105,8 +105,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
 
     grunt.registerTask('debug', ['file-creator:debug', 'nodewebkit']);
-    grunt.registerTask('release', ['file-creator:release', 'nodewebkit']);
-    grunt.registerTask('package', ['file-creator:release', 'nodewebkit', 'compress']);
+    grunt.registerTask('release', ['file-creator:release', 'nodewebkit', 'file-creator:debug']);
+    grunt.registerTask('package', ['release', 'compress']);
 
     grunt.registerTask('default', ['less', 'connect', 'watch']);
 };
