@@ -5,7 +5,7 @@ $(document).ready(function () {
     var address = require('network-address');
     var numeral = require('numeral');
 
-    if(debug){
+    if (debug) {
         gui.Window.get().showDevTools();
     }
 
@@ -21,15 +21,22 @@ $(document).ready(function () {
             setInterval(function () {
                 view.updateStreamView(engine);
             }, 1000);
-            system.runVlc('http://' + address() + ':' + engine.server.address().port + '/');
+            os.runVlc('http://' + address() + ':' + engine.server.address().port + '/');
         });
     };
 
-    var system = getSystem();
-    system.setupMagnetClickCatching();
+    var os = null;
+    if (process.platform === 'linux') {
+        os = new Linux();
+    } else if (process.platform === 'win32') {
+        os = new Windows();
+    }
+
+    // Make sure the application is called when a magnet link is clicked.
+    os.setupMagnetClickCatching();
 
     // Check if vlc is installed.
-    system.isVlcInstalled(function (installed) {
+    os.isVlcInstalled(function (installed) {
         if (installed) {
             // If a magnet link has been supplied as argument.
             if (gui.App.argv[0]) {

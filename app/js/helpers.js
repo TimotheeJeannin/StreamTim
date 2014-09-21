@@ -8,11 +8,3 @@ var createCallback = function (successMessage, errorMessage) {
         }
     }
 };
-
-var getSystem = function () {
-    if (process.platform === 'linux') {
-        return new Linux();
-    } else if (process.platform === 'win32') {
-        return new Windows();
-    }
-};
