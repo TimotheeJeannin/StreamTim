@@ -1,6 +1,7 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        aws: grunt.file.readJSON('aws.json'),
         nodewebkit: {
             options: {
                 platforms: ['linux64', 'win'],
@@ -95,10 +96,30 @@ module.exports = function (grunt) {
                     port: 9002
                 }
             }
+        },
+        aws_s3: {
+            options: {
+                accessKeyId: '<%= aws.AWSAccessKeyId %>', // Use the variables
+                secretAccessKey: '<%= aws.AWSSecretKey %>', // You can also use env variables
+                region: 'us-west-2',
+                bucket: 'www.streamtim.com',
+                differential: true
+            },
+            site: {
+                files: [
+                    {expand: true, cwd: 'web/', src: ['**'], dest: './'}
+                ]
+            },
+            packages: {
+                files: [
+                    {expand: true, cwd: 'package/', src: ['**'], dest: './package', stream: true}
+                ]
+            }
         }
     });
     grunt.loadNpmTasks('grunt-node-webkit-builder');
     grunt.loadNpmTasks('grunt-file-creator');
+    grunt.loadNpmTasks('grunt-aws-s3');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
@@ -107,6 +128,7 @@ module.exports = function (grunt) {
     grunt.registerTask('debug', ['file-creator:debug', 'nodewebkit']);
     grunt.registerTask('release', ['file-creator:release', 'nodewebkit', 'file-creator:debug']);
     grunt.registerTask('package', ['release', 'compress']);
+    grunt.registerTask('deploy', ['package', 'aws_s3:packages']);
 
     grunt.registerTask('default', ['less', 'connect', 'watch']);
 };
