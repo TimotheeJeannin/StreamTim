@@ -131,6 +131,8 @@ module.exports = function (grunt) {
     grunt.registerTask('package', ['release', 'compress']);
     grunt.registerTask('deploy', ['package', 'aws_s3:packages']);
 
+    grunt.registerTask('site', ['aws_s3:site']);
+
     grunt.registerTask('default', ['less', 'connect', 'watch']);
 };
 
