@@ -47,7 +47,9 @@ function Windows(winreg, childProcess) {
     };
 
     this.runVlc = function (streamingAddress) {
-        childProcess.execFile(this.getVlcPath(), [streamingAddress, '-q', '--play-and-exit']);
+        self.getVlcPath(function (vlcPath) {
+            childProcess.execFile(vlcPath, [streamingAddress, '-q', '--play-and-exit']);
+        });
     };
 
     this.setupMagnetClickCatching = function () {
