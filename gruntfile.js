@@ -46,6 +46,10 @@ module.exports = function (grunt) {
                 ]
             }
         },
+        clean: {
+            package: ['package'],
+            build: ['build']
+        },
         "file-creator": {
             "debug": {
                 "./app/js/debug.js": function (fs, fd, done) {
@@ -136,6 +140,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
 
     grunt.registerTask('shareDebug', ['nodewebkit:shared']);
@@ -145,7 +150,7 @@ module.exports = function (grunt) {
     grunt.registerTask('release', ['file-creator:release', 'nodewebkit:local', 'file-creator:debug']);
 
     grunt.registerTask('package', ['release', 'compress']);
-    grunt.registerTask('deploy', ['package', 'aws_s3:packages']);
+    grunt.registerTask('deploy', ['clean', 'package', 'aws_s3:packages']);
 
     grunt.registerTask('site', ['aws_s3:site']);
 
