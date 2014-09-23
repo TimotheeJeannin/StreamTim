@@ -11,6 +11,7 @@ module.exports = function (grunt) {
             src: [
                 'app/**/*',
                 'package.json',
+                'bower_components/**/*',
                 'node_modules/**/*',
                 '!node_modules/grunt*/**/*',
                 '!node_modules/karma*/**/*'
