@@ -3,19 +3,30 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         aws: fs.existsSync("aws.json") ? grunt.file.readJSON('aws.json') : {},
+        sources: [
+            'app/**/*',
+            'package.json',
+            'bower_components/**/*',
+            'node_modules/**/*',
+            '!node_modules/grunt*/**/*',
+            '!node_modules/karma*/**/*'
+        ],
         nodewebkit: {
             options: {
-                platforms: ['linux64', 'win'],
-                buildDir: 'build'
+                platforms: ['linux64', 'win']
             },
-            src: [
-                'app/**/*',
-                'package.json',
-                'bower_components/**/*',
-                'node_modules/**/*',
-                '!node_modules/grunt*/**/*',
-                '!node_modules/karma*/**/*'
-            ]
+            shared: {
+                options: {
+                    buildDir: '/mnt/hgfs/SharedVMFolder'
+                },
+                src: ['<%= sources %>']
+            },
+            local: {
+                options: {
+                    buildDir: 'build'
+                },
+                src: ['<%= sources %>']
+            }
         },
         compress: {
             linux64: {
@@ -127,8 +138,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-connect');
 
-    grunt.registerTask('debug', ['file-creator:debug', 'nodewebkit']);
-    grunt.registerTask('release', ['file-creator:release', 'nodewebkit', 'file-creator:debug']);
+    grunt.registerTask('shareDebug', ['nodewebkit:shared']);
+    grunt.registerTask('shareRelease', ['file-creator:release', 'nodewebkit:shared', 'file-creator:debug']);
+
+    grunt.registerTask('debug', ['nodewebkit:local']);
+    grunt.registerTask('release', ['file-creator:release', 'nodewebkit:local', 'file-creator:debug']);
+
     grunt.registerTask('package', ['release', 'compress']);
     grunt.registerTask('deploy', ['package', 'aws_s3:packages']);
 
