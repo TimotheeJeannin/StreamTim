@@ -44,7 +44,7 @@ describe('linux', function () {
         var mockFs = jasmine.createSpyObj('fs', ['writeFile']);
         var mockChildProcess = jasmine.createSpyObj('childProcess', ['exec']);
         var linux = new Linux(mockFs, mockChildProcess);
-        linux.setupMagnetClickCatching();
+        linux.setupMagnetLinkAssociation();
 
         expect(mockChildProcess.exec.calls.argsFor(0)[0]).toEqual("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ");
         expect(mockFs.writeFile.calls.argsFor(0)[0]).toEqual('/usr/share/applications/stream-tim.desktop');

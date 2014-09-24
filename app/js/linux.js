@@ -20,7 +20,7 @@ function Linux(fs, childProcess) {
         childProcess.exec('vlc ' + streamingAddress + ' -q --play-and-exit');
     };
 
-    this.setupMagnetClickCatching = function () {
+    this.setupMagnetLinkAssociation = function () {
         fs.writeFile(
             "/usr/share/applications/stream-tim.desktop",
                 "[Desktop Entry]\n" +

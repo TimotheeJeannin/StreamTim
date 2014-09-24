@@ -35,7 +35,7 @@ $(document).ready(function () {
     }
 
     // Make sure the application is called when a magnet link is clicked.
-    os.setupMagnetClickCatching();
+    os.setupMagnetLinkAssociation();
 
     // Check if vlc is installed.
     os.isVlcInstalled(function (installed) {

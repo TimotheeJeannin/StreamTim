@@ -52,7 +52,7 @@ function Windows(winreg, childProcess) {
         });
     };
 
-    this.setupMagnetClickCatching = function () {
+    this.setupMagnetLinkAssociation = function () {
         var regKey = new winreg({
             hive: winreg.HKCR,
             key: '\\magnet\\shell\\open\\command'

@@ -10,7 +10,7 @@ function Mac(fs, childProcess) {
         childProcess.exec('/Applications/VLC.app/Contents/MacOS/VLC ' + streamingAddress + ' -q --play-and-exit');
     };
 
-    this.setupMagnetClickCatching = function () {
+    this.setupMagnetLinkAssociation = function () {
         // TODO
     };
 }

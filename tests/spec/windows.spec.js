@@ -37,7 +37,7 @@ describe('windows', function () {
         };
         mockWinreg.REG_SZ = 'REG_SZ';
         var windows = new Windows(mockWinreg);
-        windows.setupMagnetClickCatching();
+        windows.setupMagnetLinkAssociation();
         expect(mockRegKey.set).toHaveBeenCalled();
         expect(mockRegKey.set.calls.argsFor(0)[0]).toEqual('');
         expect(mockRegKey.set.calls.argsFor(0)[1]).toEqual('REG_SZ');
