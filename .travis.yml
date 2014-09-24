@@ -1,4 +1,7 @@
 language: node_js
+addons:
+  code_climate:
+    repo_token: e3d09f93f087861663cba1467fdb467bd1f649a152c4ac16e3fb5da7f1105f4e
 node_js:
   - 0.11
 before_script:
@@ -8,3 +11,5 @@ before_script:
   - export NODEWEBKIT_BIN=/home/travis/build/TimotheeJeannin/StreamTim/cache/0.10.5/linux64/nw
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+after_script:
+  - cat coverage/nodewebkit/lcov.info | codeclimate

@@ -18,6 +18,11 @@ module.exports = function (config) {
             'app/js/*.js': ['coverage']
         },
 
+        coverageReporter: {
+            type: 'lcovonly',
+            subdir: 'nodewebkit'
+        },
+
         frameworks: ['jasmine'],
 
         browsers: ['NodeWebkit']
