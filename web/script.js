@@ -42,9 +42,18 @@ $(document).ready(function () {
         });
 
         var latestWindows = findGreaterSemVer(windowsPackages);
-        $('a#windowsDownload').attr('href', '/package/stream-tim-windows-' + semVerToString(latestWindows) + '.zip');
+        var windowsButton = $('a#windowsDownload');
+        windowsButton.attr('href', '/package/stream-tim-windows-' + semVerToString(latestWindows) + '.zip');
+        windowsButton.click(function () {
+            ga('send', 'event', 'button', 'click', 'windows ' + semVerToString(latestWindows));
+        });
+
 
         var latestLinux = findGreaterSemVer(linuxPackages);
-        $('a#linuxDownload').attr('href', '/package/stream-tim-linux64-' + semVerToString(latestLinux) + '.zip');
+        var linuxButton = $('a#linuxDownload');
+        linuxButton.attr('href', '/package/stream-tim-linux64-' + semVerToString(latestLinux) + '.zip');
+        linuxButton.click(function () {
+            ga('send', 'event', 'button', 'click', 'linux64 ' + semVerToString(latestLinux));
+        });
     });
 });
