@@ -30,6 +30,9 @@ function findGreaterSemVer(fileNames) {
 }
 
 $(document).ready(function () {
+
+    $('.carousel').carousel();
+
     $.get('http://www.streamtim.com.s3.amazonaws.com/', function (data) {
         var allBucketFiles = $(data).find('Contents').map(function () {
             return $(this).find('Key').text();
