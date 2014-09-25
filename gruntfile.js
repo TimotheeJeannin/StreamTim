@@ -81,29 +81,22 @@ module.exports = function (grunt) {
             }
         },
         watch: {
+            options: {
+                livereload: true
+            },
             less: {
                 files: [
                     "theme/*.less",
                     "web/style.less"
                 ],
-                tasks: ['less'],
-                options: {
-                    livereload: {
-                        port: 35728
-                    }
-                }
+                tasks: ['less']
             },
             html: {
                 files: [
                     "theme/bootstrap-theme-test.html",
                     "web/index.html",
                     "app/index.html"
-                ],
-                options: {
-                    livereload: {
-                        port: 35728
-                    }
-                }
+                ]
             }
         },
         connect: {
