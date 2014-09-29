@@ -13,11 +13,11 @@ module.exports = function (grunt) {
         ],
         nodewebkit: {
             options: {
-                platforms: ['linux64', 'win']
+                platforms: ['linux64', 'win', 'osx']
             },
             shared: {
                 options: {
-                    buildDir: '/mnt/hgfs/SharedVMFolder'
+                    buildDir: '/mnt/hgfs/s'
                 },
                 src: ['<%= sources %>']
             },
@@ -47,6 +47,14 @@ module.exports = function (grunt) {
             }
         },
         clean: {
+            node_modules: [
+                'node_modules/**/test',
+                'node_modules/**/tests',
+                'node_modules/**/README*',
+                'node_modules/**/readme*',
+                'node_modules/**/*.md',
+                'node_modules/**/LICENSE*',
+                'node_modules/**/.travis.yml'],
             package: ['package'],
             build: ['build']
         },
@@ -142,8 +150,8 @@ module.exports = function (grunt) {
     grunt.registerTask('debug', ['nodewebkit:local']);
     grunt.registerTask('release', ['file-creator:release', 'nodewebkit:local', 'file-creator:debug']);
 
-    grunt.registerTask('package', ['release', 'compress']);
-    grunt.registerTask('deploy', ['clean', 'package', 'aws_s3:packages']);
+    grunt.registerTask('package', ['clean', 'release', 'compress']);
+    grunt.registerTask('deploy', ['package', 'aws_s3:packages']);
 
     grunt.registerTask('site', ['aws_s3:site']);
 
