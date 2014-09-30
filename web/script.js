@@ -29,31 +29,26 @@ function findGreaterSemVer(fileNames) {
     return semVer;
 }
 
+function setUpDownloadLink(bucketFiles, os) {
+    var packages = $.grep(bucketFiles, function (item) {
+        return new RegExp("^package\/stream-tim-" + os + ".*\\.zip$").test(item);
+    });
+
+    var latestWindows = findGreaterSemVer(packages);
+    var button = $('a#' + os + 'Download');
+    button.attr('href', '/package/stream-tim-' + os + '-' + semVerToString(latestWindows) + '.zip');
+    button.click(function () {
+        ga('send', 'event', 'button', 'click', os + ' ' + semVerToString(latestWindows));
+    });
+}
+
 $(document).ready(function () {
     $.get('http://www.streamtim.com.s3.amazonaws.com/', function (data) {
         var allBucketFiles = $(data).find('Contents').map(function () {
             return $(this).find('Key').text();
         }).toArray();
-        var windowsPackages = $.grep(allBucketFiles, function (item) {
-            return /^package\/stream-tim-windows.*\.zip$/.test(item);
-        });
-        var linuxPackages = $.grep(allBucketFiles, function (item) {
-            return /^package\/stream-tim-linux64.*\.zip$/.test(item);
-        });
-
-        var latestWindows = findGreaterSemVer(windowsPackages);
-        var windowsButton = $('a#windowsDownload');
-        windowsButton.attr('href', '/package/stream-tim-windows-' + semVerToString(latestWindows) + '.zip');
-        windowsButton.click(function () {
-            ga('send', 'event', 'button', 'click', 'windows ' + semVerToString(latestWindows));
-        });
-
-
-        var latestLinux = findGreaterSemVer(linuxPackages);
-        var linuxButton = $('a#linuxDownload');
-        linuxButton.attr('href', '/package/stream-tim-linux64-' + semVerToString(latestLinux) + '.zip');
-        linuxButton.click(function () {
-            ga('send', 'event', 'button', 'click', 'linux64 ' + semVerToString(latestLinux));
-        });
+        setUpDownloadLink(allBucketFiles, 'windows');
+        setUpDownloadLink(allBucketFiles, 'linux64');
+        setUpDownloadLink(allBucketFiles, 'mac');
     });
 });
