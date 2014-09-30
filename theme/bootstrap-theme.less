@@ -1,11 +1,11 @@
 @import "../bower_components/bootstrap/less/bootstrap";
-@import url(https://fonts.googleapis.com/css?family=Raleway);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
 @import "bootstrap-theme-colors";
 
 //== Typography
 //
 //## Font, line-height, and color for body text, headings, and more.
-@font-family-base: 'Raleway', Verdana, Arial, sans-serif;
+@font-family-base: 'Ubuntu', Verdana, Arial, sans-serif;
 
 //== Scaffolding
 //
@@ -17,9 +17,9 @@
 @border-radius-large: 0px;
 @border-radius-small: 0px;
 
-@body-bg: #2F3238;
+@body-bg: #ffffff;
 
-@text-color: #acacac;
+@text-color: #4a4d4f;
 
 //== Buttons
 //
@@ -28,7 +28,7 @@
 @btn-font-weight: normal;
 
 @btn-default-color: lighten(@text-color, 20%);
-@btn-default-bg: lighten(@body-bg, 5%);
+@btn-default-bg: darken(@body-bg, 5%);
 @btn-default-border: transparent;
 
 //== Forms
@@ -90,7 +90,7 @@
 //## Customizes the `.table` component with basic values, each used across all table variations.
 
 @table-bg-accent: darken(@body-bg, 5%);
-@table-bg-hover: lighten(@body-bg, 5%);
+@table-bg-hover: darken(@body-bg, 15%);
 @table-bg-active: @table-bg-hover;
 @table-border-color: @table-bg-hover;
 
@@ -105,10 +105,10 @@
 //##
 
 @panel-bg: darken(@body-bg, 5%);
-@panel-inner-border: lighten(@body-bg, 5%);
+@panel-inner-border: darken(@body-bg, 5%);
 @panel-footer-bg: darken(@body-bg, 5%);
 @panel-default-text: @text-color;
-@panel-default-border: lighten(@body-bg, 5%);
+@panel-default-border: darken(@body-bg, 5%);
 @panel-default-heading-bg: darken(@body-bg, 5%);
 @panel-primary-text: @text-color;
 
@@ -117,13 +117,13 @@
 //##
 
 @list-group-bg: darken(@body-bg, 5%);
-@list-group-border: lighten(@body-bg, 5%);
-@list-group-hover-bg: lighten(@body-bg, 5%);
+@list-group-border: darken(@body-bg, 5%);
+@list-group-hover-bg: darken(@body-bg, 5%);
 @list-group-link-heading-color: @text-color;
 
 //== Type
 //
 //##
 
-@page-header-border-color: lighten(@body-bg, 10%);
-@hr-border: lighten(@body-bg, 10%);
+@page-header-border-color: darken(@body-bg, 10%);
+@hr-border: darken(@body-bg, 10%);
