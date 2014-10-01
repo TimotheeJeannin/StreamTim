@@ -6,6 +6,7 @@
 //
 //## Font, line-height, and color for body text, headings, and more.
 @font-family-base: 'Ubuntu', Verdana, Arial, sans-serif;
+@font-size-base: 18px;
 
 //== Scaffolding
 //
@@ -19,7 +20,7 @@
 
 @body-bg: #ffffff;
 
-@text-color: #4a4d4f;
+@text-color: #383a3c;
 
 //== Buttons
 //
@@ -99,6 +100,9 @@
 //##
 
 @jumbotron-bg: darken(@body-bg, 5%);
+.jumbotron h1 {
+  font-size: (@font-size-base * 3.8);
+}
 
 //== Panels
 //

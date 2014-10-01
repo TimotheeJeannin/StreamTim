@@ -12,6 +12,9 @@
         "frame": false,
         "toolbar": false,
         "resizable": false,
+        "position": "center",
+        "width": 800,
+        "height": 500,
         "title": "StreamTim"
     },
     "devDependencies": {

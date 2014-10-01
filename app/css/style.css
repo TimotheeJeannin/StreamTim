@@ -1,5 +1,9 @@
 html, body, .container {
     -webkit-app-region: drag;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
     height: 100%;
 }
 
@@ -39,7 +43,7 @@ span.glyphicon-magnet {
     padding: 20px;
 }
 
-div.container div.st-centered {
+div.st-centered {
     text-align: center;
 }
 
