@@ -2,7 +2,18 @@
 
 describe('view', function () {
 
-    var waitMagnet, noVlcFound, prepareStream, streamView;
+    var waitMagnet, noVlcFound, prepareStream, streamView, view, gui;
+
+    var buildEngine = function (wires, downloaded, downloadSpeed) {
+        return {
+            swarm: {
+                wires: wires,
+                downloaded: downloaded,
+                downloadSpeed: function () {
+                    return downloadSpeed
+                }
+            }}
+    };
 
     beforeEach(function () {
 
@@ -18,6 +29,18 @@ describe('view', function () {
         noVlcFound = $('div#noVlcFound');
         prepareStream = $('div#prepareStream');
         streamView = $('div#streamView');
+
+        var numeral = function (num) {
+            return {
+                format: function () {
+                    return num;
+                }
+            };
+        };
+
+        gui = { Shell: {openExternal: jasmine.createSpy('openExternal') } };
+
+        view = new View(gui, numeral);
     });
 
     afterEach(function () {
@@ -25,8 +48,6 @@ describe('view', function () {
     });
 
     it('should have a function that hide all in the page', function () {
-
-        var view = new View();
 
         expect(waitMagnet.is(":visible")).toBeTruthy();
         expect(noVlcFound.is(":visible")).toBeTruthy();
@@ -42,9 +63,6 @@ describe('view', function () {
     });
 
     it('should have a function that initialise the page', function () {
-        var gui = { Shell: {openExternal: jasmine.createSpy('openExternal') } };
-        var view = new View(gui);
-
         spyOn(window, 'close');
         view.initialise();
 
@@ -56,7 +74,6 @@ describe('view', function () {
     });
 
     it('should have a show function to show some parts of the interface', function () {
-        var view = new View();
         view.hideAll();
         spyOn(view, 'hideAll');
         spyOn(console, 'log');
@@ -70,31 +87,11 @@ describe('view', function () {
 
     it('should have a function to update the stream view', function () {
 
-        var numeral = function (num) {
-            return {
-                format: function () {
-                    return num;
-                }
-            };
-        };
-        var view = new View({}, numeral);
-
         var numberOfPeers = $('#numberOfPeers');
         var downloadedAmount = $('#downloadedAmount');
 
         expect(numberOfPeers.html()).toEqual('');
         expect(downloadedAmount.html()).toEqual('');
-
-        var buildEngine = function (wires, downloaded, downloadSpeed) {
-            return {
-                swarm: {
-                    wires: wires,
-                    downloaded: downloaded,
-                    downloadSpeed: function () {
-                        return downloadSpeed
-                    }
-                }}
-        };
 
         spyOn(view, 'updateChart');
 
