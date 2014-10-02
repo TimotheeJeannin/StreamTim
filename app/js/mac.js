@@ -6,8 +6,8 @@ function Mac(fs, childProcess) {
         fs.exists('/Applications/VLC.app', callback);
     };
 
-    this.runVlc = function (streamingAddress) {
-        childProcess.exec('/Applications/VLC.app/Contents/MacOS/VLC ' + streamingAddress + ' -q --play-and-exit');
+    this.runVlc = function (streamingAddress, callback) {
+        childProcess.exec('/Applications/VLC.app/Contents/MacOS/VLC ' + streamingAddress + ' -q --play-and-exit', callback);
     };
 
     this.setupMagnetLinkAssociation = function () {

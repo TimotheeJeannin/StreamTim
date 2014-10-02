@@ -14,7 +14,8 @@ describe('mac', function () {
     it('should have a method that launches vlc', function () {
         var mockChildProcess = jasmine.createSpyObj('childProcess', ['exec']);
         var mac = new Mac({}, mockChildProcess);
-        mac.runVlc('192.168.9.9');
-        expect(mockChildProcess.exec).toHaveBeenCalledWith('/Applications/VLC.app/Contents/MacOS/VLC 192.168.9.9 -q --play-and-exit');
+        mac.runVlc('192.168.9.9', 'callback');
+        expect(mockChildProcess.exec)
+            .toHaveBeenCalledWith('/Applications/VLC.app/Contents/MacOS/VLC 192.168.9.9 -q --play-and-exit', 'callback');
     });
 });
