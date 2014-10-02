@@ -46,9 +46,9 @@ function Windows(winreg, childProcess) {
         });
     };
 
-    this.runVlc = function (streamingAddress) {
+    this.runVlc = function (streamingAddress, callback) {
         self.getVlcPath(function (vlcPath) {
-            childProcess.execFile(vlcPath, [streamingAddress, '-q', '--play-and-exit']);
+            childProcess.execFile(vlcPath, [streamingAddress, '-q', '--play-and-exit'], callback);
         });
     };
 

@@ -36,8 +36,8 @@ describe('linux', function () {
     it('should have a method that launches vlc', function () {
         var mockChildProcess = jasmine.createSpyObj('childProcess', ['exec']);
         var linux = new Linux({}, mockChildProcess);
-        linux.runVlc('192.168.9.9');
-        expect(mockChildProcess.exec).toHaveBeenCalledWith('vlc 192.168.9.9 -q --play-and-exit');
+        linux.runVlc('192.168.9.9', 'callback');
+        expect(mockChildProcess.exec).toHaveBeenCalledWith('vlc 192.168.9.9 -q --play-and-exit', 'callback');
     });
 
     it('should have a method that setup the magnet link association', function () {

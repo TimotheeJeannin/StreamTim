@@ -18,10 +18,16 @@ $(document).ready(function () {
         var engine = peerflix(magnetLink);
         engine.server.on('listening', function () {
             view.show('streamView');
-            setInterval(function () {
+            var interval = setInterval(function () {
                 view.updateStreamView(engine);
             }, 1000);
-            os.runVlc('http://' + address() + ':' + engine.server.address().port + '/');
+            os.runVlc('http://' + address() + ':' + engine.server.address().port + '/', function () {
+                engine.destroy(function () {
+                    clearInterval(interval);
+                    view.resetStreamView();
+                    view.show('waitMagnet');
+                });
+            });
         });
     };
 

@@ -16,8 +16,8 @@ function Linux(fs, childProcess) {
         return self.isProgramInstalled('vlc', callback);
     };
 
-    this.runVlc = function (streamingAddress) {
-        childProcess.exec('vlc ' + streamingAddress + ' -q --play-and-exit');
+    this.runVlc = function (streamingAddress, callback) {
+        childProcess.exec('vlc ' + streamingAddress + ' -q --play-and-exit', callback);
     };
 
     this.setupMagnetLinkAssociation = function () {

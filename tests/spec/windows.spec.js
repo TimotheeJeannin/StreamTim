@@ -26,8 +26,8 @@ describe('windows', function () {
         windows.searchRegistryForVlc = function (regKeyPath, callback) {
             callback('test_path');
         };
-        windows.runVlc('192.168.9.9');
-        expect(mockChildProcess.execFile).toHaveBeenCalledWith('test_path', [ '192.168.9.9', '-q', '--play-and-exit' ]);
+        windows.runVlc('192.168.9.9', 'callback');
+        expect(mockChildProcess.execFile).toHaveBeenCalledWith('test_path', [ '192.168.9.9', '-q', '--play-and-exit' ], 'callback');
     });
 
     it('should have a method that setup the magnet link catching', function () {
