@@ -5,7 +5,7 @@
     "dependencies": {
         "network-address": "0.0.4",
         "numeral": "^1.5.3",
-        "peerflix": "^0.17.0",
+        "peerflix": "^0.18.0",
         "winreg": "0.0.12"
     },
     "window": {
