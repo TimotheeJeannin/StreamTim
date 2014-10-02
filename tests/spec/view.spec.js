@@ -85,6 +85,15 @@ describe('view', function () {
         expect(console.log).toHaveBeenCalledWith('Showing prepareStream');
     });
 
+    it('should have a function that resets the stream view', function () {
+        view.updateStreamView(buildEngine([1, 2, 3], 1, 1000));
+        view.resetStreamView();
+        expect($('#numberOfPeers').html()).toEqual('');
+        expect($('#downloadedAmount').html()).toEqual('');
+        expect(view.speeds).toEqual([]);
+        expect($('svg').is(':empty')).toBeTruthy();
+    });
+
     it('should have a function to update the stream view', function () {
 
         var numberOfPeers = $('#numberOfPeers');

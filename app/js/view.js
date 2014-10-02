@@ -39,6 +39,16 @@ function View(gui, numeral) {
         if (this.speeds.length > 1) self.updateChart();
     };
 
+    this.resetStreamView = function () {
+
+        $('#numberOfPeers').html('');
+        $('#downloadedAmount').html('');
+
+        this.speeds = [];
+
+        $('svg').empty();
+    };
+
     this.updateChart = function () {
 
         $('svg').empty();
