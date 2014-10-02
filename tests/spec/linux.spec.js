@@ -40,13 +40,31 @@ describe('linux', function () {
         expect(mockChildProcess.exec).toHaveBeenCalledWith('vlc 192.168.9.9 -q --play-and-exit');
     });
 
-    it('should have a method that setup the magnet link catching', function () {
+    it('should have a method that setup the magnet link association', function () {
         var mockFs = jasmine.createSpyObj('fs', ['writeFile']);
-        var mockChildProcess = jasmine.createSpyObj('childProcess', ['exec']);
+        var mockChildProcess = {
+            exec: function (command, callback) {
+                callback(null, '  \n  test.desktop  ');
+            }
+        };
         var linux = new Linux(mockFs, mockChildProcess);
         linux.setupMagnetLinkAssociation();
 
-        expect(mockChildProcess.exec.calls.argsFor(0)[0]).toEqual("xdg-mime query default x-scheme-handler/magnet");
-        expect(mockFs.writeFile.calls.argsFor(0)[0]).toEqual('/usr/share/applications/stream-tim.desktop');
+        expect(linux.previousMagnetLinkAssociation).toEqual('test.desktop');
+    });
+
+    it('should have a method that restore the previous magnet link association', function () {
+        var mockChildProcess = {
+            exec: function (command, callback) {
+                callback();
+            }
+        };
+        var callback = jasmine.createSpy('callback');
+        var linux = new Linux({}, mockChildProcess);
+        linux.restorePreviousMagnetLinkAssociation(callback);
+        expect(callback).toHaveBeenCalled();
+        linux.previousMagnetLinkAssociation = 'test.desktop';
+        linux.restorePreviousMagnetLinkAssociation(callback);
+        expect(callback).toHaveBeenCalled();
     });
 });

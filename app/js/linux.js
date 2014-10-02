@@ -40,11 +40,11 @@ function Linux(fs, childProcess) {
             createCallback("Properly added desktop entry.", "Failed to add desktop entry."));
 
         childProcess.exec("xdg-mime query default x-scheme-handler/magnet", function (error, stdout) {
-
-            var cleanedStdout = stdout.replace(/(\r\n|\n|\r)/gm, "").trim();
-            self.previousMagnetLinkAssociation = cleanedStdout;
-            console.log('Storing previous magnet link association: ' + cleanedStdout);
-
+            if (stdout) {
+                var cleanedStdout = stdout.replace(/(\r\n|\n|\r)/gm, "").trim();
+                self.previousMagnetLinkAssociation = cleanedStdout;
+                console.log('Storing previous magnet link association: ' + cleanedStdout);
+            }
             childProcess.exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ",
                 createCallback("Properly invoked xdg-mime to be the default application for magnet links."));
         });
@@ -62,6 +62,8 @@ function Linux(fs, childProcess) {
                     }
                     callback();
                 });
+        } else {
+            callback();
         }
     };
 }
