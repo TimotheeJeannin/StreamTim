@@ -39,7 +39,29 @@ function Linux(fs, childProcess) {
                 "X-AppInstall-Keywords=torrent ",
             createCallback("Properly added desktop entry.", "Failed to add desktop entry."));
 
-        childProcess.exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ",
-            createCallback("Properly invoked xdg-mime to be the default application for magnet links."));
+        childProcess.exec("xdg-mime query default x-scheme-handler/magnet", function (error, stdout) {
+
+            var cleanedStdout = stdout.replace(/(\r\n|\n|\r)/gm, "").trim();
+            self.previousMagnetLinkAssociation = cleanedStdout;
+            console.log('Storing previous magnet link association: ' + cleanedStdout);
+
+            childProcess.exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ",
+                createCallback("Properly invoked xdg-mime to be the default application for magnet links."));
+        });
+    };
+
+    this.restorePreviousMagnetLinkAssociation = function (callback) {
+        if (self.previousMagnetLinkAssociation) {
+            childProcess.exec("xdg-mime default " + self.previousMagnetLinkAssociation + " x-scheme-handler/magnet ",
+                function (error) {
+                    if (error) {
+                        console.error(error);
+                        console.log(error.message);
+                    } else {
+                        console.log('Properly restored previous magnet link association.')
+                    }
+                    callback();
+                });
+        }
     };
 }

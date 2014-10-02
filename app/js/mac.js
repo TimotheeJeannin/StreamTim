@@ -13,4 +13,8 @@ function Mac(fs, childProcess) {
     this.setupMagnetLinkAssociation = function () {
         // TODO
     };
+
+    this.restorePreviousMagnetLinkAssociation = function () {
+        // TODO
+    };
 }

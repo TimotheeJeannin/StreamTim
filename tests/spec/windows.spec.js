@@ -31,17 +31,15 @@ describe('windows', function () {
     });
 
     it('should have a method that setup the magnet link catching', function () {
-        var mockRegKey = jasmine.createSpyObj('regKey', ['set']);
+        var mockRegKey = jasmine.createSpyObj('regKey', ['set', 'get']);
         var mockWinreg = function () {
             return mockRegKey
         };
         mockWinreg.REG_SZ = 'REG_SZ';
         var windows = new Windows(mockWinreg);
         windows.setupMagnetLinkAssociation();
-        expect(mockRegKey.set).toHaveBeenCalled();
-        expect(mockRegKey.set.calls.argsFor(0)[0]).toEqual('');
-        expect(mockRegKey.set.calls.argsFor(0)[1]).toEqual('REG_SZ');
-        expect(mockRegKey.set.calls.argsFor(0)[2]).toEqual("\"" + process.execPath + "\" \"%1\"");
+        expect(mockRegKey.get).toHaveBeenCalled();
+        expect(mockRegKey.get.calls.argsFor(0)[0]).toEqual('');
     });
 
     it('should have a method that search the registry for Vlc', function () {

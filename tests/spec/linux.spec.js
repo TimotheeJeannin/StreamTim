@@ -46,7 +46,7 @@ describe('linux', function () {
         var linux = new Linux(mockFs, mockChildProcess);
         linux.setupMagnetLinkAssociation();
 
-        expect(mockChildProcess.exec.calls.argsFor(0)[0]).toEqual("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ");
+        expect(mockChildProcess.exec.calls.argsFor(0)[0]).toEqual("xdg-mime query default x-scheme-handler/magnet");
         expect(mockFs.writeFile.calls.argsFor(0)[0]).toEqual('/usr/share/applications/stream-tim.desktop');
     });
 });
