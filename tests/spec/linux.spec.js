@@ -40,6 +40,13 @@ describe('linux', function () {
         expect(mockChildProcess.exec).toHaveBeenCalledWith('vlc 192.168.9.9 -q --play-and-exit', 'callback');
     });
 
+    it('should have a method that build the content of the desktop entry', function () {
+        var linux = new Linux();
+        var lines = linux.buildDesktopEntryContent().split('\n');
+        expect(lines[5]).toEqual("Exec=" + process.execPath + " %U");
+        expect(lines[7]).toEqual("TryExec=" + process.execPath);
+    });
+
     it('should have a method that setup the magnet link association', function () {
         var mockFs = jasmine.createSpyObj('fs', ['writeFile']);
         var mockChildProcess = {
