@@ -37,19 +37,49 @@ function Linux(fs, childProcess) {
             "X-AppInstall-Keywords=torrent ";
     };
 
-    this.setupMagnetLinkAssociation = function () {
-        fs.writeFile(
-            "/usr/share/applications/stream-tim.desktop", self.buildDesktopEntryContent(),
-            createCallback("Properly added desktop entry.", "Failed to add desktop entry."));
-
-        childProcess.exec("xdg-mime query default x-scheme-handler/magnet", function (error, stdout) {
-            if (stdout) {
-                var cleanedStdout = stdout.replace(/(\r\n|\n|\r)/gm, "").trim();
-                self.previousMagnetLinkAssociation = cleanedStdout;
-                console.log('Storing previous magnet link association: ' + cleanedStdout);
+    this.checkDesktopEntry = function (callback) {
+        fs.readFile("/usr/share/applications/stream-tim.desktop", function (error, data) {
+            if (error || data != self.buildDesktopEntryContent()) {
+                fs.writeFile("/usr/share/applications/stream-tim.desktop",
+                    self.buildDesktopEntryContent(),
+                    function (error) {
+                        if (error) {
+                            console.error("Failed to add desktop entry.");
+                            callback(error);
+                        } else {
+                            console.log("Properly added desktop entry.");
+                            callback();
+                        }
+                    });
+            } else {
+                console.log('Current desktop entry already correct.');
+                callback();
             }
-            childProcess.exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ",
-                createCallback("Properly invoked xdg-mime to be the default application for magnet links."));
+        });
+    };
+
+    this.setupMagnetLinkAssociation = function (callback) {
+
+        self.checkDesktopEntry(function (error) {
+            if (error) {
+                callback(error);
+            } else {
+                childProcess.exec("xdg-mime query default x-scheme-handler/magnet", function (error, stdout) {
+                    if (stdout) {
+                        var cleanedStdout = stdout.replace(/(\r\n|\n|\r)/gm, "").trim();
+                        self.previousMagnetLinkAssociation = cleanedStdout;
+                        console.log('Storing previous magnet link association: ' + cleanedStdout);
+                    }
+                    childProcess.exec("xdg-mime default stream-tim.desktop x-scheme-handler/magnet ", function (error) {
+                        if (error) {
+                            callback(error);
+                        } else {
+                            console.log("Properly invoked xdg-mime to be the default application for magnet links.");
+                            callback();
+                        }
+                    });
+                });
+            }
         });
     };
 

@@ -47,8 +47,60 @@ describe('linux', function () {
         expect(lines[7]).toEqual("TryExec=" + process.execPath);
     });
 
+    describe('the method that check the desktop entry', function () {
+        it('should call the callback with nothing if he content is already correct', function () {
+            var mockFs = {
+                readFile: function (path, callback) {
+                    callback(null, new Linux().buildDesktopEntryContent());
+                }
+            };
+            var callback = jasmine.createSpy('callback');
+            var linux = new Linux(mockFs);
+            linux.checkDesktopEntry(callback);
+            expect(callback).toHaveBeenCalledWith();
+        });
+
+        it('should call the callback with an error if the file cannot be written', function () {
+            var mockFs = {
+                readFile: function (path, callback) {
+                    callback(null, '');
+                },
+                writeFile: function (path, content, callback) {
+                    callback('writeError');
+                }
+            };
+            var callback = jasmine.createSpy('callback');
+            var linux = new Linux(mockFs);
+            linux.checkDesktopEntry(callback);
+            expect(callback).toHaveBeenCalledWith('writeError');
+        });
+
+        it('should call the callback with with nothing if the file has been properly added', function () {
+            var mockFs = {
+                readFile: function (path, callback) {
+                    callback(null, '');
+                },
+                writeFile: function (path, content, callback) {
+                    callback();
+                }
+            };
+            var callback = jasmine.createSpy('callback');
+            var linux = new Linux(mockFs);
+            linux.checkDesktopEntry(callback);
+            expect(callback).toHaveBeenCalledWith();
+        });
+
+    });
+
     it('should have a method that setup the magnet link association', function () {
-        var mockFs = jasmine.createSpyObj('fs', ['writeFile']);
+        var mockFs = {
+            readFile: function (path, callback) {
+                callback(null, '');
+            },
+            writeFile: function (path, content, callback) {
+                callback();
+            }
+        };
         var mockChildProcess = {
             exec: function (command, callback) {
                 callback(null, '  \n  test.desktop  ');
