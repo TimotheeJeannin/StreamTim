@@ -12,6 +12,7 @@ function View(gui, numeral) {
     this.hideAll = function () {
         $('#waitMagnet').hide();
         $('#noVlcFound').hide();
+        $('#noAdmin').hide();
         $('#prepareStream').hide();
         $('#streamView').hide();
     };

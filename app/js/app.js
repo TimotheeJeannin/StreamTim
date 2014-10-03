@@ -41,36 +41,42 @@ $(document).ready(function () {
     }
 
     // Make sure the application is called when a magnet link is clicked.
-    os.setupMagnetLinkAssociation();
+    os.setupMagnetLinkAssociation(function (error) {
 
-    // Restore the previous magnet link association when closing.
-    gui.Window.get().on('close', function () {
-        var self = this;
-        self.hide();
-        console.log("We're closing...");
-        os.restorePreviousMagnetLinkAssociation(function () {
-            self.close(true);
-        });
-    });
-
-    // Check if vlc is installed.
-    os.isVlcInstalled(function (installed) {
-        if (installed) {
-            // If a magnet link has been supplied as argument.
-            if (gui.App.argv[0]) {
-                console.log('Detected magnet link as command line argument.');
-                streamMagnet(gui.App.argv[0]);
-            } else {
-                // Wait for the application to be called with a magnet link.
-                view.show('waitMagnet');
-                gui.App.on('open', function (cmdline) {
-                    var magnet = cmdline.substring(cmdline.indexOf("magnet"));
-                    console.log('Detected click on a magnet link.');
-                    streamMagnet(magnet);
-                });
-            }
+        if (error) {
+            view.show('noAdmin');
         } else {
-            view.show('noVlcFound');
+
+            // Restore the previous magnet link association when closing.
+            gui.Window.get().on('close', function () {
+                var self = this;
+                self.hide();
+                console.log("We're closing...");
+                os.restorePreviousMagnetLinkAssociation(function () {
+                    self.close(true);
+                });
+            });
+
+            // Check if vlc is installed.
+            os.isVlcInstalled(function (installed) {
+                if (installed) {
+                    // If a magnet link has been supplied as argument.
+                    if (gui.App.argv[0]) {
+                        console.log('Detected magnet link as command line argument.');
+                        streamMagnet(gui.App.argv[0]);
+                    } else {
+                        // Wait for the application to be called with a magnet link.
+                        view.show('waitMagnet');
+                        gui.App.on('open', function (cmdline) {
+                            var magnet = cmdline.substring(cmdline.indexOf("magnet"));
+                            console.log('Detected click on a magnet link.');
+                            streamMagnet(magnet);
+                        });
+                    }
+                } else {
+                    view.show('noVlcFound');
+                }
+            });
         }
     });
 });

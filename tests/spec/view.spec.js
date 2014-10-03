@@ -2,7 +2,7 @@
 
 describe('view', function () {
 
-    var waitMagnet, noVlcFound, prepareStream, streamView, view, gui;
+    var waitMagnet, noAdmin, noVlcFound, prepareStream, streamView, view, gui;
 
     var buildEngine = function (wires, downloaded, downloadSpeed) {
         return {
@@ -27,6 +27,7 @@ describe('view', function () {
 
         waitMagnet = $('div#waitMagnet');
         noVlcFound = $('div#noVlcFound');
+        noAdmin = $('div#noAdmin');
         prepareStream = $('div#prepareStream');
         streamView = $('div#streamView');
 
@@ -51,6 +52,7 @@ describe('view', function () {
 
         expect(waitMagnet.is(":visible")).toBeTruthy();
         expect(noVlcFound.is(":visible")).toBeTruthy();
+        expect(noAdmin.is(":visible")).toBeTruthy();
         expect(prepareStream.is(":visible")).toBeTruthy();
         expect(streamView.is(":visible")).toBeTruthy();
 
@@ -58,6 +60,7 @@ describe('view', function () {
 
         expect(waitMagnet.is(":visible")).toBeFalsy();
         expect(noVlcFound.is(":visible")).toBeFalsy();
+        expect(noAdmin.is(":visible")).toBeFalsy();
         expect(prepareStream.is(":visible")).toBeFalsy();
         expect(streamView.is(":visible")).toBeFalsy();
     });
