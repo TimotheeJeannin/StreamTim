@@ -107,8 +107,9 @@ describe('linux', function () {
             }
         };
         var linux = new Linux(mockFs, mockChildProcess);
-        linux.setupMagnetLinkAssociation();
-
+        var callback = jasmine.createSpy('callback');
+        linux.setupMagnetLinkAssociation(callback);
+        expect(callback).toHaveBeenCalledWith();
         expect(linux.previousMagnetLinkAssociation).toEqual('test.desktop');
     });
 

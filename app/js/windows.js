@@ -52,7 +52,7 @@ function Windows(winreg, childProcess) {
         });
     };
 
-    this.setupMagnetLinkAssociation = function () {
+    this.setupMagnetLinkAssociation = function (callback) {
         var regKey = new winreg({
             hive: winreg.HKCR,
             key: '\\magnet\\shell\\open\\command'
@@ -67,8 +67,17 @@ function Windows(winreg, childProcess) {
                 console.log('Properly restored previous magnet link association.')
             }
             regKey.set('', winreg.REG_SZ, "\"" + process.execPath + "\" \"%1\"",
-                createCallback('Properly added registry key to be the default application for magnet links.',
-                    'Failed to add magnet registry key.'));
+                function (error) {
+                    if (error) {
+                        console.error(error);
+                        console.log('Failed to add magnet registry key.');
+                        callback(error);
+                    } else {
+                        self.previousMagnetKeyValue = result.value;
+                        console.log('Properly added registry key to be the default application for magnet links.');
+                        callback();
+                    }
+                });
         });
     };
 
