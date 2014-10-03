@@ -22,7 +22,7 @@ function Linux(fs, childProcess) {
 
     this.setupMagnetLinkAssociation = function () {
         fs.writeFile(
-            "/usr/share/applications/stream-tim.desktop",
+                process.env.HOME + "/.local/share/applications/stream-tim.desktop",
                 "[Desktop Entry]\n" +
                 "Name=StreamTim\n" +
                 "GenericName=Torrent Streaming Client\n" +
