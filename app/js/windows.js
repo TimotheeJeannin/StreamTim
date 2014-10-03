@@ -5,8 +5,19 @@ function Windows(winreg, childProcess, path) {
     var REG_PATH_64 = path.join(process.env.SystemRoot, 'System32', 'reg.exe');
     var REG_PATH_32 = path.join(process.env.SystemRoot, 'SysWOW64', 'reg.exe');
 
-    this.searchRegistryForVlc = function (regQuery, callback) {
-        childProcess.execFile("C:\\Windows\\sysnative\\cmd.exe", ['/s', '/c', regQuery], function (error, stdout) {
+    var matrix = [
+        {cmdPath: "C:\\Windows\\sysnative\\cmd.exe", regQuery: REG_PATH_64 + ' QUERY HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC /ve'},
+        {cmdPath: "C:\\Windows\\sysnative\\cmd.exe", regQuery: REG_PATH_64 + ' QUERY HKLM\\SOFTWARE\\VideoLAN\\VLC /ve'},
+        {cmdPath: "C:\\Windows\\sysnative\\cmd.exe", regQuery: REG_PATH_32 + ' QUERY HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC /ve'},
+        {cmdPath: "C:\\Windows\\sysnative\\cmd.exe", regQuery: REG_PATH_32 + ' QUERY HKLM\\SOFTWARE\\VideoLAN\\VLC /ve'},
+        {cmdPath: "cmd.exe", regQuery: REG_PATH_64 + ' QUERY HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC /ve'},
+        {cmdPath: "cmd.exe", regQuery: REG_PATH_64 + ' QUERY HKLM\\SOFTWARE\\VideoLAN\\VLC /ve'},
+        {cmdPath: "cmd.exe", regQuery: REG_PATH_32 + ' QUERY HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC /ve'},
+        {cmdPath: "cmd.exe", regQuery: REG_PATH_32 + ' QUERY HKLM\\SOFTWARE\\VideoLAN\\VLC /ve'}
+    ];
+
+    this.searchRegistryForVlc = function (cmdPath, regQuery, callback) {
+        childProcess.execFile(cmdPath, ['/s', '/c', regQuery], function (error, stdout) {
             console.log(stdout);
             if (error) {
                 console.log(error);
@@ -29,32 +40,20 @@ function Windows(winreg, childProcess, path) {
         });
     };
 
-    this.getVlcPath = function (callback) {
-        self.searchRegistryForVlc(REG_PATH_64 + ' QUERY HKLM\\SOFTWARE\\VideoLAN\\VLC /ve', function (vlcPath) {
+    this.recursiveRegistrySearch = function (index, callback) {
+        self.searchRegistryForVlc(matrix[index].cmdPath, matrix[index].regQuery, function (vlcPath) {
             if (vlcPath) {
                 callback(vlcPath);
+            } else if (index < matrix.length) {
+                self.recursiveRegistrySearch(index + 1, callback);
             } else {
-                self.searchRegistryForVlc(REG_PATH_64 + ' QUERY HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC /ve', function (vlcPath) {
-                    if (vlcPath) {
-                        callback(vlcPath);
-                    } else {
-                        self.searchRegistryForVlc(REG_PATH_32 + ' QUERY HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC /ve', function (vlcPath) {
-                            if (vlcPath) {
-                                callback(vlcPath);
-                            } else {
-                                self.searchRegistryForVlc(REG_PATH_32 + ' QUERY HKLM\\SOFTWARE\\VideoLAN\\VLC /ve', function (vlcPath) {
-                                    if (vlcPath) {
-                                        callback(vlcPath);
-                                    } else {
-                                        callback();
-                                    }
-                                })
-                            }
-                        })
-                    }
-                })
+                callback();
             }
         });
+    };
+
+    this.getVlcPath = function (callback) {
+        self.recursiveRegistrySearch(0, callback);
     };
 
     this.isVlcInstalled = function (callback) {
