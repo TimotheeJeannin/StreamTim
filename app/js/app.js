@@ -35,7 +35,7 @@ $(document).ready(function () {
     if (process.platform === 'linux') {
         os = new Linux(require('fs'), require('child_process'));
     } else if (process.platform === 'win32') {
-        os = new Windows(require('winreg'), require('child_process'));
+        os = new Windows(require('winreg'), require('child_process'), require('path'));
     } else if (process.platform === 'darwin') {
         os = new Mac(require('fs'), require('child_process'));
     }

@@ -42,47 +42,69 @@ describe('windows', function () {
         expect(mockRegKey.get.calls.argsFor(0)[0]).toEqual('');
     });
 
-    it('should have a method that search the registry for Vlc', function () {
-        var mockRegKey = {
-            values: function (callback) {
-                callback(undefined, {
-                        'installDir': {
-                            name: 'installDir',
-                            type: 'REG_SZ',
-                            value: 'C:\\Program Files (x86)\\VideoLAN\\VLC'},
-                        'version': {
-                            name: 'version',
-                            type: 'REG_SZ',
-                            value: '5.6.8'}
-                    }
-                )
-            }
-        };
-        var mockWinreg = function () {
-            return mockRegKey
-        };
-        mockWinreg.REG_SZ = 'REG_SZ';
-        var windows = new Windows(mockWinreg);
-        var callback = jasmine.createSpy('callback');
-        windows.searchRegistryForVlc('\\SOFTWARE\\VideoLAN\\VLC', callback);
-        expect(callback).toHaveBeenCalledWith('C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc');
+    describe('the method that search the registry for Vlc', function () {
+
+        it('should return the path of Vlc if found', function () {
+            var mockChildProcess = {
+                exec: function (command, callback) {
+                    callback(null,
+                            "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC\n" +
+                            "(par défaut)    REG_SZ    C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe\n");
+                }
+            };
+            var callback = jasmine.createSpy('callback');
+            var windows = new Windows({}, mockChildProcess);
+            windows.searchRegistryForVlc("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC", callback);
+            expect(callback).toHaveBeenCalledWith("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe");
+        });
+
+        it("should call the callback with nothing if vlc isn't found", function () {
+            var mockChildProcess = {
+                exec: function (command, callback) {
+                    callback(null,
+                            "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC\n" +
+                            "(par défaut)    REG_SZ    C:\\Program Files (x86)\\VideoLAN\\VLC\\vfzlc.exe\n");
+                }
+            };
+            var callback = jasmine.createSpy('callback');
+            var windows = new Windows({}, mockChildProcess);
+            windows.searchRegistryForVlc("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC", callback);
+            expect(callback).toHaveBeenCalledWith();
+            expect(callback.calls.count()).toEqual(1);
+        });
+
+        it("should call the callback with nothing if there is an error", function () {
+            var mockChildProcess = {
+                exec: function (command, callback) {
+                    callback('error', '');
+                }
+            };
+            var callback = jasmine.createSpy('callback');
+            var windows = new Windows({}, mockChildProcess);
+            windows.searchRegistryForVlc("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC", callback);
+            expect(callback).toHaveBeenCalledWith();
+            expect(callback.calls.count()).toEqual(1);
+        });
+
     });
 
     it('should have a method that get the path of Vlc', function () {
-        var windows = new Windows();
-        var callback = jasmine.createSpy('callback');
-        windows.searchRegistryForVlc = function (regKeyPath, callback) {
-            callback('C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc');
+        var mockChildProcess = {
+            exec: function (command, callback) {
+                if (/.*Wow6432Node.*/.test(command)) {
+                    callback(null, "Big maxi error you know ?");
+                } else {
+                    callback(null,
+                            "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC\n" +
+                            "(par défaut)    REG_SZ    C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe\n");
+                }
+            }
         };
-        windows.getVlcPath(callback);
-        expect(callback).toHaveBeenCalledWith('C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc');
 
-        windows = new Windows();
-        callback = jasmine.createSpy('callback');
-        windows.searchRegistryForVlc = function (regKeyPath, callback) {
-            callback(undefined);
-        };
+        var windows = new Windows({}, mockChildProcess);
+        var callback = jasmine.createSpy('callback');
         windows.getVlcPath(callback);
-        expect(callback).toHaveBeenCalledWith(undefined);
+        expect(callback.calls.count()).toEqual(1);
+        expect(callback).toHaveBeenCalledWith('C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe');
     });
 });
