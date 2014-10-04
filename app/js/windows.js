@@ -2,18 +2,24 @@ function Windows(winreg, childProcess, path) {
 
     var self = this;
 
-    var REG_PATH_64 = path.join(process.env.SystemRoot, 'System32', 'reg.exe');
-    var REG_PATH_32 = path.join(process.env.SystemRoot, 'SysWOW64', 'reg.exe');
+    var REG_PATH_64 = process.env.SystemRoot + '\\System32\\reg.exe';
+    var REG_PATH_32 = process.env.SystemRoot + '\\SysWOW64\\reg.exe';
+
+    var NATIVE_CMD_PATH = process.env.SystemRoot + '\\sysnative\\cmd.exe';
+    var ORIGIN_CMD_PATH = process.env.SystemRoot + '\\cmd.exe';
+
+    var REG_KEY_PATH_64 = 'HKLM\\SOFTWARE\\VideoLAN\\VLC';
+    var REG_KEY_PATH_32 = 'HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC';
 
     var matrix = [
-        {cmdPath: "C:\\Windows\\sysnative\\cmd.exe", regQuery: REG_PATH_64 + ' QUERY HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC /ve'},
-        {cmdPath: "C:\\Windows\\sysnative\\cmd.exe", regQuery: REG_PATH_64 + ' QUERY HKLM\\SOFTWARE\\VideoLAN\\VLC /ve'},
-        {cmdPath: "C:\\Windows\\sysnative\\cmd.exe", regQuery: REG_PATH_32 + ' QUERY HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC /ve'},
-        {cmdPath: "C:\\Windows\\sysnative\\cmd.exe", regQuery: REG_PATH_32 + ' QUERY HKLM\\SOFTWARE\\VideoLAN\\VLC /ve'},
-        {cmdPath: "cmd.exe", regQuery: REG_PATH_64 + ' QUERY HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC /ve'},
-        {cmdPath: "cmd.exe", regQuery: REG_PATH_64 + ' QUERY HKLM\\SOFTWARE\\VideoLAN\\VLC /ve'},
-        {cmdPath: "cmd.exe", regQuery: REG_PATH_32 + ' QUERY HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC /ve'},
-        {cmdPath: "cmd.exe", regQuery: REG_PATH_32 + ' QUERY HKLM\\SOFTWARE\\VideoLAN\\VLC /ve'}
+        {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_32 + ' /ve'},
+        {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_64 + ' /ve'},
+        {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_32 + ' QUERY ' + REG_KEY_PATH_32 + ' /ve'},
+        {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_32 + ' QUERY ' + REG_KEY_PATH_64 + ' /ve'},
+        {cmdPath: ORIGIN_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_32 + ' /ve'},
+        {cmdPath: ORIGIN_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_64 + ' /ve'},
+        {cmdPath: ORIGIN_CMD_PATH, regQuery: REG_PATH_32 + ' QUERY ' + REG_KEY_PATH_32 + ' /ve'},
+        {cmdPath: ORIGIN_CMD_PATH, regQuery: REG_PATH_32 + ' QUERY ' + REG_KEY_PATH_64 + ' /ve'}
     ];
 
     this.searchRegistryForVlc = function (cmdPath, regQuery, callback) {
