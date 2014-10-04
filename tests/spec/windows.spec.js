@@ -23,11 +23,12 @@ describe('windows', function () {
     it('should have a method that launches vlc', function () {
         var mockChildProcess = jasmine.createSpyObj('childProcess', ['execFile']);
         var windows = new Windows({}, mockChildProcess);
-        windows.searchRegistryForVlc = function (regKeyPath, callback) {
-            callback('test_path');
+        windows.searchRegistryForVlc = function (cmdPath, regQuery, callback) {
+            callback('C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe');
         };
         windows.runVlc('192.168.9.9', 'callback');
-        expect(mockChildProcess.execFile).toHaveBeenCalledWith('test_path', [ '192.168.9.9', '-q', '--play-and-exit' ], 'callback');
+        expect(mockChildProcess.execFile).toHaveBeenCalledWith(
+            'C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc', [ '192.168.9.9', '-q', '--play-and-exit' ], 'callback');
     });
 
     it('should have a method that setup the magnet link association', function () {
