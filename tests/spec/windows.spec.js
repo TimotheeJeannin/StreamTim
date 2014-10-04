@@ -47,7 +47,7 @@ describe('windows', function () {
 
         it('should return the path of Vlc if found', function () {
             var mockChildProcess = {
-                exec: function (command, callback) {
+                execFile: function (command, args, callback) {
                     callback(null,
                             "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC\n" +
                             "(par défaut)    REG_SZ    C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe\n");
@@ -55,13 +55,13 @@ describe('windows', function () {
             };
             var callback = jasmine.createSpy('callback');
             var windows = new Windows({}, mockChildProcess);
-            windows.searchRegistryForVlc("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC", callback);
+            windows.searchRegistryForVlc('cmd', 'regQuery', callback);
             expect(callback).toHaveBeenCalledWith("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe");
         });
 
         it("should call the callback with nothing if vlc isn't found", function () {
             var mockChildProcess = {
-                exec: function (command, callback) {
+                execFile: function (command, args, callback) {
                     callback(null,
                             "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC\n" +
                             "(par défaut)    REG_SZ    C:\\Program Files (x86)\\VideoLAN\\VLC\\vfzlc.exe\n");
@@ -69,20 +69,20 @@ describe('windows', function () {
             };
             var callback = jasmine.createSpy('callback');
             var windows = new Windows({}, mockChildProcess);
-            windows.searchRegistryForVlc("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC", callback);
+            windows.searchRegistryForVlc('cmd', 'regQuery', callback);
             expect(callback).toHaveBeenCalledWith();
             expect(callback.calls.count()).toEqual(1);
         });
 
         it("should call the callback with nothing if there is an error", function () {
             var mockChildProcess = {
-                exec: function (command, callback) {
+                execFile: function (command, args, callback) {
                     callback('error', '');
                 }
             };
             var callback = jasmine.createSpy('callback');
             var windows = new Windows({}, mockChildProcess);
-            windows.searchRegistryForVlc("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC", callback);
+            windows.searchRegistryForVlc('cmd', 'regQuery', callback);
             expect(callback).toHaveBeenCalledWith();
             expect(callback.calls.count()).toEqual(1);
         });
