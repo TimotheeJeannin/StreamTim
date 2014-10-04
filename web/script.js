@@ -34,11 +34,11 @@ function setUpDownloadLink(bucketFiles, os) {
         return new RegExp("^package\/stream-tim-" + os + ".*\\.zip$").test(item);
     });
 
-    var latestWindows = findGreaterSemVer(packages);
+    var latest = findGreaterSemVer(packages);
     var button = $('a#' + os + 'Download');
-    button.attr('href', '/package/stream-tim-' + os + '-' + semVerToString(latestWindows) + '.zip');
+    button.attr('href', '/package/stream-tim-' + os + '-' + semVerToString(latest) + '.zip');
     button.click(function () {
-        ga('send', 'event', 'button', 'click', os + ' ' + semVerToString(latestWindows));
+        ga('send', 'event', 'button', 'click', os + ' ' + semVerToString(latest));
     });
 }
 
