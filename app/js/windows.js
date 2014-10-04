@@ -82,7 +82,8 @@ function Windows(winreg, childProcess, path) {
     this.runVlc = function (streamingAddress, callback) {
         self.getVlcPath(function (vlcPath) {
             console.log('Starting vlc at ' + streamingAddress + ' with path: ' + vlcPath);
-            childProcess.execFile(vlcPath, [streamingAddress, '-q', '--play-and-exit'], callback);
+            var trimedVlcPath = vlcPath.substr(0, vlcPath.lastIndexOf('.'));
+            childProcess.execFile(trimedVlcPath, [streamingAddress, '-q', '--play-and-exit'], callback);
         });
     };
 
