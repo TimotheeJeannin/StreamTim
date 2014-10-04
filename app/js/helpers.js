@@ -1,8 +1,8 @@
 var createCallback = function (successMessage, errorMessage) {
     return function (error) {
         if (error) {
-            console.log(errorMessage);
-            console.log(error);
+            console.error(errorMessage);
+            console.error(error);
         } else {
             console.log(successMessage);
         }

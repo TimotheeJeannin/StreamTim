@@ -30,7 +30,7 @@ describe('windows', function () {
         expect(mockChildProcess.execFile).toHaveBeenCalledWith('test_path', [ '192.168.9.9', '-q', '--play-and-exit' ], 'callback');
     });
 
-    it('should have a method that setup the magnet link catching', function () {
+    it('should have a method that setup the magnet link association', function () {
         var mockRegKey = jasmine.createSpyObj('regKey', ['set', 'get']);
         var mockWinreg = function () {
             return mockRegKey
