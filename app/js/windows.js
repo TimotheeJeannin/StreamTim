@@ -49,7 +49,7 @@ function Windows(winreg, childProcess, path) {
         self.searchRegistryForVlc(matrix[index].cmdPath, matrix[index].regQuery, function (vlcPath) {
             if (vlcPath) {
                 callback(vlcPath);
-            } else if (index < matrix.length) {
+            } else if (index < matrix.length - 1) {
                 self.recursiveRegistrySearch(index + 1, callback);
             } else {
                 callback();
