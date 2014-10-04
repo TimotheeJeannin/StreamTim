@@ -13,7 +13,8 @@ module.exports = function (grunt) {
         ],
         nodewebkit: {
             options: {
-                platforms: ['linux64', 'win', 'osx']
+                platforms: ['linux64', 'win', 'osx'],
+                macPlist: 'files/Info.plist'
             },
             shared: {
                 options: {
