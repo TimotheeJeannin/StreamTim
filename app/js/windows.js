@@ -23,18 +23,17 @@ function Windows(winreg, childProcess, path) {
     ];
 
     this.searchRegistryForVlc = function (cmdPath, regQuery, callback) {
+        console.log('Searching registry', cmdPath, regQuery);
         childProcess.execFile(cmdPath, ['/s', '/c', regQuery], function (error, stdout) {
-            console.log(stdout);
             if (error) {
-                console.log(error);
                 callback();
             } else {
-                console.log('Found registry key: ' + stdout);
+                console.log('Found registry key', stdout);
                 var lines = stdout.split('\n');
                 for (var i = 0; i < lines.length; i++) {
                     var values = lines[i].split('    ');
                     for (var j = 0; j < values.length; j++) {
-                        console.log('Checking string: ' + values[j]);
+                        console.log('Checking string', values[j]);
                         if (/.*VLC\\vlc\.exe/.test(values[j])) {
                             callback(values[j]);
                             return;
@@ -46,20 +45,17 @@ function Windows(winreg, childProcess, path) {
         });
     };
 
-    this.recursiveRegistrySearch = function (index, callback) {
+    this.getVlcPath = function (callback, index) {
+        if (!index) index = 0;
         self.searchRegistryForVlc(matrix[index].cmdPath, matrix[index].regQuery, function (vlcPath) {
             if (vlcPath) {
                 callback(vlcPath);
             } else if (index < matrix.length) {
-                self.recursiveRegistrySearch(index + 1, callback);
+                self.getVlcPath(callback, index + 1);
             } else {
                 callback();
             }
         });
-    };
-
-    this.getVlcPath = function (callback) {
-        self.recursiveRegistrySearch(0, callback);
     };
 
     this.isVlcInstalled = function (callback) {
@@ -70,6 +66,7 @@ function Windows(winreg, childProcess, path) {
 
     this.runVlc = function (streamingAddress, callback) {
         self.getVlcPath(function (vlcPath) {
+            console.log('Starting vlc at ' + streamingAddress + ' with path: ' + vlcPath);
             childProcess.execFile(vlcPath, [streamingAddress, '-q', '--play-and-exit'], callback);
         });
     };
@@ -82,15 +79,14 @@ function Windows(winreg, childProcess, path) {
 
         regKey.get('', function (error, result) {
             if (error) {
-                console.error(error);
-                console.log(error.message);
+                console.log('Failed to store previous magnet link association.', error);
             } else {
                 self.previousMagnetKeyValue = result.value;
                 console.log('Properly restored previous magnet link association.')
             }
             regKey.set('', winreg.REG_SZ, "\"" + process.execPath + "\" \"%1\"",
-                createCallback('Properly added registry key to be the default application for magnet links.',
-                    'Failed to add magnet registry key.'));
+                createCallback('Properly added registry key to register magnet links association.',
+                    'Failed to register magnet link association.'));
         });
     };
 
@@ -103,8 +99,7 @@ function Windows(winreg, childProcess, path) {
 
             regKey.set('', winreg.REG_SZ, self.previousMagnetKeyValue, function (error) {
                 if (error) {
-                    console.error(error);
-                    console.log(error.message);
+                    console.log('Failed to restore previous magnet link association.', error);
                 }
                 callback();
             });
