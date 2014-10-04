@@ -1,6 +1,6 @@
 {
     "name": "stream-tim",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "main": "app/index.html",
     "dependencies": {
         "network-address": "0.0.4",
