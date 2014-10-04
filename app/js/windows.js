@@ -45,17 +45,32 @@ function Windows(winreg, childProcess, path) {
         });
     };
 
-    this.getVlcPath = function (callback, index) {
-        if (!index) index = 0;
+    this.recursiveRegistrySearch = function (index, callback) {
         self.searchRegistryForVlc(matrix[index].cmdPath, matrix[index].regQuery, function (vlcPath) {
             if (vlcPath) {
                 callback(vlcPath);
             } else if (index < matrix.length) {
-                self.getVlcPath(callback, index + 1);
+                self.recursiveRegistrySearch(index + 1, callback);
             } else {
                 callback();
             }
         });
+    };
+
+    this.getVlcPath = function (callback) {
+        if (self.vlcPath) {
+            console.log('Using previously found vlc path ' + self.vlcPath);
+            callback(self.vlcPath);
+        } else {
+            self.recursiveRegistrySearch(0, function (vlcPath) {
+                if (vlcPath) {
+                    self.vlcPath = vlcPath;
+                    callback(vlcPath);
+                } else {
+                    callback();
+                }
+            });
+        }
     };
 
     this.isVlcInstalled = function (callback) {
