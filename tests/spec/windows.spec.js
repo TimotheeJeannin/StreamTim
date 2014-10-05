@@ -154,7 +154,7 @@ describe('windows', function () {
         expect(regKey.set.calls.mostRecent().args[2]).toEqual('value');
     });
 
-    describe('the method to restor previous magnet link association', function () {
+    describe('the method to restore previous magnet link association', function () {
 
         beforeEach(function () {
             mockWinReg = function () {
@@ -192,6 +192,47 @@ describe('windows', function () {
             windows.previousMagnetKeyValue = 'previous';
             windows.restorePreviousMagnetLinkAssociation(callback);
             expect(callback).toHaveBeenCalledWith();
+        });
+    });
+
+    describe('the method to setup magnet link association', function () {
+
+        it('should create all necessary keys if there is none', function () {
+            mockWinReg = function () {
+                return {
+                    get: function (a, callback) {
+                        callback('error');
+                    },
+                    create: function (callback) {
+                        callback();
+                    }
+                }
+            };
+            var windows = new Windows(mockWinReg);
+            spyOn(windows, 'setRegKeyValue');
+            windows.setupMagnetLinkAssociation();
+            expect(windows.setRegKeyValue.calls.argsFor(0)[1]).toEqual('');
+            expect(windows.setRegKeyValue.calls.argsFor(0)[2]).toEqual('URL:magnet protocol');
+            expect(windows.setRegKeyValue.calls.argsFor(1)[1]).toEqual('URL Protocol');
+            expect(windows.setRegKeyValue.calls.argsFor(1)[2]).toEqual('');
+            expect(windows.setRegKeyValue.calls.argsFor(2)[1]).toEqual('');
+            expect(windows.setRegKeyValue.calls.argsFor(2)[2]).toEqual("\"" + process.execPath + "\" \"%1\"");
+        });
+
+        it('should store the previous magnet key value is there is one', function () {
+            mockWinReg = function () {
+                return {
+                    get: function (a, callback) {
+                        callback(null, {value: "prevVal"});
+                    }
+                }
+            };
+            var windows = new Windows(mockWinReg);
+            spyOn(windows, 'setRegKeyValue');
+            windows.setupMagnetLinkAssociation();
+            expect(windows.previousMagnetKeyValue).toEqual('prevVal');
+            expect(windows.setRegKeyValue.calls.argsFor(0)[1]).toEqual('');
+            expect(windows.setRegKeyValue.calls.argsFor(0)[2]).toEqual("\"" + process.execPath + "\" \"%1\"");
         });
     });
 });
