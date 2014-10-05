@@ -126,6 +126,6 @@ function View(gui, numeral) {
             .call(yAxis)
             .append("text")
             .attr("dx", "-15")
-            .text("Kb/s");
+            .text("Mb/s");
     };
 }

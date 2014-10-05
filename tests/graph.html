@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../app/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../app/css/style.css">
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../bower_components/d3/d3.min.js"></script>
+    <script src="../app/js/view.js"></script>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            var buildEngine = function (wires, downloaded, downloadSpeed) {
+                return {
+                    swarm: {
+                        wires: wires,
+                        downloaded: downloaded,
+                        downloadSpeed: function () {
+                            return downloadSpeed
+                        }
+                    }}
+            };
+
+            var view = new View({}, function (value) {
+                return {
+                    format: function (format) {
+                        return value;
+                    }
+                }
+            });
+
+            setInterval(function () {
+                view.updateStreamView(buildEngine(
+                        {length: Math.floor((Math.random() * 100) + 1)},
+                        Math.floor((Math.random() * 100) + 1),
+                        Math.floor((Math.random() * 1500) + 1)));
+            }, 1000);
+
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row st-title-bar">
+        <div class="col-md-12">
+            <div class="pull-right" id="close">
+                <span class="st-pointer glyphicon glyphicon-remove"></span>
+            </div>
+            <span class="st-title"><b>Stream</b><span class="st-punch-blue">Tim</span></span>
+        </div>
+    </div>
+    <div class="row st-centered">
+        <div class="col-md-12 st-main-content">
+            <div id="streamView">
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <h3><span class="st-punch-blue" id="numberOfPeers"></span> peers and
+                            <span class="st-punch-blue" id="downloadedAmount"></span> downloaded</h3>
+                        <br/>
+                        <svg width="0" height="0">
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
