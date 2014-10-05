@@ -128,7 +128,7 @@ function Windows(winreg, childProcess) {
                 callback();
             });
         } else if (self.createdMagnetRegKey) {
-            magnetRegKey.erase(function () {
+            magnetRegKey.erase(function (error) {
                 if (error) {
                     console.log('Failed to erase reg key', magnetRegKey, error);
                 }

@@ -8,6 +8,7 @@ describe('windows', function () {
         mockWinReg = function () {
 
         };
+        mockWinReg.REG_SZ = 'REG_SZ';
     });
 
     it('should have a function to check if vlc is installed', function () {
@@ -141,6 +142,56 @@ describe('windows', function () {
             windows.getVlcPath(callback);
             expect(callback.calls.count()).toEqual(1);
             expect(callback).toHaveBeenCalledWith('C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe');
+        });
+    });
+
+    it('should have a method to set a reg key value', function () {
+        var regKey = jasmine.createSpyObj('regKey', ['set']);
+        var windows = new Windows(mockWinReg);
+        windows.setRegKeyValue(regKey, 'name', 'value');
+        expect(regKey.set.calls.mostRecent().args[0]).toEqual('name');
+        expect(regKey.set.calls.mostRecent().args[1]).toEqual('REG_SZ');
+        expect(regKey.set.calls.mostRecent().args[2]).toEqual('value');
+    });
+
+    describe('the method to restor previous magnet link association', function () {
+
+        beforeEach(function () {
+            mockWinReg = function () {
+                return {
+                    set: function (a, b, c, callback) {
+                        if (a == '' && b == mockWinReg.REG_SZ && c == 'previous') {
+                            callback('error');
+                        }
+                    },
+                    erase: function (callback) {
+                        callback('error');
+                    }
+                }
+            };
+        });
+
+        it('should do nothing but calling the callback if there is no previous key nor value', function () {
+            var callback = jasmine.createSpy('callback');
+            var windows = new Windows(mockWinReg);
+            windows.restorePreviousMagnetLinkAssociation(callback);
+            expect(callback).toHaveBeenCalledWith();
+        });
+
+        it('should erase the previous magnet key if there was none', function () {
+            var callback = jasmine.createSpy('callback');
+            var windows = new Windows(mockWinReg);
+            windows.createdMagnetRegKey = true;
+            windows.restorePreviousMagnetLinkAssociation(callback);
+            expect(callback).toHaveBeenCalledWith();
+        });
+
+        it('should restore the previous magnet key value if there was one', function () {
+            var callback = jasmine.createSpy('callback');
+            var windows = new Windows(mockWinReg);
+            windows.previousMagnetKeyValue = 'previous';
+            windows.restorePreviousMagnetLinkAssociation(callback);
+            expect(callback).toHaveBeenCalledWith();
         });
     });
 });
