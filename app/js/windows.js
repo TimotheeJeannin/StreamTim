@@ -1,4 +1,4 @@
-function Windows(winreg, childProcess, path) {
+function Windows(winreg, childProcess) {
 
     var self = this;
 
@@ -11,8 +11,8 @@ function Windows(winreg, childProcess, path) {
     var REG_KEY_PATH_64 = 'HKLM\\SOFTWARE\\VideoLAN\\VLC';
     var REG_KEY_PATH_32 = 'HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC';
 
-    var magnetRegKey = new winreg({hive: winreg.HKCU, key: '\\magnet'});
-    var commandRegKey = new winreg({hive: winreg.HKCU, key: '\\magnet\\shell\\open\\command'});
+    var magnetRegKey = new winreg({hive: winreg.HKCU, key: '\\Software\\Classes\\magnet'});
+    var commandRegKey = new winreg({hive: winreg.HKCU, key: '\\Software\\Classes\\magnet\\shell\\open\\command'});
 
     var matrix = [
         {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_32 + ' /ve'},
@@ -104,6 +104,7 @@ function Windows(winreg, childProcess, path) {
                     if (error) {
                         console.log('Failed to create registry key ' + commandRegKey.key, error);
                     } else {
+                        self.createdMagnetRegKey = true;
                         console.log('Properly created registry key ' + commandRegKey.key, error);
                         self.setRegKeyValue(magnetRegKey, '', 'URL:magnet protocol');
                         self.setRegKeyValue(magnetRegKey, 'URL Protocol', '');
@@ -122,10 +123,17 @@ function Windows(winreg, childProcess, path) {
         if (self.previousMagnetKeyValue) {
             commandRegKey.set('', winreg.REG_SZ, self.previousMagnetKeyValue, function (error) {
                 if (error) {
-                    console.log('Failed to restore previous magnet link association.', error);
+                    console.log('Failed to restore previous magnet link association.', self.previousMagnetKeyValue, error);
                 }
                 callback();
             });
+        } else if (self.createdMagnetRegKey) {
+            magnetRegKey.erase(function () {
+                if (error) {
+                    console.log('Failed to erase reg key', magnetRegKey, error);
+                }
+                callback();
+            })
         } else {
             callback();
         }

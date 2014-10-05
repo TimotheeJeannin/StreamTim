@@ -2,8 +2,16 @@
 
 describe('windows', function () {
 
+    var mockWinReg;
+
+    beforeEach(function () {
+        mockWinReg = function () {
+
+        };
+    });
+
     it('should have a function to check if vlc is installed', function () {
-        var windows = new Windows();
+        var windows = new Windows(mockWinReg);
         windows.getVlcPath = function (callback) {
             callback(undefined);
         };
@@ -11,7 +19,7 @@ describe('windows', function () {
         windows.isVlcInstalled(callback);
         expect(callback).toHaveBeenCalledWith(false);
 
-        windows = new Windows();
+        windows = new Windows(mockWinReg);
         windows.getVlcPath = function (callback) {
             callback('C:\\Program Files (x86)\\VideoLAN\\VLC');
         };
@@ -22,7 +30,7 @@ describe('windows', function () {
 
     it('should have a method that launches vlc', function () {
         var mockChildProcess = jasmine.createSpyObj('childProcess', ['execFile']);
-        var windows = new Windows({}, mockChildProcess);
+        var windows = new Windows(mockWinReg, mockChildProcess);
         windows.searchRegistryForVlc = function (cmdPath, regQuery, callback) {
             callback('C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe');
         };
@@ -54,7 +62,7 @@ describe('windows', function () {
                 }
             };
             var callback = jasmine.createSpy('callback');
-            var windows = new Windows({}, mockChildProcess);
+            var windows = new Windows(mockWinReg, mockChildProcess);
             windows.searchRegistryForVlc('cmd', 'regQuery', callback);
             expect(callback).toHaveBeenCalledWith("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe");
         });
@@ -68,7 +76,7 @@ describe('windows', function () {
                 }
             };
             var callback = jasmine.createSpy('callback');
-            var windows = new Windows({}, mockChildProcess);
+            var windows = new Windows(mockWinReg, mockChildProcess);
             windows.searchRegistryForVlc('cmd', 'regQuery', callback);
             expect(callback).toHaveBeenCalledWith();
             expect(callback.calls.count()).toEqual(1);
@@ -81,7 +89,7 @@ describe('windows', function () {
                 }
             };
             var callback = jasmine.createSpy('callback');
-            var windows = new Windows({}, mockChildProcess);
+            var windows = new Windows(mockWinReg, mockChildProcess);
             windows.searchRegistryForVlc('cmd', 'regQuery', callback);
             expect(callback).toHaveBeenCalledWith();
             expect(callback.calls.count()).toEqual(1);
@@ -92,7 +100,7 @@ describe('windows', function () {
     describe('the method that gets the path of vlc', function () {
 
         it('should call the callback with a stored vlc path if it has one', function () {
-            var windows = new Windows({}, {});
+            var windows = new Windows(mockWinReg, {});
             windows.vlcPath = 'C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe';
             var callback = jasmine.createSpy('callback');
             windows.getVlcPath(callback);
@@ -108,7 +116,7 @@ describe('windows', function () {
                 }
             };
 
-            var windows = new Windows({}, mockChildProcess);
+            var windows = new Windows(mockWinReg, mockChildProcess);
             var callback = jasmine.createSpy('callback');
             windows.getVlcPath(callback);
             expect(callback.calls.count()).toEqual(1);
@@ -128,7 +136,7 @@ describe('windows', function () {
                 }
             };
 
-            var windows = new Windows({}, mockChildProcess);
+            var windows = new Windows(mockWinReg, mockChildProcess);
             var callback = jasmine.createSpy('callback');
             windows.getVlcPath(callback);
             expect(callback.calls.count()).toEqual(1);
