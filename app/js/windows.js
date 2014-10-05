@@ -11,6 +11,9 @@ function Windows(winreg, childProcess, path) {
     var REG_KEY_PATH_64 = 'HKLM\\SOFTWARE\\VideoLAN\\VLC';
     var REG_KEY_PATH_32 = 'HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC';
 
+    var magnetRegKey = new winreg({hive: winreg.HKCU, key: '\\magnet'});
+    var commandRegKey = new winreg({hive: winreg.HKCU, key: '\\magnet\\shell\\open\\command'});
+
     var matrix = [
         {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_32 + ' /ve'},
         {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_64 + ' /ve'},
@@ -87,33 +90,37 @@ function Windows(winreg, childProcess, path) {
         });
     };
 
-    this.setupMagnetLinkAssociation = function () {
-        var regKey = new winreg({
-            hive: winreg.HKCR,
-            key: '\\magnet\\shell\\open\\command'
-        });
+    this.setRegKeyValue = function (regKey, name, value) {
+        regKey.set(name, winreg.REG_SZ, value,
+            createCallback('Properly set value ' + value + 'to registry key ' + regKey.key + '.',
+                    'Failed to set value ' + value + 'to registry key ' + regKey.key + '.'));
+    };
 
-        regKey.get('', function (error, result) {
+    this.setupMagnetLinkAssociation = function () {
+        commandRegKey.get('', function (error, result) {
             if (error) {
-                console.log('Failed to store previous magnet link association.', error);
+                console.log('Failed to read reg key ' + commandRegKey.key, error);
+                commandRegKey.create(function (error) {
+                    if (error) {
+                        console.log('Failed to create registry key ' + commandRegKey.key, error);
+                    } else {
+                        console.log('Properly created registry key ' + commandRegKey.key, error);
+                        self.setRegKeyValue(magnetRegKey, '', 'URL:magnet protocol');
+                        self.setRegKeyValue(magnetRegKey, 'URL Protocol', '');
+                        self.setRegKeyValue(commandRegKey, '', "\"" + process.execPath + "\" \"%1\"");
+                    }
+                })
             } else {
                 self.previousMagnetKeyValue = result.value;
-                console.log('Properly restored previous magnet link association.')
+                console.log('Properly stored previous magnet link association.', result.value);
+                self.setRegKeyValue(commandRegKey, '', "\"" + process.execPath + "\" \"%1\"");
             }
-            regKey.set('', winreg.REG_SZ, "\"" + process.execPath + "\" \"%1\"",
-                createCallback('Properly added registry key to register magnet links association.',
-                    'Failed to register magnet link association.'));
         });
     };
 
     this.restorePreviousMagnetLinkAssociation = function (callback) {
         if (self.previousMagnetKeyValue) {
-            var regKey = new winreg({
-                hive: winreg.HKCR,
-                key: '\\magnet\\shell\\open\\command'
-            });
-
-            regKey.set('', winreg.REG_SZ, self.previousMagnetKeyValue, function (error) {
+            commandRegKey.set('', winreg.REG_SZ, self.previousMagnetKeyValue, function (error) {
                 if (error) {
                     console.log('Failed to restore previous magnet link association.', error);
                 }
