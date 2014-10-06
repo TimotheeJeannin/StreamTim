@@ -16,9 +16,17 @@ function View(gui, numeral) {
         $('#streamView').hide();
     };
 
-    this.initialise = function () {
+    this.initialise = function (onVlcPathCallback) {
         $('#close').click(function () {
             window.close();
+        });
+
+        $('#fileDialog').on('change', function () {
+            onVlcPathCallback($('#fileDialog').val());
+        });
+
+        $('#fileButton').click(function () {
+            $('#fileDialog').click();
         });
 
         $('#vlcWebsite').click(function () {

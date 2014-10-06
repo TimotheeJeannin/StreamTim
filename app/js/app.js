@@ -10,7 +10,10 @@ $(document).ready(function () {
     }
 
     var view = new View(gui, numeral);
-    view.initialise();
+    view.initialise(function (vlcPath) {
+        os.vlcPath = vlcPath;
+        handleApplicationArguments();
+    });
 
     // Start a streaming server for the given magnet link and start vlc when it's ready.
     var streamMagnet = function (magnetLink) {
@@ -29,6 +32,22 @@ $(document).ready(function () {
                 });
             });
         });
+    };
+
+    var handleApplicationArguments = function () {
+        // If a magnet link has been supplied as argument.
+        if (gui.App.argv[0]) {
+            console.log('Detected magnet link as command line argument.');
+            streamMagnet(gui.App.argv[0]);
+        } else {
+            // Wait for the application to be called with a magnet link.
+            view.show('waitMagnet');
+            gui.App.on('open', function (cmdline) {
+                var magnet = cmdline.substring(cmdline.indexOf("magnet"));
+                console.log('Detected click on a magnet link.');
+                streamMagnet(magnet);
+            });
+        }
     };
 
     var os = null;
@@ -56,19 +75,7 @@ $(document).ready(function () {
     // Check if vlc is installed.
     os.isVlcInstalled(function (installed) {
         if (installed) {
-            // If a magnet link has been supplied as argument.
-            if (gui.App.argv[0]) {
-                console.log('Detected magnet link as command line argument.');
-                streamMagnet(gui.App.argv[0]);
-            } else {
-                // Wait for the application to be called with a magnet link.
-                view.show('waitMagnet');
-                gui.App.on('open', function (cmdline) {
-                    var magnet = cmdline.substring(cmdline.indexOf("magnet"));
-                    console.log('Detected click on a magnet link.');
-                    streamMagnet(magnet);
-                });
-            }
+            handleApplicationArguments();
         } else {
             view.show('noVlcFound');
         }
