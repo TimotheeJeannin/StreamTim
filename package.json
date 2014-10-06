@@ -6,7 +6,7 @@
         "network-address": "0.0.4",
         "numeral": "^1.5.3",
         "peerflix": "^0.19.0",
-        "winreg": "0.0.12"
+        "winreg": "git://github.com/TimotheeJeannin/node-winreg.git#all"
     },
     "window": {
         "frame": false,
