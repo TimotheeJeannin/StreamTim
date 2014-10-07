@@ -1,5 +1,6 @@
 html, body, .container {
     -webkit-app-region: drag;
+    background: linear-gradient(#d0d7e8, #ebeefb);
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -26,7 +27,6 @@ html, body, .container {
 }
 
 span.glyphicon-magnet {
-    font-size: 48px;
     -webkit-animation: bounce 1s infinite;
 }
 

@@ -44,13 +44,32 @@
                 </p>
             </div>
             <div id="waitMagnet">
-                <h1>Just waiting for you to click on a magnet link ...</h1>
+                <h1>Just waiting for your input ...</h1>
                 <br/>
 
-                <p>Just browse your favorite torrent website and click on a magnet link.<br/>
-                    As soon as a magnet link is clicked, I will start streaming the corresponding movie in Vlc.</p>
+                <div class="row">
+
+                    <div class="col-sm-9" style="text-align: right">
+                        Browse a torrent website, and click on a magnet link
+                    </div>
+                    <div class="col-sm-3" style="text-align: left">
+                        <span class="st-punch-blue glyphicon glyphicon-magnet"></span><br/><br/>
+                    </div>
+                </div>
                 <br/>
-                <span class="st-punch-blue glyphicon glyphicon-magnet"></span>
+
+                <div class="row">
+
+                    <div class="col-sm-6" style="text-align: right; padding-top:6px ">
+                        Paste in a link to a torrent
+                    </div>
+                    <div class="col-sm-4" style="text-align: left">
+                        <input type="text" class="form-control" id="magnetInput">
+                    </div>
+                </div>
+                <br/>
+                As soon as I have the necessary information, <br/>
+                I will start streaming the corresponding movie in Vlc.
             </div>
             <div id="prepareStream">
                 <h1>Preparing your torrent</h1>
