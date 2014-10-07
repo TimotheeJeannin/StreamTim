@@ -4,7 +4,7 @@ function Stream(peerflix, address, readTorrent) {
     var engine = null;
     var interval = null;
 
-    var readLink = function (link, callback) {
+    this.readLink = function (link, callback) {
         if (/^magnet:/.test(link)) {
             callback(null, link);
         } else {
@@ -15,7 +15,7 @@ function Stream(peerflix, address, readTorrent) {
     this.start = function (os, view, link) {
         if (self.isStarted() || self.isStarting()) return;
         view.show('prepareStream');
-        readLink(link, function (error, torrent) {
+        self.readLink(link, function (error, torrent) {
             engine = peerflix(torrent);
             engine.server.on('listening', function () {
                 view.show('streamView');
