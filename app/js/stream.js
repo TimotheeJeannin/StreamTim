@@ -13,6 +13,7 @@ function Stream(peerflix, address, readTorrent) {
     };
 
     this.start = function (os, view, link) {
+        if (self.isStarted() || self.isStarting()) return;
         view.show('prepareStream');
         readLink(link, function (error, torrent) {
             engine = peerflix(torrent);
