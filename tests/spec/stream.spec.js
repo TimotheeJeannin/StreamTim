@@ -15,6 +15,4 @@ describe('stream', function () {
         stream.readLink(link, callback);
         expect(callback).toHaveBeenCalledWith(null, link);
     });
-
-
 });

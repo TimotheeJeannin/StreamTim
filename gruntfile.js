@@ -45,6 +45,14 @@ module.exports = function (grunt) {
                 files: [
                     {expand: true, cwd: 'build/<%=pkg.name%>/win', src: ['*'], dest: '<%=pkg.name%>'}
                 ]
+            },
+            osx: {
+                options: {
+                    archive: 'package/<%=pkg.name%>-mac-<%=pkg.version%>.zip'
+                },
+                files: [
+                    {expand: true, cwd: 'build/<%=pkg.name%>/osx', src: ['**'], dest: '<%=pkg.name%>'}
+                ]
             }
         },
         clean: {
