@@ -1,63 +1,8 @@
 $(document).ready(function () {
 
     var gui = require('nw.gui');
-    var peerflix = require('peerflix');
-    var address = require('network-address');
-    var numeral = require('numeral');
-    var readTorrent = require('read-torrent');
-
-    if (debug) {
-        gui.Window.get().showDevTools();
-    }
-
-    var view = new View(gui, numeral);
-    view.initialise(function (vlcPath) {
-        os.vlcPath = vlcPath;
-        handleApplicationArguments();
-    }, function (torrentLink) {
-        if (/^magnet:/.test(torrentLink)) {
-            streamMagnet(torrentLink);
-        } else {
-            readTorrent(torrentLink, function(err, torrent) {
-                streamMagnet(torrent);
-            });
-        }
-    });
-
-    // Start a streaming server for the given magnet link and start vlc when it's ready.
-    var streamMagnet = function (magnetLink) {
-        view.show('prepareStream');
-        var engine = peerflix(magnetLink);
-        engine.server.on('listening', function () {
-            view.show('streamView');
-            var interval = setInterval(function () {
-                view.updateStreamView(engine);
-            }, 1000);
-            os.runVlc('http://' + address() + ':' + engine.server.address().port + '/', function () {
-                engine.destroy(function () {
-                    clearInterval(interval);
-                    view.resetStreamView();
-                    view.show('waitMagnet');
-                });
-            });
-        });
-    };
-
-    var handleApplicationArguments = function () {
-        // If a magnet link has been supplied as argument.
-        if (gui.App.argv[0]) {
-            console.log('Detected magnet link as command line argument.');
-            streamMagnet(gui.App.argv[0]);
-        } else {
-            // Wait for the application to be called with a magnet link.
-            view.show('waitMagnet');
-            gui.App.on('open', function (cmdline) {
-                var magnet = cmdline.substring(cmdline.indexOf("magnet"));
-                console.log('Detected click on a magnet link.');
-                streamMagnet(magnet);
-            });
-        }
-    };
+    var view = new View(gui, require('numeral'));
+    var stream = new Stream(require('peerflix'), require('network-address'), require('read-torrent'));
 
     var os = null;
     if (process.platform === 'linux') {
@@ -67,6 +12,33 @@ $(document).ready(function () {
     } else if (process.platform === 'darwin') {
         os = new Mac(require('fs'), require('child_process'));
     }
+
+    view.initialise(function (vlcPath) {
+        os.vlcPath = vlcPath;
+        handleApplicationArguments();
+    }, function (torrentLink) {
+        stream.start(os, view, torrentLink);
+    });
+
+    if (debug) {
+        gui.Window.get().showDevTools();
+    }
+
+    var handleApplicationArguments = function () {
+        // If a magnet link has been supplied as argument.
+        if (gui.App.argv[0]) {
+            console.log('Detected magnet link as command line argument.');
+            stream.start(os, view, gui.App.argv[0]);
+        } else {
+            // Wait for the application to be called with a magnet link.
+            view.show('waitMagnet');
+            gui.App.on('open', function (cmdline) {
+                var magnetLink = cmdline.substring(cmdline.indexOf("magnet"));
+                console.log('Detected click on a magnet link.');
+                stream.start(os, view, magnetLink);
+            });
+        }
+    };
 
     // Make sure the application is called when a magnet link is clicked.
     os.setupMagnetLinkAssociation();
