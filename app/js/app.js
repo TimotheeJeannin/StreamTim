@@ -4,6 +4,7 @@ $(document).ready(function () {
     var peerflix = require('peerflix');
     var address = require('network-address');
     var numeral = require('numeral');
+    var readTorrent = require('read-torrent');
 
     if (debug) {
         gui.Window.get().showDevTools();
@@ -13,6 +14,14 @@ $(document).ready(function () {
     view.initialise(function (vlcPath) {
         os.vlcPath = vlcPath;
         handleApplicationArguments();
+    }, function (torrentLink) {
+        if (/^magnet:/.test(torrentLink)) {
+            streamMagnet(torrentLink);
+        } else {
+            readTorrent(torrentLink, function(err, torrent) {
+                streamMagnet(torrent);
+            });
+        }
     });
 
     // Start a streaming server for the given magnet link and start vlc when it's ready.

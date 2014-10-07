@@ -16,13 +16,17 @@ function View(gui, numeral) {
         $('#streamView').hide();
     };
 
-    this.initialise = function (onVlcPathCallback) {
+    this.initialise = function (onVlcPathCallback, onTorrentLinkCallback) {
         $('#close').click(function () {
             window.close();
         });
 
         $('#fileDialog').on('change', function () {
             onVlcPathCallback($('#fileDialog').val());
+        });
+
+        $('#torrentInput').on('change', function () {
+            onTorrentLinkCallback($('#torrentInput').val());
         });
 
         $('#fileButton').click(function () {
