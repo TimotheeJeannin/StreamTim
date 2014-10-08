@@ -22,22 +22,23 @@ function Stream(peerflix, address, readTorrent) {
                 interval = setInterval(function () {
                     view.updateStreamView(engine);
                 }, 1000);
-                os.runVlc('http://' + address() + ':' + engine.server.address().port + '/', self.stop);
+                os.runVlc('http://' + address() + ':' + engine.server.address().port + '/', function () {
+                    self.stop(view);
+                });
             });
         });
     };
 
-    this.stop = function (view, callback) {
+    this.stop = function (view) {
         if (interval) {
             clearInterval(interval);
             interval = null;
-            callback();
         }
         if (engine) {
             engine.destroy(function () {
                 view.resetStreamView();
+                view.show('waitMagnet');
                 engine = null;
-                callback();
             });
         }
     };
