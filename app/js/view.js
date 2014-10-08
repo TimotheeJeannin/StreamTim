@@ -25,7 +25,7 @@ function View(gui, numeral) {
             onVlcPathCallback($('#fileDialog').val());
         });
 
-        $('#torrentInput').on('change', function () {
+        $('#torrentInputButton').click(function () {
             onTorrentLinkCallback($('#torrentInput').val());
         });
 

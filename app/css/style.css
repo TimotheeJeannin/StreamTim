@@ -52,7 +52,7 @@ div.st-centered {
 }
 
 .st-punch-blue {
-    color: #66afe9;
+    color: #598abb;
 }
 
 input, button, div#close, a {
@@ -61,7 +61,7 @@ input, button, div#close, a {
 
 .line {
     fill: none;
-    stroke: #66afe9;
+    stroke: #598abb;
     stroke-width: 3px;
 }
 
@@ -77,5 +77,5 @@ input, button, div#close, a {
 }
 
 .axis text {
-    fill: #66afe9;
+    fill: #598abb;
 }
