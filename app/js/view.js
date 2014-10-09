@@ -9,11 +9,17 @@ function View(gui, numeral) {
         $('#' + divId).show();
     };
 
+    this.showInvalidLinkError = function () {
+        $('#invalidLink').show();
+        $('#moreInformation').hide();
+    };
+
     this.hideAll = function () {
         $('#waitMagnet').hide();
         $('#noVlcFound').hide();
         $('#prepareStream').hide();
         $('#streamView').hide();
+        $('#invalidLink').hide();
     };
 
     this.initialise = function (onVlcPathCallback, onTorrentLinkCallback) {

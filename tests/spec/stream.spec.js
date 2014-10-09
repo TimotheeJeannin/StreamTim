@@ -57,7 +57,7 @@ describe('stream', function () {
             var readTorrent = function (link, callback) {
                 callback(new Error('Invalid link'), link);
             };
-            var view = jasmine.createSpyObj('view', ['show']);
+            var view = jasmine.createSpyObj('view', ['show', 'showInvalidLinkError']);
             spyOn(console, 'error');
             var stream = new Stream({}, {}, readTorrent);
             stream.start({}, view, torrentLink);
@@ -65,6 +65,7 @@ describe('stream', function () {
             expect(view.show).toHaveBeenCalledWith('prepareStream');
             expect(console.error).toHaveBeenCalled();
             expect(view.show).toHaveBeenCalledWith('waitMagnet');
+            expect(view.showInvalidLinkError).toHaveBeenCalled();
         });
     });
 });

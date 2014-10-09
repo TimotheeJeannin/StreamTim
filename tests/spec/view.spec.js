@@ -62,6 +62,22 @@ describe('view', function () {
         expect(streamView.is(":visible")).toBeFalsy();
     });
 
+    it('should have a function that shows the invalid link error', function () {
+
+        var invalidLink = $('#invalidLink');
+        var moreInformation = $('#moreInformation');
+
+        view.show('waitMagnet');
+
+        expect(moreInformation.is(":visible")).toBeTruthy();
+        expect(invalidLink.is(":visible")).toBeFalsy();
+
+        view.showInvalidLinkError();
+
+        expect(moreInformation.is(":visible")).toBeFalsy();
+        expect(invalidLink.is(":visible")).toBeTruthy();
+    });
+
     it('should have a function that initialise the page', function () {
         var onVlcPathCallback = jasmine.createSpy('onVlcPathCallback');
         var onTorrentLinkCallback = jasmine.createSpy('onTorrentLinkCallback');

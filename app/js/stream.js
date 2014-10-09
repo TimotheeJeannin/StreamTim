@@ -19,6 +19,7 @@ function Stream(peerflix, address, readTorrent) {
             if (error) {
                 console.error(error);
                 view.show('waitMagnet');
+                view.showInvalidLinkError();
             } else {
                 engine = peerflix(torrent);
                 engine.server.on('listening', function () {
