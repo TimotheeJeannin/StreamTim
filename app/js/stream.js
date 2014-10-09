@@ -16,16 +16,21 @@ function Stream(peerflix, address, readTorrent) {
         if (self.isStarted() || self.isStarting()) return;
         view.show('prepareStream');
         self.readLink(link, function (error, torrent) {
-            engine = peerflix(torrent);
-            engine.server.on('listening', function () {
-                view.show('streamView');
-                interval = setInterval(function () {
-                    view.updateStreamView(engine);
-                }, 1000);
-                os.runVlc('http://' + address() + ':' + engine.server.address().port + '/', function () {
-                    self.stop(view);
+            if (error) {
+                console.error(error);
+                view.show('waitMagnet');
+            } else {
+                engine = peerflix(torrent);
+                engine.server.on('listening', function () {
+                    view.show('streamView');
+                    interval = setInterval(function () {
+                        view.updateStreamView(engine);
+                    }, 1000);
+                    os.runVlc('http://' + address() + ':' + engine.server.address().port + '/', function () {
+                        self.stop(view);
+                    });
                 });
-            });
+            }
         });
     };
 

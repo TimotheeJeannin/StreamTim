@@ -18,35 +18,53 @@ describe('stream', function () {
     });
 
 
-    it('should have a start method that make the necessary calls', function () {
+    describe('the start method', function () {
 
-        var readTorrent = jasmine.createSpy('readTorrent');
-        var view = jasmine.createSpyObj('view', ['show']);
-        var os = {
-            runVlc: function (a, callback) {
-                callback();
-            }
-        };
-        var address = jasmine.createSpy('address').and.returnValue('192.168.9.2');
-        var peerflix = jasmine.createSpy('peerflix')
-            .and.returnValue({
-                server: {
-                    on: function (a, callback) {
-                        callback();
-                    },
-                    address: function () {
-                        return {port: 5000};
-                    }
-                }});
+        it('should launch vlc if everything goes well', function () {
 
-        var stream = new Stream(peerflix, address, readTorrent);
-        spyOn(stream, 'stop');
+            var readTorrent = jasmine.createSpy('readTorrent');
+            var view = jasmine.createSpyObj('view', ['show']);
+            var os = {
+                runVlc: function (a, callback) {
+                    callback();
+                }
+            };
+            var address = jasmine.createSpy('address').and.returnValue('192.168.9.2');
+            var peerflix = jasmine.createSpy('peerflix')
+                .and.returnValue({
+                    server: {
+                        on: function (a, callback) {
+                            callback();
+                        },
+                        address: function () {
+                            return {port: 5000};
+                        }
+                    }});
 
-        stream.start(os, view, magnetLink);
+            var stream = new Stream(peerflix, address, readTorrent);
+            spyOn(stream, 'stop');
 
-        expect(view.show).toHaveBeenCalledWith('prepareStream');
-        expect(peerflix).toHaveBeenCalledWith(magnetLink);
-        expect(view.show).toHaveBeenCalledWith('streamView');
-        expect(stream.stop).toHaveBeenCalled();
+            stream.start(os, view, magnetLink);
+
+            expect(view.show).toHaveBeenCalledWith('prepareStream');
+            expect(peerflix).toHaveBeenCalledWith(magnetLink);
+            expect(view.show).toHaveBeenCalledWith('streamView');
+            expect(stream.stop).toHaveBeenCalled();
+        });
+
+        it('should handle errors gracefully', function () {
+
+            var readTorrent = function (link, callback) {
+                callback(new Error('Invalid link'), link);
+            };
+            var view = jasmine.createSpyObj('view', ['show']);
+            spyOn(console, 'error');
+            var stream = new Stream({}, {}, readTorrent);
+            stream.start({}, view, torrentLink);
+
+            expect(view.show).toHaveBeenCalledWith('prepareStream');
+            expect(console.error).toHaveBeenCalled();
+            expect(view.show).toHaveBeenCalledWith('waitMagnet');
+        });
     });
 });
