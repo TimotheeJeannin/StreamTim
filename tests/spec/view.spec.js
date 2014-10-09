@@ -63,11 +63,17 @@ describe('view', function () {
     });
 
     it('should have a function that initialise the page', function () {
+        var onVlcPathCallback = jasmine.createSpy('onVlcPathCallback');
+        var onTorrentLinkCallback = jasmine.createSpy('onTorrentLinkCallback');
         spyOn(window, 'close');
-        view.initialise();
+        view.initialise(onVlcPathCallback, onTorrentLinkCallback);
 
         $('#close').click();
         expect(window.close).toHaveBeenCalled();
+
+        $('#torrentInput').val('aLink');
+        $('#torrentInputButton').click();
+        expect(onTorrentLinkCallback).toHaveBeenCalledWith('aLink');
 
         $('#vlcWebsite').click();
         expect(gui.Shell.openExternal).toHaveBeenCalledWith('http://www.videolan.org/vlc/');
