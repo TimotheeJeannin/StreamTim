@@ -8,3 +8,12 @@
 
 [codeclimate-url]: https://codeclimate.com/github/TimotheeJeannin/StreamTim
 [codeclimate-image]: https://codeclimate.com/github/TimotheeJeannin/StreamTim/badges/gpa.svg
+
+
+### Make a release
+
+* Bump the version in both `bower.json` and `package.json`.
+* Make sure all tests are passing.
+* Make an `npm dedupe` to avoid packaging unnecessary dependencies.
+* Make a tag and push it.
+* Make a `grunt deploy` to build packages and push them to amazon S3.
