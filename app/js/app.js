@@ -2,13 +2,6 @@ var gui = require('nw.gui');
 var view = new View(gui, require('numeral'));
 var stream = new Stream(require('peerflix'), require('network-address'), require('read-torrent'));
 
-// Set up error handling.
-if (!debug) {
-    var raven = require('raven');
-    var client = new raven.Client('https://18e6e29a1013488397a76cd06388df10:9707a86c5cbe4bd9b286cb6d86926274@app.getsentry.com/30022');
-    client.patchGlobal();
-}
-
 var os = null;
 if (process.platform === 'linux') {
     os = new Linux(require('fs'), require('child_process'));
