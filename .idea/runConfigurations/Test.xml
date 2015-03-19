@@ -1,8 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Test" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="$PROJECT_DIR$/tests/karma.conf.js">
-    <envs>
-      <env name="NODEWEBKIT_BIN" value="/home/tim/Workspace/StreamTim/cache/0.11.0/linux64/nw" />
-    </envs>
+    <envs />
     <RunnerSettings RunnerId="KarmaJavaScriptTestRunnerRun" />
     <ConfigurationWrapper RunnerId="KarmaJavaScriptTestRunnerRun" />
     <method />
