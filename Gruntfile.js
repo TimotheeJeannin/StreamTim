@@ -11,9 +11,10 @@ module.exports = function (grunt) {
             '!node_modules/grunt*/**/*',
             '!node_modules/karma*/**/*'
         ],
-        nodewebkit: {
+        nwjs: {
             options: {
-                platforms: ['linux64', 'win', 'osx'],
+                version: '0.12.3',
+                platforms: ['linux', 'win', 'osx'],
                 macPlist: 'files/Info.plist'
             },
             shared: {
@@ -147,7 +148,7 @@ module.exports = function (grunt) {
             }
         }
     });
-    grunt.loadNpmTasks('grunt-node-webkit-builder');
+    grunt.loadNpmTasks('grunt-nw-builder');
     grunt.loadNpmTasks('grunt-file-creator');
     grunt.loadNpmTasks('grunt-aws-s3');
     grunt.loadNpmTasks('grunt-contrib-compress');
@@ -156,11 +157,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
 
-    grunt.registerTask('shareDebug', ['nodewebkit:shared']);
-    grunt.registerTask('shareRelease', ['file-creator:release', 'nodewebkit:shared', 'file-creator:debug']);
+    grunt.registerTask('shareDebug', ['nwjs:shared']);
+    grunt.registerTask('shareRelease', ['file-creator:release', 'nwjs:shared', 'file-creator:debug']);
 
-    grunt.registerTask('debug', ['nodewebkit:local']);
-    grunt.registerTask('release', ['file-creator:release', 'nodewebkit:local', 'file-creator:debug']);
+    grunt.registerTask('debug', ['nwjs:local']);
+    grunt.registerTask('release', ['file-creator:release', 'nwjs:local', 'file-creator:debug']);
 
     grunt.registerTask('package', ['clean', 'release', 'compress']);
     grunt.registerTask('deploy', ['package', 'aws_s3:packages']);
