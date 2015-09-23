@@ -32,28 +32,28 @@ module.exports = function (grunt) {
         },
         compress: {
             linux64: {
-                options: {
-                    archive: 'package/<%=pkg.name%>-linux64-<%=pkg.version%>.zip'
-                },
-                files: [
-                    {expand: true, cwd: 'build/<%=pkg.name%>/linux64', src: ['*'], dest: '<%=pkg.name%>'}
-                ]
+                options: {archive: 'package/<%=pkg.name%>-linux64-<%=pkg.version%>.zip'},
+                files: [{expand: true, cwd: 'build/<%=pkg.name%>/linux64', src: ['*'], dest: '<%=pkg.name%>'}]
             },
-            windows: {
-                options: {
-                    archive: 'package/<%=pkg.name%>-windows-<%=pkg.version%>.zip'
-                },
-                files: [
-                    {expand: true, cwd: 'build/<%=pkg.name%>/win', src: ['*'], dest: '<%=pkg.name%>'}
-                ]
+            linux32: {
+                options: {archive: 'package/<%=pkg.name%>-linux32-<%=pkg.version%>.zip'},
+                files: [{expand: true, cwd: 'build/<%=pkg.name%>/linux32', src: ['*'], dest: '<%=pkg.name%>'}]
             },
-            osx: {
-                options: {
-                    archive: 'package/<%=pkg.name%>-mac-<%=pkg.version%>.zip'
-                },
-                files: [
-                    {expand: true, cwd: 'build/<%=pkg.name%>/osx', src: ['**'], dest: '<%=pkg.name%>'}
-                ]
+            win64: {
+                options: {archive: 'package/<%=pkg.name%>-win64-<%=pkg.version%>.zip'},
+                files: [{expand: true, cwd: 'build/<%=pkg.name%>/win64', src: ['*'], dest: '<%=pkg.name%>'}]
+            },
+            win32: {
+                options: {archive: 'package/<%=pkg.name%>-win32-<%=pkg.version%>.zip'},
+                files: [{expand: true, cwd: 'build/<%=pkg.name%>/win32', src: ['*'], dest: '<%=pkg.name%>'}]
+            },
+            osx64: {
+                options: {archive: 'package/<%=pkg.name%>-osx64-<%=pkg.version%>.zip'},
+                files: [{expand: true, cwd: 'build/<%=pkg.name%>/osx64', src: ['**'], dest: '<%=pkg.name%>'}]
+            },
+            osx32: {
+                options: {archive: 'package/<%=pkg.name%>-osx32-<%=pkg.version%>.zip'},
+                files: [{expand: true, cwd: 'build/<%=pkg.name%>/osx32', src: ['**'], dest: '<%=pkg.name%>'}]
             }
         },
         clean: {

@@ -47,8 +47,11 @@ $(document).ready(function () {
         var allBucketFiles = $(data).find('Contents').map(function () {
             return $(this).find('Key').text();
         }).toArray();
-        setUpDownloadLink(allBucketFiles, 'windows');
+        setUpDownloadLink(allBucketFiles, 'win32');
+        setUpDownloadLink(allBucketFiles, 'win64');
         setUpDownloadLink(allBucketFiles, 'linux64');
-        setUpDownloadLink(allBucketFiles, 'mac');
+        setUpDownloadLink(allBucketFiles, 'linux32');
+        setUpDownloadLink(allBucketFiles, 'osx32');
+        setUpDownloadLink(allBucketFiles, 'osx64');
     });
 });
