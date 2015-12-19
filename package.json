@@ -7,7 +7,7 @@
     "numeral": "1.5.3",
     "peerflix": "0.21.2",
     "read-torrent": "1.1.0",
-    "winreg": "git://github.com/TimotheeJeannin/node-winreg.git#all"
+    "winreg": "0.0.14"
   },
   "window": {
     "frame": false,
