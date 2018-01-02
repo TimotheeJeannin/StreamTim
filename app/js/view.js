@@ -1,6 +1,6 @@
-function View(gui, numeral) {
+function View(numeral) {
 
-    var self = this;
+    let self = this;
     this.speeds = [];
 
     this.show = function (divId) {
@@ -71,40 +71,40 @@ function View(gui, numeral) {
 
         $('svg').empty();
 
-        var margin = {top: 20, right: 0, bottom: 20, left: 70},
+        let margin = {top: 20, right: 0, bottom: 20, left: 70},
             width = 600 - margin.left - margin.right,
             height = 200 - margin.top - margin.bottom;
 
-        var data = this.speeds.map(function (value, index) {
+        let data = this.speeds.map(function (value, index) {
             return {
                 index: index,
                 speed: value
             }
         });
 
-        var downloadSpeedScale = d3.scale.linear()
-            .domain([ d3.max(data, function (d) {
+        let downloadSpeedScale = d3.scale.linear()
+            .domain([d3.max(data, function (d) {
                 return d.speed;
             }), 0])
             .range([2 * margin.bottom, height - margin.top]);
 
-        var indexScale = d3.scale.linear()
+        let indexScale = d3.scale.linear()
             .domain(d3.extent(data, function (d) {
                 return d.index;
             }))
             .range([margin.left, width - margin.right]);
 
-        var xAxis = d3.svg.axis()
+        let xAxis = d3.svg.axis()
             .scale(indexScale)
             .ticks(0)
             .orient("bottom");
 
-        var yAxis = d3.svg.axis()
+        let yAxis = d3.svg.axis()
             .ticks(3)
             .scale(downloadSpeedScale)
             .orient("left");
 
-        var lineFunction = d3.svg.line()
+        let lineFunction = d3.svg.line()
             .x(function (d) {
                 return indexScale(d.index);
             })
@@ -112,7 +112,7 @@ function View(gui, numeral) {
                 return downloadSpeedScale(d.speed);
             });
 
-        var areaFunction = d3.svg.area()
+        let areaFunction = d3.svg.area()
             .x(function (d) {
                 return indexScale(d.index);
             })
@@ -121,7 +121,7 @@ function View(gui, numeral) {
                 return downloadSpeedScale(d.speed);
             });
 
-        var svg = d3.select("svg")
+        let svg = d3.select("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
 

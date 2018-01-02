@@ -1,8 +1,7 @@
-var gui = require('nw.gui');
-var view = new View(gui, require('numeral'));
-var stream = new Stream(require('peerflix'), require('network-address'), require('read-torrent'));
+var view = new View(require('numeral'));
+let stream = new Stream(require('peerflix'), require('network-address'), require('read-torrent'));
 
-var os = null;
+let os = null;
 if (process.platform === 'linux') {
     os = new Linux(require('fs'), require('child_process'));
 } else if (process.platform === 'win32') {
