@@ -3,6 +3,9 @@
   "version": "0.0.9",
   "main": "app/index.html",
   "dependencies": {
+    "bootstrap": "3.3.7",
+    "d3": "3.5.17",
+    "jquery": "3.2.1",
     "network-address": "0.0.5",
     "numeral": "1.5.3",
     "peerflix": "0.21.2",
