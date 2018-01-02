@@ -1,7 +1,7 @@
 {
   "name": "stream-tim",
   "version": "0.0.9",
-  "main": "app/index.html",
+  "main": "app/main.js",
   "dependencies": {
     "bootstrap": "3.3.7",
     "d3": "3.5.17",
@@ -22,6 +22,7 @@
     "title": "StreamTim"
   },
   "devDependencies": {
+    "electron": "~1.7.8",
     "grunt": "~0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-aws-s3": "~0.9.3",
@@ -39,6 +40,7 @@
     "karma-nodewebkit-launcher": "~0.0.11"
   },
   "scripts": {
+    "start": "electron .",
     "test": "./node_modules/karma/bin/karma start tests/karma.conf.js --single-run "
   }
 }
