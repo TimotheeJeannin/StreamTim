@@ -12,15 +12,6 @@
     "read-torrent": "1.1.0",
     "winreg": "0.0.14"
   },
-  "window": {
-    "frame": false,
-    "toolbar": false,
-    "resizable": false,
-    "position": "center",
-    "width": 800,
-    "height": 500,
-    "title": "StreamTim"
-  },
   "devDependencies": {
     "electron": "~1.7.8",
     "grunt": "~0.4.5",

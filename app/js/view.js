@@ -40,7 +40,8 @@ function View(numeral) {
         });
 
         $('#vlcWebsite').click(function () {
-            gui.Shell.openExternal('http://www.videolan.org/vlc/');
+            let electron = require('electron');
+            electron.shell.openExternal('http://www.videolan.org/vlc/');
         });
 
         self.hideAll();

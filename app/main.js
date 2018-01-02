@@ -13,7 +13,7 @@ let mainWindow;
 
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 800, height: 500});
+    mainWindow = new BrowserWindow({width: 800, height: 500, resizable: false, title: 'SteamTim'});
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
@@ -33,8 +33,6 @@ function createWindow() {
         mainWindow = null
     })
 }
-
-console.log('GRRRR', process.argv);
 
 app.makeSingleInstance(function (argv) {
     console.log(argv);
