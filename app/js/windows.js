@@ -1,20 +1,20 @@
 function Windows(winreg, childProcess) {
 
-    var self = this;
+    const self = this;
 
-    var REG_PATH_64 = process.env.SystemRoot + '\\System32\\reg.exe';
-    var REG_PATH_32 = process.env.SystemRoot + '\\SysWOW64\\reg.exe';
+    const REG_PATH_64 = process.env.SystemRoot + '\\System32\\reg.exe';
+    const REG_PATH_32 = process.env.SystemRoot + '\\SysWOW64\\reg.exe';
 
-    var NATIVE_CMD_PATH = process.env.SystemRoot + '\\sysnative\\cmd.exe';
-    var ORIGIN_CMD_PATH = process.env.SystemRoot + '\\cmd.exe';
+    const NATIVE_CMD_PATH = process.env.SystemRoot + '\\sysnative\\cmd.exe';
+    const ORIGIN_CMD_PATH = process.env.SystemRoot + '\\cmd.exe';
 
-    var REG_KEY_PATH_64 = 'HKLM\\SOFTWARE\\VideoLAN\\VLC';
-    var REG_KEY_PATH_32 = 'HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC';
+    const REG_KEY_PATH_64 = 'HKLM\\SOFTWARE\\VideoLAN\\VLC';
+    const REG_KEY_PATH_32 = 'HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC';
 
-    var magnetRegKey = new winreg({hive: winreg.HKCU, key: '\\Software\\Classes\\magnet'});
-    var commandRegKey = new winreg({hive: winreg.HKCU, key: '\\Software\\Classes\\magnet\\shell\\open\\command'});
+    const magnetRegKey = new winreg({hive: winreg.HKCU, key: '\\Software\\Classes\\magnet'});
+    const commandRegKey = new winreg({hive: winreg.HKCU, key: '\\Software\\Classes\\magnet\\shell\\open\\command'});
 
-    var matrix = [
+    const matrix = [
         {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_32 + ' /ve'},
         {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_64 + ' /ve'},
         {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_32 + ' QUERY ' + REG_KEY_PATH_32 + ' /ve'},
@@ -32,10 +32,10 @@ function Windows(winreg, childProcess) {
                 callback();
             } else {
                 console.log('Found registry key', stdout);
-                var lines = stdout.split('\n');
-                for (var i = 0; i < lines.length; i++) {
-                    var values = lines[i].split('    ');
-                    for (var j = 0; j < values.length; j++) {
+                let lines = stdout.split('\n');
+                for (let i = 0; i < lines.length; i++) {
+                    let values = lines[i].split('    ');
+                    for (let j = 0; j < values.length; j++) {
                         console.log('Checking string', values[j]);
                         if (/.*VLC\\vlc\.exe/.test(values[j])) {
                             callback(values[j]);
@@ -85,7 +85,7 @@ function Windows(winreg, childProcess) {
     this.runVlc = function (streamingAddress, callback) {
         self.getVlcPath(function (vlcPath) {
             console.log('Starting vlc at ' + streamingAddress + ' with path: ' + vlcPath);
-            var trimedVlcPath = vlcPath.substr(0, vlcPath.lastIndexOf('.'));
+            let trimedVlcPath = vlcPath.substr(0, vlcPath.lastIndexOf('.'));
             childProcess.execFile(trimedVlcPath, [streamingAddress, '-q', '--play-and-exit'], callback);
         });
     };
@@ -93,7 +93,7 @@ function Windows(winreg, childProcess) {
     this.setRegKeyValue = function (regKey, name, value) {
         regKey.set(name, winreg.REG_SZ, value,
             createCallback('Properly set value ' + value + 'to registry key ' + regKey.key + '.',
-                    'Failed to set value ' + value + 'to registry key ' + regKey.key + '.'));
+                'Failed to set value ' + value + 'to registry key ' + regKey.key + '.'));
     };
 
     this.setupMagnetLinkAssociation = function () {

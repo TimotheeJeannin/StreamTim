@@ -1,4 +1,4 @@
-var view = new View(require('numeral'));
+let view = new View(require('numeral'));
 let stream = new Stream(require('peerflix'), require('network-address'), require('read-torrent'));
 
 let os = null;
@@ -19,7 +19,7 @@ $(document).ready(function () {
         stream.start(os, view, torrentLink);
     });
 
-    var handleApplicationArguments = function () {
+    let handleApplicationArguments = function () {
         // If a magnet link has been supplied as argument.
         if (process.argv[1]) {
             console.log('Detected magnet link as command line argument: ' + process.argv[1]);
@@ -28,7 +28,7 @@ $(document).ready(function () {
             // Wait for the application to be called with a magnet link.
             view.show('waitMagnet');
             gui.App.on('open', function (cmdline) {
-                var magnetLink = cmdline.substring(cmdline.indexOf("magnet"));
+                let magnetLink = cmdline.substring(cmdline.indexOf("magnet"));
                 console.log('Detected click on a magnet link.');
                 stream.start(os, view, magnetLink);
             });

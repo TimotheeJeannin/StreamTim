@@ -1,4 +1,4 @@
-var createCallback = function (successMessage, errorMessage) {
+const createCallback = function (successMessage, errorMessage) {
     return function (error) {
         if (error) {
             console.error(errorMessage);

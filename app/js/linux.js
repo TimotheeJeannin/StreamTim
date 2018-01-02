@@ -1,6 +1,6 @@
 function Linux(fs, childProcess) {
 
-    var self = this;
+    let self = this;
 
     this.isProgramInstalled = function (programName, callback) {
         childProcess.exec('command -v ' + programName, function (error, stdout, stderr) {
@@ -41,7 +41,7 @@ function Linux(fs, childProcess) {
 
         childProcess.exec("xdg-mime query default x-scheme-handler/magnet", function (error, stdout) {
             if (stdout) {
-                var cleanedStdout = stdout.replace(/(\r\n|\n|\r)/gm, "").trim();
+                let cleanedStdout = stdout.replace(/(\r\n|\n|\r)/gm, "").trim();
                 self.previousMagnetLinkAssociation = cleanedStdout;
                 console.log('Storing previous magnet link association: ' + cleanedStdout);
             }

@@ -1,8 +1,8 @@
 function Stream(peerflix, address, readTorrent) {
 
-    var self = this;
-    var engine = null;
-    var interval = null;
+    let self = this;
+    let engine = null;
+    let interval = null;
 
     this.readLink = function (link, callback) {
         if (/^magnet:/.test(link)) {
