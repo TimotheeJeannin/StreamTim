@@ -82,6 +82,8 @@ function View(numeral) {
             }
         });
 
+        let d3 = require('d3');
+
         let downloadSpeedScale = d3.scale.linear()
             .domain([d3.max(data, function (d) {
                 return d.speed;
