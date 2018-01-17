@@ -36,17 +36,13 @@ function createWindow() {
         mainWindow = null
     });
 
-    os.isVlcInstalled(function (installed) {
-        if (installed) {
-            process.argv.forEach(function (arg) {
-                if (/^magnet:/.test(arg)) {
-                    console.log(arg);
-                }
-            });
-        } else {
-            //view.show('noVlcFound');
-        }
-    });
+    mainWindow.webContents.on('did-finish-load', function () {
+        process.argv.forEach(function (arg) {
+            if (/^magnet:/.test(arg)) {
+                mainWindow.webContents.send('magnet-link', arg);
+            }
+        });
+    })
 }
 
 app.makeSingleInstance(function (argv) {

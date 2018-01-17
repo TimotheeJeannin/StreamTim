@@ -1,4 +1,6 @@
-function View(numeral) {
+const numeral = require('numeral');
+
+function View() {
 
     let self = this;
     this.speeds = [];
@@ -150,3 +152,5 @@ function View(numeral) {
             .text("Kb/s");
     };
 }
+
+module.exports = new View();

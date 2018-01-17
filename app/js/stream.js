@@ -2,6 +2,8 @@ const peerflix = require('peerflix');
 const address = require('network-address');
 const readTorrent = require('read-torrent');
 
+const view = require('./view');
+
 function Stream() {
 
     let self = this;
@@ -16,18 +18,18 @@ function Stream() {
         }
     };
 
-    this.handleError = function (view, error) {
+    this.handleError = function (error) {
         console.error(error);
         view.show('waitMagnet');
         view.showInvalidLinkError();
     };
 
-    this.start = function (os, view, link) {
+    this.start = function (os, link) {
         if (self.isStarted() || self.isStarting()) return;
         view.show('prepareStream');
         self.readLink(link, function (error, torrent) {
             if (error) {
-                self.handleError(view, error);
+                self.handleError(error);
             } else {
                 try {
                     engine = peerflix(torrent);
@@ -41,13 +43,13 @@ function Stream() {
                         });
                     });
                 } catch (error) {
-                    self.handleError(view, error);
+                    self.handleError(error);
                 }
             }
         });
     };
 
-    this.stop = function (view) {
+    this.stop = function () {
         if (interval) {
             clearInterval(interval);
             interval = null;
