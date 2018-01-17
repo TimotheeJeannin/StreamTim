@@ -7,6 +7,9 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 
+const os = require('./js/os');
+const stream = require('./js/stream');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -31,14 +34,20 @@ function createWindow() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null
-    })
-}
+    });
 
-process.argv.forEach(function (arg) {
-    if (/^magnet:/.test(arg)) {
-        console.log(arg);
-    }
-});
+    os.isVlcInstalled(function (installed) {
+        if (installed) {
+            process.argv.forEach(function (arg) {
+                if (/^magnet:/.test(arg)) {
+                    console.log(arg);
+                }
+            });
+        } else {
+            //view.show('noVlcFound');
+        }
+    });
+}
 
 app.makeSingleInstance(function (argv) {
     console.log(argv);

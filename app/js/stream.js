@@ -1,4 +1,8 @@
-function Stream(peerflix, address, readTorrent) {
+const peerflix = require('peerflix');
+const address = require('network-address');
+const readTorrent = require('read-torrent');
+
+function Stream() {
 
     let self = this;
     let engine = null;
@@ -65,3 +69,5 @@ function Stream(peerflix, address, readTorrent) {
         return engine && interval;
     };
 }
+
+module.exports = new Stream();

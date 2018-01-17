@@ -1,4 +1,42 @@
-function Windows(winreg, childProcess) {
+const fs = require('fs');
+const childProcess = require('child_process');
+
+function Mac() {
+
+    this.isVlcInstalled = function (callback) {
+        fs.exists('/Applications/VLC.app', callback);
+    };
+
+    this.runVlc = function (streamingAddress, callback) {
+        childProcess.exec('/Applications/VLC.app/Contents/MacOS/VLC ' + streamingAddress + ' -q --play-and-exit', callback);
+    };
+}
+
+function Linux() {
+
+    let self = this;
+
+    this.isProgramInstalled = function (programName, callback) {
+        childProcess.exec('command -v ' + programName, function (error, stdout, stderr) {
+            if (error) {
+                callback(false);
+            } else {
+                callback(true);
+            }
+        });
+    };
+
+    this.isVlcInstalled = function (callback) {
+        return self.isProgramInstalled('vlc', callback);
+    };
+
+    this.runVlc = function (streamingAddress, callback) {
+        childProcess.exec('vlc ' + streamingAddress + ' -q --play-and-exit', callback);
+    };
+}
+
+
+function Windows() {
 
     const self = this;
 
@@ -86,4 +124,12 @@ function Windows(winreg, childProcess) {
             childProcess.execFile(trimedVlcPath, [streamingAddress, '-q', '--play-and-exit'], callback);
         });
     };
+}
+
+if (process.platform === 'linux') {
+    module.exports = new Linux();
+} else if (process.platform === 'win32') {
+    module.exports = new Windows();
+} else if (process.platform === 'darwin') {
+    module.exports = new Mac();
 }

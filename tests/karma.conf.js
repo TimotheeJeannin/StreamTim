@@ -9,7 +9,7 @@ module.exports = function (config) {
             'app/js/linux.js',
             'app/js/stream.js',
             'app/js/mac.js',
-            'app/js/windows.js',
+            'os.js',
             'app/js/view.js',
             'tests/spec/*.spec.js',
             {pattern: 'app/*.html', watched: true, included: false, served: true}
