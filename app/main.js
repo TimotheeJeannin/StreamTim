@@ -34,6 +34,12 @@ function createWindow() {
     })
 }
 
+process.argv.forEach(function (arg) {
+    if (/^magnet:/.test(arg)) {
+        console.log(arg);
+    }
+});
+
 app.makeSingleInstance(function (argv) {
     console.log(argv);
 });
