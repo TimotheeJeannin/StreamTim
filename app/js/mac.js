@@ -9,12 +9,4 @@ function Mac(fs, childProcess) {
     this.runVlc = function (streamingAddress, callback) {
         childProcess.exec('/Applications/VLC.app/Contents/MacOS/VLC ' + streamingAddress + ' -q --play-and-exit', callback);
     };
-
-    this.setupMagnetLinkAssociation = function () {
-        // TODO
-    };
-
-    this.restorePreviousMagnetLinkAssociation = function () {
-        // TODO
-    };
 }

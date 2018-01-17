@@ -11,9 +11,6 @@ function Windows(winreg, childProcess) {
     const REG_KEY_PATH_64 = 'HKLM\\SOFTWARE\\VideoLAN\\VLC';
     const REG_KEY_PATH_32 = 'HKLM\\SOFTWARE\\Wow6432Node\\VideoLAN\\VLC';
 
-    const magnetRegKey = new winreg({hive: winreg.HKCU, key: '\\Software\\Classes\\magnet'});
-    const commandRegKey = new winreg({hive: winreg.HKCU, key: '\\Software\\Classes\\magnet\\shell\\open\\command'});
-
     const matrix = [
         {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_32 + ' /ve'},
         {cmdPath: NATIVE_CMD_PATH, regQuery: REG_PATH_64 + ' QUERY ' + REG_KEY_PATH_64 + ' /ve'},
@@ -89,53 +86,4 @@ function Windows(winreg, childProcess) {
             childProcess.execFile(trimedVlcPath, [streamingAddress, '-q', '--play-and-exit'], callback);
         });
     };
-
-    this.setRegKeyValue = function (regKey, name, value) {
-        regKey.set(name, winreg.REG_SZ, value,
-            createCallback('Properly set value ' + value + 'to registry key ' + regKey.key + '.',
-                'Failed to set value ' + value + 'to registry key ' + regKey.key + '.'));
-    };
-
-    this.setupMagnetLinkAssociation = function () {
-        commandRegKey.get('', function (error, result) {
-            if (error) {
-                console.log('Failed to read reg key ' + commandRegKey.key, error);
-                commandRegKey.create(function (error) {
-                    if (error) {
-                        console.log('Failed to create registry key ' + commandRegKey.key, error);
-                    } else {
-                        self.createdMagnetRegKey = true;
-                        console.log('Properly created registry key ' + commandRegKey.key, error);
-                        self.setRegKeyValue(magnetRegKey, '', 'URL:magnet protocol');
-                        self.setRegKeyValue(magnetRegKey, 'URL Protocol', '');
-                        self.setRegKeyValue(commandRegKey, '', "\"" + process.execPath + "\" \"%1\"");
-                    }
-                })
-            } else {
-                self.previousMagnetKeyValue = result.value;
-                console.log('Properly stored previous magnet link association.', result.value);
-                self.setRegKeyValue(commandRegKey, '', "\"" + process.execPath + "\" \"%1\"");
-            }
-        });
-    };
-
-    this.restorePreviousMagnetLinkAssociation = function (callback) {
-        if (self.previousMagnetKeyValue) {
-            commandRegKey.set('', winreg.REG_SZ, self.previousMagnetKeyValue, function (error) {
-                if (error) {
-                    console.log('Failed to restore previous magnet link association.', self.previousMagnetKeyValue, error);
-                }
-                callback();
-            });
-        } else if (self.createdMagnetRegKey) {
-            magnetRegKey.erase(function (error) {
-                if (error) {
-                    console.log('Failed to erase reg key', magnetRegKey, error);
-                }
-                callback();
-            })
-        } else {
-            callback();
-        }
-    }
 }

@@ -35,19 +35,6 @@ $(document).ready(function () {
         }
     };
 
-    // Make sure the application is called when a magnet link is clicked.
-    os.setupMagnetLinkAssociation();
-
-    // Restore the previous magnet link association when closing.
-    // gui.Window.get().on('close', function () {
-    //     var self = this;
-    //     self.hide();
-    //     console.log("We're closing...");
-    //     os.restorePreviousMagnetLinkAssociation(function () {
-    //         self.close(true);
-    //     });
-    // });
-
     // Check if vlc is installed.
     os.isVlcInstalled(function (installed) {
         if (installed) {
