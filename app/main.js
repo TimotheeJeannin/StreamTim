@@ -7,9 +7,6 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 
-const os = require('./js/os');
-const stream = require('./js/stream');
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -46,7 +43,11 @@ function createWindow() {
 }
 
 app.makeSingleInstance(function (argv) {
-    console.log(argv);
+    argv.forEach(function (arg) {
+        if (/^magnet:/.test(arg)) {
+            mainWindow.webContents.send('magnet-link', arg);
+        }
+    });
 });
 
 // This method will be called when Electron has finished

@@ -3,6 +3,7 @@ const address = require('network-address');
 const readTorrent = require('read-torrent');
 
 const view = require('./view');
+const os = require('./os');
 
 function Stream() {
 
@@ -24,9 +25,10 @@ function Stream() {
         view.showInvalidLinkError();
     };
 
-    this.start = function (os, link) {
+    this.start = function (link) {
         if (self.isStarted() || self.isStarting()) return;
         view.show('prepareStream');
+        console.log('Preparing stream for', link);
         self.readLink(link, function (error, torrent) {
             if (error) {
                 self.handleError(error);
